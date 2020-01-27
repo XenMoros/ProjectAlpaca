@@ -7,6 +7,7 @@ public class GuardiaMovement : MonoBehaviour
     public EntradaYSalidaGM gameManager; // GameManager para reiniciar el nivel
     public Transform player; // Alpaca
     public NavMeshAgent agente; // El pathfinding del agente
+    public Animator guardiaAnimator;
 
     // Variables publicas de movimiento
     public float fieldOfView; // Campo de vision del guardia
@@ -24,58 +25,59 @@ public class GuardiaMovement : MonoBehaviour
     private Quaternion initialRotation; // Rotacion inicial
     private readonly float tiempoCegacion = 5f; // Tiempo que el guardia esta cegado
 
-    // Timers de uso
-    private float timerCegacion = 6f;
-
     private void Start()
     {
         // Captura de condiciones iniciales de transform 
         initialPosition = transform.position;
         initialRotation = transform.rotation;
+
+        //animationEvent.time = pararseGuardia.length;
     }
 
     private void Update()
     {
         // Si esta cegado
         if (cegacion)
-        {
-            // Aumentar el timer
-            timerCegacion += Time.deltaTime;
-            // Si ya has pasado toda la cegacion, dejas de estar cegado para el siguiente frame
-            if (timerCegacion > tiempoCegacion)
-            {
-                agente.isStopped = false;
-                cegacion = false;
-            }
+        {         
+            agente.isStopped = true;
+            guardiaAnimator.SetBool("RecibeEscupitajo", true);
         }
         //Si no esta cegadp
         else
-        { 
+        {
+            agente.isStopped = false;
+            guardiaAnimator.SetBool("RecibeEscupitajo", false);
+
             //Intenta buscar objetivo
             if (BuscarObjetivo())
             {
                 // Si encuentra un objetivo (te ve o oye) marca dicha posicion como nuevo objetivo
                 SetObjective(objective);
+                guardiaAnimator.SetBool("Relax", false);
+                guardiaAnimator.SetBool("AlpacaVista", true);
+            
             }
 
             // Si ha acabado de investigar o te pierde, vuelve a su posicion original
             if (!agente.pathPending)
-            {
-
+            {              
                 if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
-                {
-
+                {                    
                     if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
                     {
+
                         // Si esta lejos de su posicion original, marca como objetivo la misma
                         if (Vector3.Distance(agente.destination, initialPosition) > distanciaVolverPosicion)
-                        {
-                            SetObjective(initialPosition);
+                        {                            
+                            guardiaAnimator.SetBool("AlpacaVista", false);
+                            guardiaAnimator.SetBool("GuardiaPara", true);
                         }
                         // Si ya ha llegado a su posicion original simplemente vuelve a mirar hacia donde miraba al principio
                         else
                         {
                             transform.rotation = initialRotation;
+                            guardiaAnimator.SetBool("Caminar", false);
+                            guardiaAnimator.SetBool("Relax", true);                            
                         }
 
                     }
@@ -86,8 +88,21 @@ public class GuardiaMovement : MonoBehaviour
 
     // Marca la posicion position como objetivo del agente
     public void SetObjective(Vector3 position)
-    {
+    {        
         agente.destination = position;
+    }
+
+    public void AnimationEvent()
+    {
+        guardiaAnimator.SetBool("GuardiaPara", false);
+        guardiaAnimator.SetBool("Caminar", true);
+        SetObjective(initialPosition);
+    }
+
+    public void QuitarseEscupitajos()
+    {
+
+        cegacion = false;
     }
 
     // Funcion de busqueda de objetivo
@@ -135,9 +150,10 @@ public class GuardiaMovement : MonoBehaviour
         // En caso de que le escupas y no este cegado, parar el agente y empezar la cuenta del cegado
         if (collision.gameObject.CompareTag("Escupitajo") && !cegacion)
         {
-            timerCegacion = 0;
+            //timerCegacion = 0;
             cegacion = true;
             agente.isStopped = true;
+            guardiaAnimator.SetBool("RecibeEscupitajo", true);
         }
     }
 }
