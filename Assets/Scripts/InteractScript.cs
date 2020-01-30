@@ -65,7 +65,7 @@ public class InteractScript : MonoBehaviour
         if (other.transform.parent.parent.gameObject != this.gameObject)
         {
             //Compureba que mires a la caja
-            if (Physics.Raycast(transform.position, transform.forward, out hitInfo, 5f, cajaLayerMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(transform.position + new Vector3(0, transform.localScale.y / 4f, 0), transform.forward, out hitInfo, 5f, cajaLayerMask, QueryTriggerInteraction.Ignore))
             { 
                 // Si el objeto con el que choca el rayo casteado coincide con el objeto del trigger, asigna
                 if (hitInfo.collider.gameObject == other.transform.parent.gameObject)
