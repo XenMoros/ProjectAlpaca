@@ -3,7 +3,7 @@
 public class AlpacaSound : MonoBehaviour
 {
     // Elementos precacheados en Inspector
-    public AudioControll audioControll; // Controlador de Audio
+    public AudioManager audioControll; // Controlador de Audio
     public AudioSource audioSource; // AudioSource de la Alpaca
 
     void Update()

@@ -8,7 +8,7 @@ public class EntradaYSalidaGM : MonoBehaviour
     public Transform spawnPoint; // Punto de spawn
     public Transform playerT; // Alpaca
     public Transform camara; // Camara
-    public AlpacaMovementNew MovimientoAlpaca; // Movimiento de la alpaca
+    public AlpacaMovement MovimientoAlpaca; // Movimiento de la alpaca
 
     // Variables de control
     private float tiempoEsperaInicio = 1f;

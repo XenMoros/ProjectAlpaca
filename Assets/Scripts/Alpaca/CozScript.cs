@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(AlpacaMovement))]
 public class CozScript : MonoBehaviour
 {
     // Elementos precacheados en Inspector
-    public AlpacaMovementNew aMovementNew; //El movimiento de la Alaca
+    public AlpacaMovement alpacaMovement; //El movimiento de la Alaca
 
     // GameObject de la Coz
     public GameObject coz;
@@ -13,6 +14,12 @@ public class CozScript : MonoBehaviour
 
     // Timers de control
     float timerCozeo = 0;
+
+    public void Reset()
+    {
+        alpacaMovement = GetComponent<AlpacaMovement>();
+        coz = GameObject.Find("Coz");
+    }
 
     void Start()
     {
@@ -36,7 +43,7 @@ public class CozScript : MonoBehaviour
         // Al pulsar la tecla, activar el coceo, parar la Alpaca y empezar el timer
         if (Input.GetButtonDown("B"))
         {
-            aMovementNew.cozeando = true;
+            alpacaMovement.cozeando = true;
 
             coz.SetActive(true);
             timerCozeo = tiempoCozeo;
@@ -45,7 +52,7 @@ public class CozScript : MonoBehaviour
         else if (timerCozeo <= 0)
         {
             coz.SetActive(false);
-            aMovementNew.cozeando = false;
+            alpacaMovement.cozeando = false;
         }
 
     }

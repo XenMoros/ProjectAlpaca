@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(AlpacaMovement))]
 public class InteractScript : MonoBehaviour
 {
 
     // Referencias precacheadas en inspector de otros GameObjects
     public Transform entorno;
-    public AlpacaMovementNew alpacaMovementNew;
+    public AlpacaMovement alpacaMovement;
 
     // Valores para casteo de rayos
     LayerMask cajaLayerMask;
     RaycastHit hitInfo;
+
+    public void Reset()
+    {
+        alpacaMovement = GetComponent<AlpacaMovement>();
+    }
 
     private void Start()
     {
@@ -20,7 +26,7 @@ public class InteractScript : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // En caso de estar en influencia de una caja y no estar en el aire
-        if (other.CompareTag("ArrastreCaja") && !alpacaMovementNew.onAir)
+        if (other.CompareTag("ArrastreCaja") && !alpacaMovement.onAir)
         {
             // Si mantienes la X te acopla la caja
             if (Input.GetButton("X"))
@@ -34,7 +40,7 @@ public class InteractScript : MonoBehaviour
             }
         }
         // En caso de pasar a estar cayendo mientras arrastras una caja, desacoplar la misma
-        else if (other.CompareTag("ArrastreCaja") && alpacaMovementNew.arrastrando)
+        else if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
         {
             DesacoplarCaja(other, false);
         }
@@ -52,7 +58,7 @@ public class InteractScript : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         // En caso de salir de la influencia de la caja, desacoplarte automaticamente
-        if (other.CompareTag("ArrastreCaja") && alpacaMovementNew.arrastrando)
+        if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
         {
                 DesacoplarCaja(other, true);
         }
@@ -75,7 +81,7 @@ public class InteractScript : MonoBehaviour
                     // Asigna la caja como hija tuya para que te siga
                     other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(this.transform);
                     // Flags de movimiento
-                    alpacaMovementNew.SetArrastre(true);
+                    alpacaMovement.SetArrastre(true);
                 }
             }
         }
@@ -89,11 +95,11 @@ public class InteractScript : MonoBehaviour
             // Desacoplarte la caja
             other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(entorno);
             // Flags de movimiento
-            alpacaMovementNew.SetArrastre(false);
+            alpacaMovement.SetArrastre(false);
             // Resetea la caida en caso necesario (por bug)
             if (conResetCaida)
             {
-                alpacaMovementNew.alpacaRigidbody.velocity.Set(0,0,0);
+                alpacaMovement.alpacaRigidbody.velocity.Set(0,0,0);
             }
         }
     }

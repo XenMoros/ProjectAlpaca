@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EscupitajoScriptNew : MonoBehaviour
+public class EscupitajoScript : MonoBehaviour
 {
     // Variables publicas de control
     [Range(0,50)]public float speed = 25f; // Velocidad de las balas

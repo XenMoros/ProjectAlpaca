@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class AlpacaMovementNew : MonoBehaviour
+public class AlpacaMovement : MonoBehaviour
 {
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara;
@@ -142,7 +142,7 @@ public class AlpacaMovementNew : MonoBehaviour
 
             // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
             //quitando dicha componente del movimiento
-            if (Physics.Raycast(transform.position+new Vector3(0,transform.localScale.y/4f,0), direccionMovimiento.normalized, out hitInfo, 1.5f))
+            if (Physics.Raycast(transform.position + new Vector3(0, -transform.localScale.y / 2.1f, 0), direccionMovimiento.normalized, out hitInfo, 1.5f))
             { 
                 Vector3 proyeccion = Vector3.Project(direccionMovimiento, hitInfo.normal);
                 direccionMovimiento -= proyeccion;
@@ -228,6 +228,10 @@ public class AlpacaMovementNew : MonoBehaviour
         arrastrando = arrastre;
     }
 
+    public void SetPause(bool state)
+    {
+
+    }
 }
 
 [System.Serializable]

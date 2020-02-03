@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioControll : MonoBehaviour
+public class AudioManager : MonoBehaviour
 { 
     // Elementos precacheados en Inspector
     public List<AudioClip> audios; // Lista de los audios del juego
@@ -16,8 +16,6 @@ public class AudioControll : MonoBehaviour
     // - 0: Berrido alpaca
     // - 1: Coz Alpaca
     // - 2: Sonido Ambiente
-
-    // PENDIENTE PENSAR MEJOR ORGANIZACION DE LOS AUDIOS
 
     public void PlaySound(int audio)
     {

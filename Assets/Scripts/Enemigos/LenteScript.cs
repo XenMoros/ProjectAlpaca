@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LenteScript : MonoBehaviour
+public class LenteScript : Enemy
 {
     public DetectionScript detectionScript;
     bool alpacaHit;
@@ -71,5 +71,11 @@ public class LenteScript : MonoBehaviour
     {
         alpacaHit = hit;
         cameraLight.GetComponent<Light>().color = Color.red;
+    }
+
+    public override void SetPause(bool state)
+    {
+        base.SetPause(state);
+
     }
 }

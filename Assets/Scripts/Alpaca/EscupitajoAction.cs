@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EscupitajoActionNew : MonoBehaviour
+public class EscupitajoAction : MonoBehaviour
 {
     // Elementos precacheados en Inspector
-    public List <EscupitajoScriptNew> escupitajos; // Lista de escupitajos disponibles
-    public EscupitajoScriptNew escupitajoPrefab; // Prefab de los escupitajos
+    public List <EscupitajoScript> escupitajos; // Lista de escupitajos disponibles
+    public EscupitajoScript escupitajoPrefab; // Prefab de los escupitajos
     public Transform cabeza; // Cabeza de la alpca
     public Transform recamara; // Posicion de la Recamara
 
@@ -26,7 +26,7 @@ public class EscupitajoActionNew : MonoBehaviour
 
     private void Start()
     {
-        escupitajos = new List<EscupitajoScriptNew>();
+        escupitajos = new List<EscupitajoScript>();
         for(int i = 0; i < numeroDisparos; i++)
         {
             escupitajos.Add(Instantiate(escupitajoPrefab, recamara.position,Quaternion.identity,recamara));

@@ -1569,11 +1569,11 @@ GameObject:
   - component: {fileID: 545654448896623119}
   - component: {fileID: 545654448887606689}
   - component: {fileID: 2731804523480807688}
-  - component: {fileID: 6745538152233277583}
+  - component: {fileID: 4825375854857885428}
   - component: {fileID: 5625052684589582271}
   - component: {fileID: 5200323232761240194}
+  - component: {fileID: 3482507977617567749}
   - component: {fileID: 9118975828518930266}
-  - component: {fileID: 6760163017249775197}
   - component: {fileID: 5606836245571042573}
   - component: {fileID: 6327881393461922473}
   m_Layer: 9
@@ -1638,7 +1638,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6745538152233277583
+--- !u!114 &4825375854857885428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1647,7 +1647,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 545654448897121839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a70db8f5c38ce274598a0e915327a737, type: 3}
+  m_Script: {fileID: 11500000, guid: bdf0d95bfab638d42be9427b5cc4d72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camara: {fileID: 0}
@@ -1665,6 +1665,7 @@ MonoBehaviour:
     reduccionVelocidadSalto: 7
     gravedadCaida: 18.5
     stunCaida: 0.05
+    minTimeOnAirToStun: 0.2
 --- !u!114 &5625052684589582271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1692,7 +1693,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entorno: {fileID: 0}
-  alpacaMovementNew: {fileID: 6745538152233277583}
+  alpacaMovement: {fileID: 4825375854857885428}
+--- !u!114 &3482507977617567749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545654448897121839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef6909b76e299e44a7bf44e069a2d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escupitajos: []
+  escupitajoPrefab: {fileID: 7762008238760403013, guid: 79397a392fa9ab04ea85b815422bb387,
+    type: 3}
+  cabeza: {fileID: 545654448896623209}
+  recamara: {fileID: 0}
+  tiempoEntreDisparos: 1
+  numeroDisparos: 3
+  autoapuntado: 1
 --- !u!114 &9118975828518930266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1705,29 +1726,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d1086ede795e574c9fbc2e4da02184c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aMovementNew: {fileID: 6745538152233277583}
+  alpacaMovement: {fileID: 4825375854857885428}
   coz: {fileID: 907351019936946796}
   tiempoCozeo: 0.2
---- !u!114 &6760163017249775197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545654448897121839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5f1ac17b10405a4499feec8dc2122b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  escupitajos: []
-  escupitajoPrefab: {fileID: 2112502208748579882, guid: 79397a392fa9ab04ea85b815422bb387,
-    type: 3}
-  cabeza: {fileID: 545654448896623147}
-  recamara: {fileID: 0}
-  tiempoEntreDisparos: 1
-  numeroDisparos: 3
-  autoapuntado: 1
 --- !u!82 &5606836245571042573
 AudioSource:
   m_ObjectHideFlags: 0

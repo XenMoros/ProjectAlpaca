@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class GuardiaMovement : MonoBehaviour
+public class GuardiaMovement : Enemy
 {
     // Elementos precacheados desde inspector
     public EntradaYSalidaGM gameManager; // GameManager para reiniciar el nivel
@@ -155,5 +155,11 @@ public class GuardiaMovement : MonoBehaviour
             agente.isStopped = true;
             guardiaAnimator.SetBool("RecibeEscupitajo", true);
         }
+    }
+
+    public override void SetPause(bool state)
+    {
+        base.SetPause(state);
+
     }
 }
