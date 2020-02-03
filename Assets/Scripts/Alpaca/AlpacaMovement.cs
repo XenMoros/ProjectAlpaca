@@ -29,7 +29,7 @@ public class AlpacaMovement : MonoBehaviour
     Vector3 direccionMovimientoAnt = Vector3.zero;
 
     // Valores capturados on Start
-    private Vector3 gravedadInicial;
+    private float massaIncial;
 
     // Valores para casteo de rayos
     RaycastHit hitInfo;
@@ -45,14 +45,14 @@ public class AlpacaMovement : MonoBehaviour
     }
     private void Start()
     {
-        gravedadInicial = Physics.gravity;
+        massaIncial = alpacaRigidbody.mass;
     }
 
     void Update()
     {
 
         // GET AXIS INFO
-        axisV = Mathf.Floor(-Input.GetAxis("LS_v") * 1000f) / 1000f;
+        axisV = Mathf.Floor(+Input.GetAxis("LS_v") * 1000f) / 1000f;
         axisH = Mathf.Floor(+Input.GetAxis("LS_h") * 1000f) / 1000f;
 
         // if input is low, consider it zero
@@ -178,7 +178,7 @@ public class AlpacaMovement : MonoBehaviour
             // Si estas cayendo la gravedad es modificada segun input
             if(alpacaRigidbody.velocity.y < 0)
             {
-                Physics.gravity = Vector3.down * salto.gravedadCaida;
+                alpacaRigidbody.mass =  salto.massaCaida;
             }
             return true;
         }
@@ -189,7 +189,7 @@ public class AlpacaMovement : MonoBehaviour
             timerStunCaida = 0;
         }
         // Ademas reiniciar la gravedad a la normal
-        Physics.gravity = gravedadInicial;
+        alpacaRigidbody.mass = massaIncial;
         return false;
     }
 
@@ -246,11 +246,11 @@ public class MovementVariables
 [System.Serializable]
 public class JumpSettings
 {
-    [Range(0, 50f)] public float fuerzaSalto = 10;
+    [Range(0, 2000f)] public float fuerzaSalto = 10;
     [Range(0, 1f)] public float axisInfluenceOnAir = 0.5f;
     [Range(0, 5f)] public float maximaAcelAire = 1.2f;
     [Range(0, 1f)] public float slowMovementOnJump = 0.3f;
     [Range(0, 20)] public float reduccionVelocidadSalto = 7;
-    [Range(9.81f, 40f)] public float gravedadCaida = 18.5f;
+    [Range(100f, 500f)] public float massaCaida = 18.5f;
     [Range(0, 1f)] public float stunCaida = 0.05f;
 }
