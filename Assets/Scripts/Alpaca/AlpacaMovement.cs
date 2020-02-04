@@ -230,7 +230,7 @@ public class AlpacaMovement : MonoBehaviour
 
     public void SetPause(bool state)
     {
-
+        Debug.Log("Pausaaaaa!");
     }
 }
 
