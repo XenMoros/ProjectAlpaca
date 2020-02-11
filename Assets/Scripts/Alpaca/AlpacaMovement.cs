@@ -6,6 +6,7 @@ public class AlpacaMovement : MonoBehaviour
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara;
     public Rigidbody alpacaRigidbody;
+    public Animator alpacaAnimator;
 
     // Buffers de input
     float axisV, axisH;
@@ -85,6 +86,9 @@ public class AlpacaMovement : MonoBehaviour
             // ONLY MODIFI DIRECTION IF AXIS IS != 0
             if (axisV != 0 || axisH != 0)
             {
+
+                alpacaAnimator.SetBool("Moviendose", true);
+
                 //Si no esta arrastrando, recolocar la alpaca
                 if (!arrastrando)
                 {
@@ -118,6 +122,7 @@ public class AlpacaMovement : MonoBehaviour
                 }
                 else //En el aire la direccion es la anterior mas una modificacion segun input
                 {
+
                     direccionMovimiento = direccionMovimientoAnt + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
                     if (direccionMovimiento.magnitude > direccionMovimientoAnt.magnitude * salto.maximaAcelAire)
                     {
@@ -138,6 +143,7 @@ public class AlpacaMovement : MonoBehaviour
             else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
             {
                 direccionMovimiento = Vector3.zero;
+                alpacaAnimator.SetBool("Moviendose", false);
             }
 
             // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
