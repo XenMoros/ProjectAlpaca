@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6672759275088588511}
+  activacionEnCadenaObj: {fileID: 0}
 --- !u!1 &6672759275119792718
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +201,7 @@ GameObject:
   - component: {fileID: 6672759275119792714}
   - component: {fileID: 6672759275119792715}
   - component: {fileID: 6672759275119792716}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Elevador
   m_TagString: Suelo
   m_Icon: {fileID: 0}

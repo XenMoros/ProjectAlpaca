@@ -41,7 +41,7 @@ public class CozScript : MonoBehaviour
     void CozActivate()
     {
         // Al pulsar la tecla, activar el coceo, parar la Alpaca y empezar el timer
-        if (Input.GetButtonDown("B"))
+        if (Input.GetButtonDown("B") && !(alpacaMovement.faseMovimiento==AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida))
         {
             alpacaMovement.cozeando = true;
 

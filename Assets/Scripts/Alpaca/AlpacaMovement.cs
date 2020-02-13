@@ -4,6 +4,7 @@ public class AlpacaMovement : MonoBehaviour
 {
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara;
+    public BoxCollider alpacaBoxCollider;
 
     // Variables publicas de movimiento
     public MovementVariables movimiento;
@@ -28,17 +29,17 @@ public class AlpacaMovement : MonoBehaviour
     Vector3 direccionMovimientoAnt = Vector3.zero;
 
     // Valores para casteo de rayos
-    RaycastHit hitInfo;
+    private RaycastHit hitInfo;
 
     // Valor interno de escalado al modificar velocidad en el aire
     private float escaladoMovimientoEnAire;
 
     // Propiedades del Salto
-    private enum FaseSalto { Subida, Caida, Suelo};
-    FaseSalto faseSalto = FaseSalto.Suelo;
+    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar};
+    internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle;
+
     internal float velocidadVertical,velocidadEntradaFaseFrenado;
     private bool botonSoltado;
-
 
     public void Reset()
     {
@@ -50,6 +51,12 @@ public class AlpacaMovement : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position - transform.up * 0.1f, Vector3.one * 0.2f);
         Gizmos.DrawWireCube(transform.position + transform.up * (1.73f + 0.1f), Vector3.one * 0.2f);
+        Gizmos.DrawWireCube(transform.position, Vector3.right*0.8f+Vector3.forward*0.5f+Vector3.up*0.3f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
+        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward* (alpacaBoxCollider.size.z/2f+direccionMovimientoAnt.magnitude*Time.deltaTime*movimiento.speedMultiplier), alpacaBoxCollider.size*0.9f-Vector3.forward*alpacaBoxCollider.size.z*0.85f);
+
     }
 
     void Update()
@@ -80,7 +87,7 @@ public class AlpacaMovement : MonoBehaviour
             if (Input.GetButtonDown("A") && !onAir && !arrastrando)
             {
                 onAir = true;
-                faseSalto = FaseSalto.Subida;
+                faseMovimiento = FaseMovimiento.Subida;
                 velocidadVertical = salto.velocidadInicialSalto;
                 timerFasesSalto = -salto.minimoTiempoSalto;
                 timerBotonSalto = 0;
@@ -88,15 +95,12 @@ public class AlpacaMovement : MonoBehaviour
                 botonSoltado = false;
             }
             
-            if(Input.GetButtonUp("A") && faseSalto == FaseSalto.Subida)
+            if(Input.GetButtonUp("A") && faseMovimiento == FaseMovimiento.Subida)
             {
                 botonSoltado = true;
             }
 
-            if (onAir)
-            {
-                CalculoSalto();
-            }
+            CalculoSalto();
 
             // ONLY MODIFI DIRECTION IF AXIS IS != 0
             if (axisV != 0 || axisH != 0)
@@ -116,6 +120,14 @@ public class AlpacaMovement : MonoBehaviour
                     {
                         direccionMovimiento = transform.forward;
                         direccionMovimiento *= targetDirection.magnitude;
+                        if (direccionMovimiento.magnitude > 0.3f)
+                        {
+                            faseMovimiento = FaseMovimiento.Correr;
+                        }
+                        else
+                        {
+                            faseMovimiento = FaseMovimiento.Andar;
+                        }
                     }
                     else //Si esta arrastrando siempre anda hacia atras
                     {
@@ -129,13 +141,13 @@ public class AlpacaMovement : MonoBehaviour
                         {
                             direccionMovimiento *= 0;
                         }
-
+                        faseMovimiento = FaseMovimiento.Arrastrar;
                     }
                 }
                 else //En el aire la direccion es la anterior mas una modificacion segun input
                 {
 
-                    direccionMovimiento = direccionMovimientoAnt + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
+                    direccionMovimiento = direccionMovimientoAnt*0.998f + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
                     if (direccionMovimiento.magnitude > direccionMovimientoAnt.magnitude * salto.maximaAcelAire)
                     {
                         if (direccionMovimientoAnt.magnitude > 0.1) 
@@ -153,12 +165,13 @@ public class AlpacaMovement : MonoBehaviour
             }
             else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
             {
+                faseMovimiento = FaseMovimiento.Idle;
                 direccionMovimiento = Vector3.zero;
             }
 
             // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
             //quitando dicha componente del movimiento
-            if (Physics.Raycast(transform.position + new Vector3(0, -transform.localScale.y / 2.1f, 0), direccionMovimiento.normalized, out hitInfo, 1.5f))
+            if (Physics.BoxCast(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size / 2 * 0.9f - Vector3.forward * alpacaBoxCollider.size.z / 2 * 0.6f, direccionMovimiento.normalized,out hitInfo, transform.rotation, alpacaBoxCollider.size.z/2))
             { 
                 Vector3 proyeccion = Vector3.Project(direccionMovimiento, hitInfo.normal);
                 direccionMovimiento -= proyeccion;
@@ -185,28 +198,36 @@ public class AlpacaMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void LateUpdate()
     {
-        if(onAir && collision.gameObject.CompareTag("Suelo") && velocidadVertical < -0.05f)
+        switch (faseMovimiento)
         {
-            timerStunCaida = 0;
-            faseSalto = FaseSalto.Suelo;
-            velocidadVertical = 0;
-            onAir = false;
+            case FaseMovimiento.Subida:
+                
+                break;
+            case FaseMovimiento.Caida:
+                
+                break;
+            default:
+                if (Physics.BoxCast(transform.position + transform.up * 0.4f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.6f))
+                {
+                    transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+                    velocidadVertical = 0;
+                    //GirarVerticalAlpaca(hitInfo.normal);
+                }
+                break;
         }
     }
-
     private void CalculoSalto()
     {
-        RaycastHit hitInfo;
 
-        switch (faseSalto)
+        switch (faseMovimiento)
         {
-            case FaseSalto.Subida:
-                if (Physics.BoxCast(transform.position+transform.up*1.73f, Vector3.one * 0.2f, transform.up, out hitInfo, Quaternion.identity, 0.1f))
+            case FaseMovimiento.Subida:
+                if (Physics.BoxCast(transform.position+transform.up*1.73f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, transform.up, out hitInfo, transform.rotation, 0.1f))
                 {
                     transform.position = hitInfo.point;
-                    faseSalto = FaseSalto.Caida;
+                    faseMovimiento = FaseMovimiento.Caida;
                     velocidadVertical = 0;
                 }
                 else
@@ -224,15 +245,15 @@ public class AlpacaMovement : MonoBehaviour
 
                     if (timerFasesSalto > 0)
                     {
-                        faseSalto = FaseSalto.Caida;
+                        faseMovimiento = FaseMovimiento.Caida;
                     }
                 }
                 break;
-            case FaseSalto.Caida:
-                if (Physics.BoxCast(transform.position, Vector3.one * 0.2f, -transform.up, out hitInfo, Quaternion.identity, 0.1f))
+            case FaseMovimiento.Caida:
+                if (Physics.BoxCast(transform.position + transform.up * 0.3f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.3f))
                 {
-                    transform.position = hitInfo.point;
-                    faseSalto = FaseSalto.Suelo;
+                    transform.position = new Vector3(transform.position.x,hitInfo.point.y,transform.position.z);
+                    faseMovimiento = FaseMovimiento.Idle;
                     onAir = false;
                     velocidadVertical = 0;
                     timerStunCaida = 0;
@@ -242,14 +263,23 @@ public class AlpacaMovement : MonoBehaviour
                     velocidadVertical = salto.velocidadInicialSalto * CalculoFormula(timerFasesSalto, salto.minimoTiempoSalto);
                     if (velocidadVertical < - salto.velocidadTerminalCaida)
                     {
-                        Debug.Log("Quak");
                         velocidadVertical = -salto.velocidadTerminalCaida;
                     }
                 }
                 timerFasesSalto += Time.deltaTime;
                 break;
             default:
-                velocidadVertical = 0;
+                if (!Physics.BoxCast(transform.position + transform.up * 0.4f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.6f))
+                {
+                    faseMovimiento = FaseMovimiento.Caida;
+                    onAir = true;
+                    timerFasesSalto = 0;
+                }
+                else
+                {
+                    //transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+                    velocidadVertical = 0;
+                }
                 break;
         }
 
@@ -283,6 +313,15 @@ public class AlpacaMovement : MonoBehaviour
 
         // Assign the new forward to the transform
         transform.forward = newForward;
+    }
+
+    private void GirarVerticalAlpaca(Vector3 normal)
+    {
+        float angle;
+
+        angle = Mathf.Acos(Vector3.Dot(transform.up, normal));
+
+        transform.Rotate(transform.forward, -angle,Space.Self);
     }
 
     // Recepcion de input i determinar la direccion del mismo segun la camara
