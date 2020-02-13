@@ -99,7 +99,7 @@ public class InteractScript : MonoBehaviour
             // Resetea la caida en caso necesario (por bug)
             if (conResetCaida)
             {
-                alpacaMovement.alpacaRigidbody.velocity.Set(0,0,0);
+                alpacaMovement.velocidadVertical = 0;
             }
         }
     }

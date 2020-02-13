@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class AlpacaMovement : MonoBehaviour
 {
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara;
-    public Rigidbody alpacaRigidbody;
-    public Animator alpacaAnimator;
+    public BoxCollider alpacaBoxCollider;
+
+    // Variables publicas de movimiento
+    public MovementVariables movimiento;
+    public JumpSettings salto;
 
     // Buffers de input
     float axisV, axisH;
@@ -15,43 +17,51 @@ public class AlpacaMovement : MonoBehaviour
     Vector3 targetDirection;
     Vector3 axisDirection;
 
-    // Valores de movimiento
-    public MovementVariables movimiento;
-    public JumpSettings salto;    
-
     // Flags de situacion de movimiento
-    internal bool onAir = true, cozeando = false, arrastrando = false;
+    internal bool onAir = false, cozeando = false, arrastrando = false;
 
     // Timers de control de sucesos
     private float timerSlowMovementOnJump = 9, timerStunCaida=9;
+    private float timerFasesSalto = 999f, timerBotonSalto = 999f;
 
     // Direcciones de movimiento
     Vector3 direccionMovimiento = Vector3.zero;
     Vector3 direccionMovimientoAnt = Vector3.zero;
 
-    // Valores capturados on Start
-    private float massaIncial;
-
     // Valores para casteo de rayos
-    RaycastHit hitInfo;
-
+    private RaycastHit hitInfo;
 
     // Valor interno de escalado al modificar velocidad en el aire
     private float escaladoMovimientoEnAire;
 
+    // Propiedades del Salto
+    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar};
+    internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle;
+
+    internal float velocidadVertical,velocidadEntradaFaseFrenado;
+    private bool botonSoltado;
+
     public void Reset()
     {
-        alpacaRigidbody = GetComponent<Rigidbody>();
         camara = Camera.main.transform;
     }
-    private void Start()
+
+    void OnDrawGizmos()
     {
-        massaIncial = alpacaRigidbody.mass;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position - transform.up * 0.1f, Vector3.one * 0.2f);
+        Gizmos.DrawWireCube(transform.position + transform.up * (1.73f + 0.1f), Vector3.one * 0.2f);
+        Gizmos.DrawWireCube(transform.position, Vector3.right*0.8f+Vector3.forward*0.5f+Vector3.up*0.3f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
+        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward* (alpacaBoxCollider.size.z/2f+direccionMovimientoAnt.magnitude*Time.deltaTime*movimiento.speedMultiplier), alpacaBoxCollider.size*0.9f-Vector3.forward*alpacaBoxCollider.size.z*0.85f);
+
     }
 
     void Update()
     {
-
+        
         // GET AXIS INFO
         axisV = Mathf.Floor(+Input.GetAxis("LS_v") * 1000f) / 1000f;
         axisH = Mathf.Floor(+Input.GetAxis("LS_h") * 1000f) / 1000f;
@@ -69,19 +79,28 @@ public class AlpacaMovement : MonoBehaviour
         // GET COORDINATES OF DESIRED MOVEMENT (targetDirection)
         targetDirection = GetTargetDirection();
 
-        //Comprovar si estas en el aire
-        onAir = ComprovarCaida();
-
         // Si no estas stuneada por ningun motivo
         if (!cozeando && timerStunCaida > salto.stunCaida)
         {
 
-            // Saltar mediante fisicas al recibir input i no estar en el aire ni arrastrando
+            // Saltar al recibir input i no estar en el aire ni arrastrando
             if (Input.GetButtonDown("A") && !onAir && !arrastrando)
             {
-                alpacaRigidbody.AddForce(new Vector3(0, 1, 0) * salto.fuerzaSalto, ForceMode.Impulse);
+                onAir = true;
+                faseMovimiento = FaseMovimiento.Subida;
+                velocidadVertical = salto.velocidadInicialSalto;
+                timerFasesSalto = -salto.minimoTiempoSalto;
+                timerBotonSalto = 0;
                 timerSlowMovementOnJump = 0;
+                botonSoltado = false;
             }
+            
+            if(Input.GetButtonUp("A") && faseMovimiento == FaseMovimiento.Subida)
+            {
+                botonSoltado = true;
+            }
+
+            CalculoSalto();
 
             // ONLY MODIFI DIRECTION IF AXIS IS != 0
             if (axisV != 0 || axisH != 0)
@@ -104,6 +123,14 @@ public class AlpacaMovement : MonoBehaviour
                     {
                         direccionMovimiento = transform.forward;
                         direccionMovimiento *= targetDirection.magnitude;
+                        if (direccionMovimiento.magnitude > 0.3f)
+                        {
+                            faseMovimiento = FaseMovimiento.Correr;
+                        }
+                        else
+                        {
+                            faseMovimiento = FaseMovimiento.Andar;
+                        }
                     }
                     else //Si esta arrastrando siempre anda hacia atras
                     {
@@ -117,16 +144,15 @@ public class AlpacaMovement : MonoBehaviour
                         {
                             direccionMovimiento *= 0;
                         }
-
+                        faseMovimiento = FaseMovimiento.Arrastrar;
                     }
                 }
                 else //En el aire la direccion es la anterior mas una modificacion segun input
                 {
 
-                    direccionMovimiento = direccionMovimientoAnt + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
+                    direccionMovimiento = direccionMovimientoAnt*0.998f + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
                     if (direccionMovimiento.magnitude > direccionMovimientoAnt.magnitude * salto.maximaAcelAire)
                     {
-
                         if (direccionMovimientoAnt.magnitude > 0.1) 
                         {
                            escaladoMovimientoEnAire  = (direccionMovimientoAnt.magnitude * salto.maximaAcelAire) / direccionMovimiento.magnitude;
@@ -142,13 +168,14 @@ public class AlpacaMovement : MonoBehaviour
             }
             else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
             {
+                faseMovimiento = FaseMovimiento.Idle;
                 direccionMovimiento = Vector3.zero;
                 alpacaAnimator.SetBool("Moviendose", false);
             }
 
             // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
             //quitando dicha componente del movimiento
-            if (Physics.Raycast(transform.position + new Vector3(0, -transform.localScale.y / 2.1f, 0), direccionMovimiento.normalized, out hitInfo, 1.5f))
+            if (Physics.BoxCast(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size / 2 * 0.9f - Vector3.forward * alpacaBoxCollider.size.z / 2 * 0.6f, direccionMovimiento.normalized,out hitInfo, transform.rotation, alpacaBoxCollider.size.z/2))
             { 
                 Vector3 proyeccion = Vector3.Project(direccionMovimiento, hitInfo.normal);
                 direccionMovimiento -= proyeccion;
@@ -161,7 +188,7 @@ public class AlpacaMovement : MonoBehaviour
 
                 timerSlowMovementOnJump +=Time.deltaTime;
             }
-            transform.Translate(movimiento.speedMultiplier * direccionMovimiento * Time.deltaTime, Space.World);
+            transform.Translate((movimiento.speedMultiplier * direccionMovimiento + Vector3.up * velocidadVertical) * Time.deltaTime , Space.World );
             direccionMovimientoAnt = direccionMovimiento;
         }
         else //Si estas en stun el movimiento es zero
@@ -175,28 +202,101 @@ public class AlpacaMovement : MonoBehaviour
         }
     }
 
-    // Comprovacion de si estas en el aire
-    private bool ComprovarCaida()
+    private void LateUpdate()
     {
-        // Compureba si la velocidad de caida por el motor de fisicas es significativa
-        if(alpacaRigidbody.velocity.y > 0.005 || alpacaRigidbody.velocity.y < -0.005)
+        switch (faseMovimiento)
         {
-            // Si estas cayendo la gravedad es modificada segun input
-            if(alpacaRigidbody.velocity.y < 0)
-            {
-                alpacaRigidbody.mass =  salto.massaCaida;
-            }
-            return true;
+            case FaseMovimiento.Subida:
+                
+                break;
+            case FaseMovimiento.Caida:
+                
+                break;
+            default:
+                if (Physics.BoxCast(transform.position + transform.up * 0.4f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.6f))
+                {
+                    transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+                    velocidadVertical = 0;
+                    //GirarVerticalAlpaca(hitInfo.normal);
+                }
+                break;
+        }
+    }
+    private void CalculoSalto()
+    {
+
+        switch (faseMovimiento)
+        {
+            case FaseMovimiento.Subida:
+                if (Physics.BoxCast(transform.position+transform.up*1.73f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, transform.up, out hitInfo, transform.rotation, 0.1f))
+                {
+                    transform.position = hitInfo.point;
+                    faseMovimiento = FaseMovimiento.Caida;
+                    velocidadVertical = 0;
+                }
+                else
+                {
+                    velocidadVertical = salto.velocidadInicialSalto * CalculoFormula(timerFasesSalto, salto.minimoTiempoSalto);
+
+                    if (!botonSoltado && timerBotonSalto < salto.maximoTiempoBoton)
+                    {
+                        timerBotonSalto += Time.deltaTime;
+                    }
+                    else
+                    {
+                        timerFasesSalto += Time.deltaTime;
+                    }
+
+                    if (timerFasesSalto > 0)
+                    {
+                        faseMovimiento = FaseMovimiento.Caida;
+                    }
+                }
+                break;
+            case FaseMovimiento.Caida:
+                if (Physics.BoxCast(transform.position + transform.up * 0.3f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.3f))
+                {
+                    transform.position = new Vector3(transform.position.x,hitInfo.point.y,transform.position.z);
+                    faseMovimiento = FaseMovimiento.Idle;
+                    onAir = false;
+                    velocidadVertical = 0;
+                    timerStunCaida = 0;
+                }
+                else
+                {
+                    velocidadVertical = salto.velocidadInicialSalto * CalculoFormula(timerFasesSalto, salto.minimoTiempoSalto);
+                    if (velocidadVertical < - salto.velocidadTerminalCaida)
+                    {
+                        velocidadVertical = -salto.velocidadTerminalCaida;
+                    }
+                }
+                timerFasesSalto += Time.deltaTime;
+                break;
+            default:
+                if (!Physics.BoxCast(transform.position + transform.up * 0.4f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.6f))
+                {
+                    faseMovimiento = FaseMovimiento.Caida;
+                    onAir = true;
+                    timerFasesSalto = 0;
+                }
+                else
+                {
+                    //transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+                    velocidadVertical = 0;
+                }
+                break;
         }
 
-        // Si ya no caes pero justo aterrizas, empezar un pequeño stun de caida
-        if (onAir)
-        {
-            timerStunCaida = 0;
-        }
-        // Ademas reiniciar la gravedad a la normal
-        alpacaRigidbody.mass = massaIncial;
-        return false;
+    }
+
+    private float CalculoFormula(float tiempo,float margen)
+    {
+        float result;
+        float div = tiempo / margen;
+
+        result = (-1) * (Mathf.Sign(div) * Mathf.Pow((Mathf.Abs(div)), 1/salto.coeficienteRaiz));
+
+        return result;
     }
 
     // Encara la alpaca segun input
@@ -219,6 +319,15 @@ public class AlpacaMovement : MonoBehaviour
         transform.forward = newForward;
     }
 
+    private void GirarVerticalAlpaca(Vector3 normal)
+    {
+        float angle;
+
+        angle = Mathf.Acos(Vector3.Dot(transform.up, normal));
+
+        transform.Rotate(transform.forward, -angle,Space.Self);
+    }
+
     // Recepcion de input i determinar la direccion del mismo segun la camara
     private Vector3 GetTargetDirection()
     {
@@ -236,7 +345,7 @@ public class AlpacaMovement : MonoBehaviour
 
     public void SetPause(bool state)
     {
-
+        Debug.Log("Pausaaaaa!");
     }
 }
 
@@ -252,11 +361,14 @@ public class MovementVariables
 [System.Serializable]
 public class JumpSettings
 {
-    [Range(0, 2000f)] public float fuerzaSalto = 10;
+    [Range(0, 10f)] public float velocidadInicialSalto = 7;
+    [Range(0, 1f)] public float maximoTiempoBoton = 0.3f;
+    [Range(0, 1f)] public float minimoTiempoSalto = 0.2f;
+    [Range(0, 50f)] public float velocidadTerminalCaida = 10;
+    [Range(0, 10f)] public float coeficienteRaiz = 1.5f;
     [Range(0, 1f)] public float axisInfluenceOnAir = 0.5f;
     [Range(0, 5f)] public float maximaAcelAire = 1.2f;
     [Range(0, 1f)] public float slowMovementOnJump = 0.3f;
     [Range(0, 20)] public float reduccionVelocidadSalto = 7;
-    [Range(100f, 500f)] public float massaCaida = 18.5f;
     [Range(0, 1f)] public float stunCaida = 0.05f;
 }
