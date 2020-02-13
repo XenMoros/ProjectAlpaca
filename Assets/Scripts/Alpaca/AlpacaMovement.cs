@@ -37,7 +37,7 @@ public class AlpacaMovement : MonoBehaviour
 
     // Propiedades del Salto
     internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar};
-    internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle;
+    internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle;
 
     internal float velocidadVertical,velocidadEntradaFaseFrenado;
     private bool botonSoltado;
@@ -201,9 +201,10 @@ public class AlpacaMovement : MonoBehaviour
         {
             timerStunCaida += Time.deltaTime;
         }
+        GestorAnimacion();
     }
 
-    private void LateUpdate()
+   private void LateUpdate()
     {
         switch (faseMovimiento)
         {
@@ -223,6 +224,7 @@ public class AlpacaMovement : MonoBehaviour
                 break;
         }
     }
+
     private void CalculoSalto()
     {
 
@@ -290,6 +292,17 @@ public class AlpacaMovement : MonoBehaviour
 
     }
 
+    private void GestorAnimacion()
+    {
+        if(faseMovimientoAnt!= faseMovimiento)
+        {
+            alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+            alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+        }
+
+        faseMovimientoAnt = faseMovimiento;
+
+    }
     private float CalculoFormula(float tiempo,float margen)
     {
         float result;
@@ -353,7 +366,7 @@ public class AlpacaMovement : MonoBehaviour
 [System.Serializable]
 public class MovementVariables
 {
-    [Range(0, 50f)] public float speedMultiplier = 10;
+    [Range(0, 10f)] public float speedMultiplier = 7.5f;
     [Range(1, 10f)] public float slowArrastre = 4;
     [Range(0, 720)] public float rotationSpeed = 360;
     [Range(0, 1440)] public float maxAnglePerSecond = 720;
@@ -363,13 +376,13 @@ public class MovementVariables
 public class JumpSettings
 {
     [Range(0, 10f)] public float velocidadInicialSalto = 7;
-    [Range(0, 1f)] public float maximoTiempoBoton = 0.3f;
+    [Range(0, 1f)] public float maximoTiempoBoton = 0.4f;
     [Range(0, 1f)] public float minimoTiempoSalto = 0.2f;
-    [Range(0, 50f)] public float velocidadTerminalCaida = 10;
+    [Range(0, 30f)] public float velocidadTerminalCaida = 15;
     [Range(0, 10f)] public float coeficienteRaiz = 1.5f;
-    [Range(0, 1f)] public float axisInfluenceOnAir = 0.5f;
+    [Range(0, 2f)] public float axisInfluenceOnAir = 1f;
     [Range(0, 5f)] public float maximaAcelAire = 1.2f;
-    [Range(0, 1f)] public float slowMovementOnJump = 0.3f;
-    [Range(0, 20)] public float reduccionVelocidadSalto = 7;
+    [Range(0, 1f)] public float slowMovementOnJump = 0.2f;
+    [Range(0, 20)] public float reduccionVelocidadSalto = 2;
     [Range(0, 1f)] public float stunCaida = 0.05f;
 }
