@@ -5,6 +5,7 @@ public class AlpacaMovement : MonoBehaviour
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara;
     public BoxCollider alpacaBoxCollider;
+    public Animator alpacaAnimator;
 
     // Variables publicas de movimiento
     public MovementVariables movimiento;
