@@ -41,6 +41,7 @@ public class AlpacaMovement : MonoBehaviour
 
     internal float velocidadVertical,velocidadEntradaFaseFrenado;
     private bool botonSoltado;
+    public LayerMask layerReposicionarSuelo;
 
     public void Reset()
     {
@@ -215,7 +216,7 @@ public class AlpacaMovement : MonoBehaviour
                 
                 break;
             default:
-                if (Physics.BoxCast(transform.position + transform.up * 0.4f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.6f))
+                if (Physics.BoxCast(transform.position + transform.up * 0.4f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.6f, layerReposicionarSuelo))
                 {
                     transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
                     velocidadVertical = 0;
@@ -231,9 +232,9 @@ public class AlpacaMovement : MonoBehaviour
         switch (faseMovimiento)
         {
             case FaseMovimiento.Subida:
-                if (Physics.BoxCast(transform.position+transform.up*1.73f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, transform.up, out hitInfo, transform.rotation, 0.1f))
+                if (Physics.BoxCast(transform.position+transform.up*1.73f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, transform.up, out hitInfo, transform.rotation, 0.1f, layerReposicionarSuelo))
                 {
-                    transform.position = hitInfo.point;
+                    //transform.position = new Vector3(hitInfo.point;
                     faseMovimiento = FaseMovimiento.Caida;
                     velocidadVertical = 0;
                 }
@@ -257,7 +258,7 @@ public class AlpacaMovement : MonoBehaviour
                 }
                 break;
             case FaseMovimiento.Caida:
-                if (Physics.BoxCast(transform.position + transform.up * 0.3f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.3f))
+                if (Physics.BoxCast(transform.position + transform.up * 0.3f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.3f, layerReposicionarSuelo))
                 {
                     transform.position = new Vector3(transform.position.x,hitInfo.point.y,transform.position.z);
                     faseMovimiento = FaseMovimiento.Idle;
@@ -284,7 +285,6 @@ public class AlpacaMovement : MonoBehaviour
                 }
                 else
                 {
-                    //transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
                     velocidadVertical = 0;
                 }
                 break;
