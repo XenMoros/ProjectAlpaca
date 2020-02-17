@@ -33,6 +33,13 @@ public class LevelManager : MonoBehaviour
         enemyManager.LoadEnemies();
     }
 
+    public void LoadLevel(string nivel)
+    {
+
+        alpaca = GameObject.Find("Alpaca").GetComponent<AlpacaMovement>();
+        enemyManager.LoadEnemies();
+    }
+
     public void UnloadLevel()
     {
         Destroy(currentLevel);
