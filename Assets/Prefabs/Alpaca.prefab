@@ -77,12 +77,12 @@ Rigidbody:
   m_GameObject: {fileID: 545654448897121839}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 99999
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &4825375854857885428
 MonoBehaviour:
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camara: {fileID: 0}
-  alpacaRigidbody: {fileID: 2731804523480807688}
+  alpacaBoxCollider: {fileID: 6327881393461922473}
   alpacaAnimator: {fileID: 545654448887606689}
   movimiento:
     speedMultiplier: 10
@@ -105,13 +105,19 @@ MonoBehaviour:
     rotationSpeed: 360
     maxAnglePerSecond: 720
   salto:
-    fuerzaSalto: 10
+    velocidadInicialSalto: 7
+    maximoTiempoBoton: 0.4
+    minimoTiempoSalto: 0.2
+    velocidadTerminalCaida: 15
+    coeficienteRaiz: 1.5
     axisInfluenceOnAir: 0.5
     maximaAcelAire: 1.2
     slowMovementOnJump: 0.3
     reduccionVelocidadSalto: 7
-    massaCaida: 18.5
     stunCaida: 0.05
+  layerReposicionarSuelo:
+    serializedVersion: 2
+    m_Bits: 133121
 --- !u!114 &5625052684589582271
 MonoBehaviour:
   m_ObjectHideFlags: 0

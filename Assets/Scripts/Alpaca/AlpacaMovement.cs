@@ -43,11 +43,6 @@ public class AlpacaMovement : MonoBehaviour
     private bool botonSoltado;
     public LayerMask layerReposicionarSuelo;
 
-    public void Reset()
-    {
-        camara = Camera.main.transform;
-    }
-
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -59,6 +54,10 @@ public class AlpacaMovement : MonoBehaviour
         Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
         Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward* (alpacaBoxCollider.size.z/2f+direccionMovimientoAnt.magnitude*Time.deltaTime*movimiento.speedMultiplier), alpacaBoxCollider.size*0.9f-Vector3.forward*alpacaBoxCollider.size.z*0.85f);
 
+    }
+    void Start()
+    {
+        camara = Camera.main.transform;
     }
 
     void Update()
@@ -107,8 +106,6 @@ public class AlpacaMovement : MonoBehaviour
             // ONLY MODIFI DIRECTION IF AXIS IS != 0
             if (axisV != 0 || axisH != 0)
             {
-
-                alpacaAnimator.SetBool("Moviendose", true);
 
                 //Si no esta arrastrando, recolocar la alpaca
                 if (!arrastrando)
@@ -172,7 +169,6 @@ public class AlpacaMovement : MonoBehaviour
             {
                 faseMovimiento = FaseMovimiento.Idle;
                 direccionMovimiento = Vector3.zero;
-                alpacaAnimator.SetBool("Moviendose", false);
             }
 
             // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo

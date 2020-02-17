@@ -40,7 +40,7 @@ public class InterfaceManager : MonoBehaviour
 
         for (int i=0;i<4;i++)
         {
-            ClooseGroup(i);
+            CloseGroup(i);
         }
     }
 
@@ -75,7 +75,15 @@ public class InterfaceManager : MonoBehaviour
 
     }
 
-    public void ClooseGroup(int indice)
+    public void CloseAllGroups()
+    {
+        for(int i = 0; i < grupos.Length; i++)
+        {
+            CloseGroup(i);
+        }
+    }
+
+    public void CloseGroup(int indice)
     {
         grupos[indice].alpha = 0;
         grupos[indice].interactable = false;
@@ -114,7 +122,7 @@ public class InterfaceManager : MonoBehaviour
     public void ContinueButton()
     {
         grupoAnterior = grupoActivo;
-        ClooseGroup(grupoActivo);
+        CloseGroup(grupoActivo);
         gameManager.Continue();
     }
 
@@ -122,7 +130,7 @@ public class InterfaceManager : MonoBehaviour
     {
         int intermedio;
         OpenGroup(grupoAnterior);
-        ClooseGroup(grupoActivo);
+        CloseGroup(grupoActivo);
         
         intermedio = grupoActivo;
         grupoActivo = grupoAnterior;

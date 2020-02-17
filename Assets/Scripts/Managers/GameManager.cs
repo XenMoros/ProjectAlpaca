@@ -45,15 +45,29 @@ public class GameManager : MonoBehaviour
     public void ContinueGame()
     {
         pause = false;
-        levelManager.LoadLevel(0);
+
+        StartCoroutine(CargarEscena(1));
+        
+
+    }
+
+    IEnumerator CargarEscena(int nivel)
+    {
+        UnityEngine.SceneManagement.Scene escena = levelManager.LoadLevel(nivel);
+
+        while (!escena.isLoaded)
+        {
+            yield return null;
+        }
+
         levelManager.SetPause(pause);
+        interfaceManager.CloseAllGroups();
     }
 
     public void NewGame()
     {
         pause = false;
-        levelManager.LoadLevel(0);
-        levelManager.SetPause(pause);
+        StartCoroutine(CargarEscena(1));
     }
 
     public void Continue()
