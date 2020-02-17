@@ -125,7 +125,7 @@ public class AlpacaMovement : MonoBehaviour
                     {
                         direccionMovimiento = transform.forward;
                         direccionMovimiento *= targetDirection.magnitude;
-                        if (direccionMovimiento.magnitude > 0.3f)
+                        if (direccionMovimiento.magnitude > 0.35f)
                         {
                             faseMovimiento = FaseMovimiento.Correr;
                         }
