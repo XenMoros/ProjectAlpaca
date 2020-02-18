@@ -9,13 +9,10 @@ public class LevelManager : MonoBehaviour
     EnemyManager enemyManager;
     public AlpacaMovement alpaca;
 
-    GameObject currentLevel;
-
     public GameObject enemyManagerPrefab;
-    public List<GameObject> levelsPrefabs;
 
     private AsyncOperation sceneAsync;
-    private Scene escena;
+    private Scene escenaMenus,escenaNivel;
 
 
 
@@ -24,7 +21,8 @@ public class LevelManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         enemyManager = Instantiate(enemyManagerPrefab).GetComponent<EnemyManager>();
-
+        escenaMenus = SceneManager.GetActiveScene();
+        enemyManager.SetLevelManager(this);
     }
 
     public void SetPause(bool state)
@@ -39,8 +37,8 @@ public class LevelManager : MonoBehaviour
     {
 
         StartCoroutine(LoadScene(nivel));
-        escena = SceneManager.GetSceneByBuildIndex(nivel);
-        return (escena);
+        escenaNivel = SceneManager.GetSceneByBuildIndex(nivel);
+        return (escenaNivel);
         //alpaca = GameObject.Find("Alpaca").GetComponent<AlpacaMovement>();
         //enemyManager.LoadEnemies();
     }
@@ -63,10 +61,10 @@ public class LevelManager : MonoBehaviour
 
     private void OnFinishedLoadingAllScene(int nivel)
     {
-        StartCoroutine(enableScene(nivel));
+        StartCoroutine(EnableScene(nivel));
     }
 
-    IEnumerator enableScene(int nivel)
+    IEnumerator EnableScene(int nivel)
     {
         //Activate the Scene
         sceneAsync.allowSceneActivation = true;
@@ -94,9 +92,24 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void UnloadLevel()
+    public Scene UnloadLevel()
     {
-        Destroy(currentLevel);
+        StartCoroutine(UnloadScene());
+
+        return escenaMenus;
+    }
+
+    IEnumerator UnloadScene()
+    {
+        SceneManager.SetActiveScene(escenaMenus);
+
+        AsyncOperation scene = SceneManager.UnloadSceneAsync(escenaNivel);
+
+        while (!scene.isDone)
+        {
+            yield return null;
+        }
+
     }
 
     public void RestartLevel()

@@ -44,11 +44,8 @@ public class GameManager : MonoBehaviour
 
     public void ContinueGame()
     {
-        pause = false;
-
-        StartCoroutine(CargarEscena(1));
         
-
+        StartCoroutine(CargarEscena(1)); 
     }
 
     IEnumerator CargarEscena(int nivel)
@@ -60,13 +57,25 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        pause = false;
         levelManager.SetPause(pause);
         interfaceManager.CloseAllGroups();
+    }
+
+    IEnumerator DescargarEscenaActiva()
+    {
+        UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
+
+        while(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name)
+        {
+            yield return null;
+        }
     }
 
     public void NewGame()
     {
         pause = false;
+
         StartCoroutine(CargarEscena(1));
     }
 
@@ -76,10 +85,11 @@ public class GameManager : MonoBehaviour
         levelManager.SetPause(pause);
     }
 
-    public void Restart()
+    public void RestartCurrentLevel()
     {
-        interfaceManager.StartMainMenu();
-        pause = false;
-        levelManager.SetPause(pause);
+
+        StartCoroutine(DescargarEscenaActiva());
+        StartCoroutine(CargarEscena(1));
+        
     }
 }

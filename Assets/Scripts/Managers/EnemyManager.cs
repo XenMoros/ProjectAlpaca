@@ -20,9 +20,9 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void LateStart()
+    public void SetLevelManager(LevelManager levelManager)
     {
-        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        this.levelManager = levelManager;
     }
 
     public void SetPause(bool state)

@@ -60,6 +60,13 @@ public class InterfaceManager : MonoBehaviour
         grupoAnterior = -1;
     }
 
+    public void ClosePauseMenu()
+    {
+        CloseGroup(1);
+        grupoActivo = -1;
+        grupoAnterior = 1;
+    }
+
     public void OpenGroup(int indice)
     {
         grupos[indice].alpha = 1;
@@ -140,12 +147,12 @@ public class InterfaceManager : MonoBehaviour
 
     public void LevelButton(int level)
     {
-        //
+        
     }
 
     public void RestartButton()
     {
-
+        gameManager.RestartCurrentLevel();
     }
 
     public void ExitButton()
