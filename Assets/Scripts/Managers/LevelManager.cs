@@ -101,9 +101,9 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator UnloadScene()
     {
-        SceneManager.SetActiveScene(escenaMenus);
+        //SceneManager.SetActiveScene(escenaMenus);
 
-        AsyncOperation scene = SceneManager.UnloadSceneAsync(escenaNivel);
+        AsyncOperation scene = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
         while (!scene.isDone)
         {

@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     {
         interfaceManager = Instantiate(interfaceManagerPrefab).GetComponent<InterfaceManager>();
         levelManager = Instantiate(levelManagerPrefab).GetComponent<LevelManager>();
-        interfaceManager.StartMainMenu();
+        interfaceManager.Initialize();
     }
 
     private void Update()
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
         {
             pause = false;
             levelManager.SetPause(pause);
+            interfaceManager.ClosePauseMenu();
         }
     }
 
@@ -72,6 +73,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator RescargarEscenaActiva(int nivel)
+    {
+        UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
+
+        while (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name)
+        {
+            Debug.Log("Descargandooo");
+            yield return null;
+        }
+
+        StartCoroutine(CargarEscena(nivel));
+
+    }
     public void NewGame()
     {
         pause = false;
@@ -88,8 +102,15 @@ public class GameManager : MonoBehaviour
     public void RestartCurrentLevel()
     {
 
+        StartCoroutine(RescargarEscenaActiva(1));
+
+
+    }
+
+    public void ReturnToMain()
+    {
+
         StartCoroutine(DescargarEscenaActiva());
-        StartCoroutine(CargarEscena(1));
-        
+
     }
 }

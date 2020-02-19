@@ -26,8 +26,17 @@ public class InterfaceManager : MonoBehaviour
 
     public int grupoActivo, grupoAnterior=-1;
 
-    private void Initialize()
+    private void Update()
     {
+        if (Input.GetButtonDown("B"))
+        {
+            ReturnButton();
+        }
+    }
+    public void Initialize()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         grupos[0] = mainManuGroup;
         grupos[1] = pauseManuGroup;
         grupos[2] = optionsManuGroup;
@@ -38,16 +47,13 @@ public class InterfaceManager : MonoBehaviour
         selectDefecto[2] = optionsManuDefSelect;
         selectDefecto[3] = levelSelectManuDefSelect;
 
-        for (int i=0;i<4;i++)
-        {
-            CloseGroup(i);
-        }
+        CloseAllGroups();
+
+        StartMainMenu();
     }
 
     public void StartMainMenu()
-    {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        Initialize();
+    {   
         OpenGroup(0);
         grupoActivo = 0;
         grupoAnterior = -1;
@@ -64,7 +70,7 @@ public class InterfaceManager : MonoBehaviour
     {
         CloseGroup(1);
         grupoActivo = -1;
-        grupoAnterior = 1;
+        grupoAnterior = -1;
     }
 
     public void OpenGroup(int indice)
@@ -158,6 +164,13 @@ public class InterfaceManager : MonoBehaviour
     public void ExitButton()
     {
         gameManager.ExitGame();
+    }
+
+    public void ReturnToMainButton()
+    {
+        gameManager.ReturnToMain();
+        CloseAllGroups();
+        StartMainMenu();
     }
 
     internal void ButtonSelect()
