@@ -14,6 +14,8 @@ public class InterfaceManager : MonoBehaviour
     public CanvasGroup optionsManuGroup;
     public CanvasGroup levelSelectManuGroup;
 
+    public CanvasGroup loadingGroup;
+
     Selectable[] selectDefecto = new Selectable[4];
     public Selectable mainManuDefSelect;
     public Selectable mainManuDefSelect2;
@@ -94,6 +96,7 @@ public class InterfaceManager : MonoBehaviour
         {
             CloseGroup(i);
         }
+
     }
 
     public void CloseGroup(int indice)
@@ -121,34 +124,49 @@ public class InterfaceManager : MonoBehaviour
 
     public void NewGameButton()
     {
-        ButtonSelect();
-        OpenGroup(1);
-        grupoAnterior = grupoActivo;
-        grupoActivo = 1;
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.NewGame();
     }
 
     public void ContinueGameButton()
     {
+        CloseAllGroups();
+        LoadingGroup(true);
         gameManager.ContinueGame();
     }
 
     public void ContinueButton()
     {
-        grupoAnterior = grupoActivo;
-        CloseGroup(grupoActivo);
+
         gameManager.Continue();
     }
 
     public void ReturnButton()
     {
-        int intermedio;
-        OpenGroup(grupoAnterior);
-        CloseGroup(grupoActivo);
-        
-        intermedio = grupoActivo;
-        grupoActivo = grupoAnterior;
-        grupoAnterior = intermedio;
+        if (grupoAnterior != -1)
+        {
 
+            int intermedio;
+            OpenGroup(grupoAnterior);
+            CloseGroup(grupoActivo);
+
+            intermedio = grupoActivo;
+            grupoActivo = grupoAnterior;
+            grupoAnterior = intermedio;
+        }
+    }
+
+    public void LoadingGroup(bool state)
+    {
+        if (state)
+        {
+            loadingGroup.alpha = 1;
+        }
+        else
+        {
+            loadingGroup.alpha = 0;
+        }
     }
 
     public void LevelButton(int level)
@@ -158,6 +176,8 @@ public class InterfaceManager : MonoBehaviour
 
     public void RestartButton()
     {
+        CloseAllGroups();
+        LoadingGroup(true);
         gameManager.RestartCurrentLevel();
     }
 
@@ -168,7 +188,9 @@ public class InterfaceManager : MonoBehaviour
 
     public void ReturnToMainButton()
     {
+        LoadingGroup(true);
         gameManager.ReturnToMain();
+        LoadingGroup(false); 
         CloseAllGroups();
         StartMainMenu();
     }

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject interfaceManagerPrefab,levelManagerPrefab;
 
+    int ultimoNivel = 1;
     bool pause = true;
 
     //ScoreManager scoreManager;
@@ -28,25 +29,26 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetButtonDown("Start") && pause==false)
+        if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1)
         {
-            pause = true;
-            levelManager.SetPause(pause);
-            interfaceManager.OpenPauseMenu();
-        }
-        else if (Input.GetButtonDown("Start"))
-        {
-            pause = false;
-            levelManager.SetPause(pause);
-            interfaceManager.ClosePauseMenu();
+            if (Input.GetButtonDown("Start") && pause == false)
+            {
+                pause = true;
+                levelManager.SetPause(pause);
+                interfaceManager.OpenPauseMenu();
+            }
+            else if (Input.GetButtonDown("Start"))
+            {
+                pause = false;
+                levelManager.SetPause(pause);
+                interfaceManager.ClosePauseMenu();
+            }
         }
     }
 
     public void ContinueGame()
     {
-        
-        StartCoroutine(CargarEscena(1)); 
+        StartCoroutine(CargarEscena(ultimoNivel)); 
     }
 
     IEnumerator CargarEscena(int nivel)
@@ -60,7 +62,7 @@ public class GameManager : MonoBehaviour
 
         pause = false;
         levelManager.SetPause(pause);
-        interfaceManager.CloseAllGroups();
+        interfaceManager.LoadingGroup(false);
     }
 
     IEnumerator DescargarEscenaActiva()
@@ -88,8 +90,6 @@ public class GameManager : MonoBehaviour
     }
     public void NewGame()
     {
-        pause = false;
-
         StartCoroutine(CargarEscena(1));
     }
 
@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
     {
         pause = false;
         levelManager.SetPause(pause);
+        interfaceManager.ClosePauseMenu();
     }
 
     public void RestartCurrentLevel()

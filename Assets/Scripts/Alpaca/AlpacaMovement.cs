@@ -45,7 +45,7 @@ public class AlpacaMovement : MonoBehaviour
 
 
     //boleano de pause
-    bool pause = true;
+    bool pause = true, cambioPausa = false;
 
     void OnDrawGizmos()
     {
@@ -227,6 +227,12 @@ public class AlpacaMovement : MonoBehaviour
                 }
                 break;
         }
+
+        if (cambioPausa)
+        {
+            cambioPausa = false;
+            pause = !pause;
+        }
     }
 
     private void CalculoSalto()
@@ -353,7 +359,10 @@ public class AlpacaMovement : MonoBehaviour
 
     public void SetPause(bool state)
     {
-        pause = state;
+        if (state != pause)
+        {
+            cambioPausa = true;
+        }
     }
 }
 
