@@ -49,13 +49,12 @@ public class InterfaceManager : MonoBehaviour
         selectDefecto[2] = optionsManuDefSelect;
         selectDefecto[3] = levelSelectManuDefSelect;
 
-        CloseAllGroups();
-
         StartMainMenu();
     }
 
     public void StartMainMenu()
-    {   
+    {
+        CloseAllGroups();
         OpenGroup(0);
         grupoActivo = 0;
         grupoAnterior = -1;
@@ -171,7 +170,9 @@ public class InterfaceManager : MonoBehaviour
 
     public void LevelButton(int level)
     {
-        
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.LoadLevel(level);
     }
 
     public void RestartButton()
@@ -191,7 +192,6 @@ public class InterfaceManager : MonoBehaviour
         LoadingGroup(true);
         gameManager.ReturnToMain();
         LoadingGroup(false); 
-        CloseAllGroups();
         StartMainMenu();
     }
 

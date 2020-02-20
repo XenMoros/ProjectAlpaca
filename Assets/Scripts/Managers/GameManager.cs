@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject interfaceManagerPrefab,levelManagerPrefab;
 
-    int ultimoNivel = 1;
     bool pause = true;
+
+    int currentLevel, lastLevel, maxLevel;
 
     //ScoreManager scoreManager;
 
@@ -25,30 +26,35 @@ public class GameManager : MonoBehaviour
         interfaceManager = Instantiate(interfaceManagerPrefab).GetComponent<InterfaceManager>();
         levelManager = Instantiate(levelManagerPrefab).GetComponent<LevelManager>();
         interfaceManager.Initialize();
+        lastLevel = 1;
+        currentLevel = 1;
+        maxLevel = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
     }
 
     private void Update()
     {
         if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1)
         {
-            if (Input.GetButtonDown("Start") && pause == false)
+            if (Input.GetButtonDown("Start"))
             {
-                pause = true;
+                pause = !pause;
                 levelManager.SetPause(pause);
-                interfaceManager.OpenPauseMenu();
-            }
-            else if (Input.GetButtonDown("Start"))
-            {
-                pause = false;
-                levelManager.SetPause(pause);
-                interfaceManager.ClosePauseMenu();
+                if (pause)
+                {
+                    interfaceManager.OpenPauseMenu();
+                }
+                else
+                {
+                    interfaceManager.ClosePauseMenu();
+                }
             }
         }
     }
 
     public void ContinueGame()
     {
-        StartCoroutine(CargarEscena(ultimoNivel)); 
+        currentLevel = lastLevel;
+        StartCoroutine(CargarEscena(currentLevel)); 
     }
 
     IEnumerator CargarEscena(int nivel)
@@ -75,7 +81,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator RescargarEscenaActiva(int nivel)
+    IEnumerator CargarOtraEscena(int nivel)
     {
         UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
 
@@ -90,7 +96,8 @@ public class GameManager : MonoBehaviour
     }
     public void NewGame()
     {
-        StartCoroutine(CargarEscena(1));
+        currentLevel = 1;
+        StartCoroutine(CargarEscena(currentLevel));
     }
 
     public void Continue()
@@ -102,16 +109,38 @@ public class GameManager : MonoBehaviour
 
     public void RestartCurrentLevel()
     {
+        StartCoroutine(CargarOtraEscena(currentLevel));
+    }
 
-        StartCoroutine(RescargarEscenaActiva(1));
-
+    public void CargarSiguienteNivel()
+    {
+        interfaceManager.LoadingGroup(true);
+        currentLevel++;
+        lastLevel = Mathf.Min(Mathf.Max(lastLevel, currentLevel), maxLevel);
+        
+        if (currentLevel > maxLevel)
+        {
+            currentLevel = 1;
+            StartCoroutine(DescargarEscenaActiva());
+            interfaceManager.StartMainMenu();
+        }
+        else
+        {
+            StartCoroutine(CargarOtraEscena(currentLevel));
+        }
 
     }
 
     public void ReturnToMain()
     {
-
         StartCoroutine(DescargarEscenaActiva());
-
     }
+
+    public void LoadLevel(int nivel)
+    {
+        currentLevel = nivel;
+        lastLevel = currentLevel;
+        StartCoroutine(CargarEscena(nivel));
+    }
+
 }

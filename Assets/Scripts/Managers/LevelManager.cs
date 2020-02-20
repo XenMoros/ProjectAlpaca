@@ -28,10 +28,8 @@ public class LevelManager : MonoBehaviour
     public void SetPause(bool state)
     {
         alpaca.SetPause(state);
-        //enemyManager.SetPause(state);
+        enemyManager.SetPause(state);
     }
-
-
 
     public Scene LoadLevel(int nivel)
     {
@@ -56,7 +54,6 @@ public class LevelManager : MonoBehaviour
         }
 
         OnFinishedLoadingAllScene(nivel);
-        
     }
 
     private void OnFinishedLoadingAllScene(int nivel)
@@ -87,8 +84,13 @@ public class LevelManager : MonoBehaviour
                     Debug.Log("Encontre la Alpaca");
                     alpaca = objeto.GetComponent<AlpacaMovement>();
                 }
+                else if(objeto.name == "Salida")
+                {
+                    Debug.Log("Encontre la Salida");
+                    objeto.GetComponent<SalidaNivel>().SetLevelManager(this);
+                }
             }
-            
+            enemyManager.LoadEnemies();
         }
     }
 
@@ -118,4 +120,8 @@ public class LevelManager : MonoBehaviour
         LoadLevel(1);
     }
 
+    public void LevelComplete()
+    {
+        gameManager.CargarSiguienteNivel();
+    }
 }
