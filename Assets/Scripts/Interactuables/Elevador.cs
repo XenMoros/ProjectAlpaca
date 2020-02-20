@@ -8,7 +8,8 @@ public class Elevador : MonoBehaviour, IActivable
     public GameObject activacionEnCadenaObj;
     public IActivable activacionEnCadena;
     public Transform finalPosition;
-    float speed = 500f;
+    Vector3 initialPosition;
+    public float speed;
     
 
     private void Start()
@@ -17,6 +18,8 @@ public class Elevador : MonoBehaviour, IActivable
         {
             activacionEnCadena = activacionEnCadenaObj.GetComponent<IActivable>();
         }
+
+        initialPosition = transform.position;
     }
 
     public void SetActivationState(bool activateState)
@@ -24,14 +27,13 @@ public class Elevador : MonoBehaviour, IActivable
         if (activateState)
         {
             //animator.SetBool("Activado", true)  
-            transform.position = Vector3.MoveTowards(transform.position, finalPosition.position, speed * Time.deltaTime);
-            //Debug.Log("lol");
+            StartCoroutine(Movimiento(finalPosition.position));
         }
 
         else
         {
             //animator.SetBool("Activado", false);
-            transform.position = Vector3.MoveTowards(finalPosition.position, transform.position, speed * Time.deltaTime);
+            StartCoroutine(Movimiento(initialPosition));
 
         }
 
@@ -39,5 +41,17 @@ public class Elevador : MonoBehaviour, IActivable
         {
             activacionEnCadena.SetActivationState(activateState);
         }
+    }
+
+    public IEnumerator Movimiento(Vector3 objetivo)
+    {
+
+        while (Vector3.Distance(objetivo, transform.position) > 0.5f)
+        {
+            transform.Translate((objetivo-transform.position).normalized * speed * Time.deltaTime);
+            yield return null;
+        }
+
+        transform.position = objetivo;
     }
 }

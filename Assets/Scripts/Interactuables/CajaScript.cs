@@ -5,13 +5,15 @@ public class CajaScript : MonoBehaviour
     // Variables publicas de control
     public float speed = 15; // Velocidad de movimiento de la caja
     public float tiempoMovimiento = 0.5f;
+    public LayerMask layerBoxCast;
 
     // Flags de estado
     private bool expanded = false; // Si el Collider esta expandido
-    private bool activateM = false; // Si la caja se mueve
+    public bool activateM = false; // Si la caja se mueve
 
     // Variables de RayCast para parar la caja
     private RaycastHit hit;
+    RaycastHit boxCastHit;
 
     // Objetos para controlar la expansion del Collider en caida 
     private Rigidbody cajaRB; // Rigidbody de la caja
@@ -36,28 +38,35 @@ public class CajaScript : MonoBehaviour
         timerMovimiento -= Time.deltaTime;
         // Prueba de mover la caja
         Movimiento();
-        
+
         // Si la caja esta cayendo, aumenta su hitbox de caida
-        if (cajaRB.velocity.y < -0.1 && !expanded)
+        /*if (cajaRB.velocity.y < -0.1 && !expanded)
         {
             cajaBC.size = new Vector3(2, 1, 2);
             expanded = true;
         }
         // Si la caja NO esta cayendo reset la escala del collider a tamaño de la caja
-        if (expanded && cajaRB.velocity.y >=0)
-        {            
+        if (expanded && cajaRB.velocity.y >= 0)
+        {
             cajaBC.size = new Vector3(1, 1, 1);
-            expanded = false;            
-        }
+            expanded = false;
+        }*/
+    }
 
-        
+    private void LateUpdate()
+    {
+        if (Physics.BoxCast(transform.position, new Vector3(1, 0.5f, 1), -transform.up, out boxCastHit, Quaternion.identity, 1f, layerBoxCast))
+        {
+            transform.position = new Vector3(transform.position.x, boxCastHit.point.y + 1f, transform.position.z);
+            cajaRB.velocity = Vector3.zero;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         // Si la caja es coceada
         if (collision.gameObject.CompareTag("Coz"))
-        {            
+        {
             // Calcula desde donde ha sido cozeada
             if (collision.contacts[0].normal.x != 0)
             {
@@ -91,7 +100,7 @@ public class CajaScript : MonoBehaviour
             // Calcula si la caja puede ser movida
             CalcularMovimiento();
             // Set el tiempo de movimiento de la caja
-            timerMovimiento = tiempoMovimiento;            
+            timerMovimiento = tiempoMovimiento;
         }
         // Si choca con las paredes, parar la caja
         else if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
@@ -147,7 +156,18 @@ public class CajaScript : MonoBehaviour
                     activateM = false;
                 }
             }
+            /*else if (hit.collider == null)
+            {
+                Debug.Log("lolaso");
+                activateM = true;
+            }*/
         }    
+    }
+
+    public void Agujero(Vector3 Hole)
+    {
+        transform.position = Hole + Vector3.up;
+        activateM = false;
     }
 }
 
