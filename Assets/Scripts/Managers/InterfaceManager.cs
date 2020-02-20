@@ -14,6 +14,8 @@ public class InterfaceManager : MonoBehaviour
     public CanvasGroup optionsManuGroup;
     public CanvasGroup levelSelectManuGroup;
 
+    public CanvasGroup loadingGroup;
+
     Selectable[] selectDefecto = new Selectable[4];
     public Selectable mainManuDefSelect;
     public Selectable mainManuDefSelect2;
@@ -26,8 +28,17 @@ public class InterfaceManager : MonoBehaviour
 
     public int grupoActivo, grupoAnterior=-1;
 
-    private void Initialize()
+    private void Update()
     {
+        if (Input.GetButtonDown("B"))
+        {
+            ReturnButton();
+        }
+    }
+    public void Initialize()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         grupos[0] = mainManuGroup;
         grupos[1] = pauseManuGroup;
         grupos[2] = optionsManuGroup;
@@ -38,16 +49,12 @@ public class InterfaceManager : MonoBehaviour
         selectDefecto[2] = optionsManuDefSelect;
         selectDefecto[3] = levelSelectManuDefSelect;
 
-        for (int i=0;i<4;i++)
-        {
-            ClooseGroup(i);
-        }
+        StartMainMenu();
     }
 
     public void StartMainMenu()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        Initialize();
+        CloseAllGroups();
         OpenGroup(0);
         grupoActivo = 0;
         grupoAnterior = -1;
@@ -57,6 +64,13 @@ public class InterfaceManager : MonoBehaviour
     {
         OpenGroup(1);
         grupoActivo = 1;
+        grupoAnterior = -1;
+    }
+
+    public void ClosePauseMenu()
+    {
+        CloseGroup(1);
+        grupoActivo = -1;
         grupoAnterior = -1;
     }
 
@@ -75,7 +89,16 @@ public class InterfaceManager : MonoBehaviour
 
     }
 
-    public void ClooseGroup(int indice)
+    public void CloseAllGroups()
+    {
+        for(int i = 0; i < grupos.Length; i++)
+        {
+            CloseGroup(i);
+        }
+
+    }
+
+    public void CloseGroup(int indice)
     {
         grupos[indice].alpha = 0;
         grupos[indice].interactable = false;
@@ -100,49 +123,76 @@ public class InterfaceManager : MonoBehaviour
 
     public void NewGameButton()
     {
-        ButtonSelect();
-        OpenGroup(1);
-        grupoAnterior = grupoActivo;
-        grupoActivo = 1;
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.NewGame();
     }
 
     public void ContinueGameButton()
     {
+        CloseAllGroups();
+        LoadingGroup(true);
         gameManager.ContinueGame();
     }
 
     public void ContinueButton()
     {
-        grupoAnterior = grupoActivo;
-        ClooseGroup(grupoActivo);
+
         gameManager.Continue();
     }
 
     public void ReturnButton()
     {
-        int intermedio;
-        OpenGroup(grupoAnterior);
-        ClooseGroup(grupoActivo);
-        
-        intermedio = grupoActivo;
-        grupoActivo = grupoAnterior;
-        grupoAnterior = intermedio;
+        if (grupoAnterior != -1)
+        {
 
+            int intermedio;
+            OpenGroup(grupoAnterior);
+            CloseGroup(grupoActivo);
+
+            intermedio = grupoActivo;
+            grupoActivo = grupoAnterior;
+            grupoAnterior = intermedio;
+        }
+    }
+
+    public void LoadingGroup(bool state)
+    {
+        if (state)
+        {
+            loadingGroup.alpha = 1;
+        }
+        else
+        {
+            loadingGroup.alpha = 0;
+        }
     }
 
     public void LevelButton(int level)
     {
-        //
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.LoadLevel(level);
     }
 
     public void RestartButton()
     {
-
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.RestartCurrentLevel();
     }
 
     public void ExitButton()
     {
         gameManager.ExitGame();
+    }
+
+    public void ReturnToMainButton()
+    {
+        LoadingGroup(true);
+        gameManager.ReturnToMain();
+        LoadingGroup(false); 
+        StartMainMenu();
     }
 
     internal void ButtonSelect()

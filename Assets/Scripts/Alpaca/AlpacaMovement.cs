@@ -43,10 +43,9 @@ public class AlpacaMovement : MonoBehaviour
     private bool botonSoltado;
     public LayerMask layerReposicionarSuelo;
 
-    public void Reset()
-    {
-        camara = Camera.main.transform;
-    }
+
+    //boleano de pause
+    bool pause = true, cambioPausa = false;
 
     void OnDrawGizmos()
     {
@@ -60,147 +59,154 @@ public class AlpacaMovement : MonoBehaviour
         Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward* (alpacaBoxCollider.size.z/2f+direccionMovimientoAnt.magnitude*Time.deltaTime*movimiento.speedMultiplier), alpacaBoxCollider.size*0.9f-Vector3.forward*alpacaBoxCollider.size.z*0.85f);
 
     }
+    void Start()
+    {
+        camara = Camera.main.transform;
+    }
 
     void Update()
     {
-        
-        // GET AXIS INFO
-        axisV = Mathf.Floor(+Input.GetAxis("LS_v") * 1000f) / 1000f;
-        axisH = Mathf.Floor(+Input.GetAxis("LS_h") * 1000f) / 1000f;
-
-        // if input is low, consider it zero
-        if (Mathf.Abs(axisV) < 0.05)
+        if (!pause)
         {
-            axisV = 0;
-        }
-        if (Mathf.Abs(axisH) < 0.05)
-        {
-            axisH = 0;
-        }
+            // GET AXIS INFO
+            axisV = Mathf.Floor(+Input.GetAxis("LS_v") * 1000f) / 1000f;
+            axisH = Mathf.Floor(+Input.GetAxis("LS_h") * 1000f) / 1000f;
 
-        // GET COORDINATES OF DESIRED MOVEMENT (targetDirection)
-        targetDirection = GetTargetDirection();
-
-        // Si no estas stuneada por ningun motivo
-        if (!cozeando && timerStunCaida > salto.stunCaida)
-        {
-
-            // Saltar al recibir input i no estar en el aire ni arrastrando
-            if (Input.GetButtonDown("A") && !onAir && !arrastrando)
+            // if input is low, consider it zero
+            if (Mathf.Abs(axisV) < 0.05)
             {
-                onAir = true;
-                faseMovimiento = FaseMovimiento.Subida;
-                velocidadVertical = salto.velocidadInicialSalto;
-                timerFasesSalto = -salto.minimoTiempoSalto;
-                timerBotonSalto = 0;
-                timerSlowMovementOnJump = 0;
-                botonSoltado = false;
+                axisV = 0;
             }
-            
-            if(Input.GetButtonUp("A") && faseMovimiento == FaseMovimiento.Subida)
+            if (Mathf.Abs(axisH) < 0.05)
             {
-                botonSoltado = true;
+                axisH = 0;
             }
 
-            CalculoSalto();
+            // GET COORDINATES OF DESIRED MOVEMENT (targetDirection)
+            targetDirection = GetTargetDirection();
 
-            // ONLY MODIFI DIRECTION IF AXIS IS != 0
-            if (axisV != 0 || axisH != 0)
+            // Si no estas stuneada por ningun motivo
+            if (!cozeando && timerStunCaida > salto.stunCaida)
             {
 
-                //Si no esta arrastrando, recolocar la alpaca
-                if (!arrastrando)
+                // Saltar al recibir input i no estar en el aire ni arrastrando
+                if (Input.GetButtonDown("A") && !onAir && !arrastrando)
                 {
-                    //Gira la alpaca hacia el movimiento deseado
-                    GirarAlpaca();
+                    onAir = true;
+                    faseMovimiento = FaseMovimiento.Subida;
+                    velocidadVertical = salto.velocidadInicialSalto;
+                    timerFasesSalto = -salto.minimoTiempoSalto;
+                    timerBotonSalto = 0;
+                    timerSlowMovementOnJump = 0;
+                    botonSoltado = false;
                 }
 
-                // Calcular direccion de movimiento en tierra
-                if (!onAir)
+                if (Input.GetButtonUp("A") && faseMovimiento == FaseMovimiento.Subida)
                 {
-                    //Si no arrastras, la direccion es acia alante
+                    botonSoltado = true;
+                }
+
+                CalculoSalto();
+
+                // ONLY MODIFI DIRECTION IF AXIS IS != 0
+                if (axisV != 0 || axisH != 0)
+                {
+
+                    //Si no esta arrastrando, recolocar la alpaca
                     if (!arrastrando)
                     {
-                        direccionMovimiento = transform.forward;
-                        direccionMovimiento *= targetDirection.magnitude;
-                        if (direccionMovimiento.magnitude > 0.35f)
-                        {
-                            faseMovimiento = FaseMovimiento.Correr;
-                        }
-                        else
-                        {
-                            faseMovimiento = FaseMovimiento.Andar;
-                        }
+                        //Gira la alpaca hacia el movimiento deseado
+                        GirarAlpaca();
                     }
-                    else //Si esta arrastrando siempre anda hacia atras
-                    {
-                        direccionMovimiento = -transform.forward;
 
-                        if (Vector3.Dot(targetDirection, -transform.forward) > 0)
+                    // Calcular direccion de movimiento en tierra
+                    if (!onAir)
+                    {
+                        //Si no arrastras, la direccion es acia alante
+                        if (!arrastrando)
                         {
-                            direccionMovimiento *= targetDirection.magnitude * Vector3.Dot(targetDirection, -transform.forward) / movimiento.slowArrastre;
+                            direccionMovimiento = transform.forward;
+                            direccionMovimiento *= targetDirection.magnitude;
+                            if (direccionMovimiento.magnitude > 0.35f)
+                            {
+                                faseMovimiento = FaseMovimiento.Correr;
+                            }
+                            else
+                            {
+                                faseMovimiento = FaseMovimiento.Andar;
+                            }
                         }
-                        else
+                        else //Si esta arrastrando siempre anda hacia atras
                         {
-                            direccionMovimiento *= 0;
+                            direccionMovimiento = -transform.forward;
+
+                            if (Vector3.Dot(targetDirection, -transform.forward) > 0)
+                            {
+                                direccionMovimiento *= targetDirection.magnitude * Vector3.Dot(targetDirection, -transform.forward) / movimiento.slowArrastre;
+                            }
+                            else
+                            {
+                                direccionMovimiento *= 0;
+                            }
+                            faseMovimiento = FaseMovimiento.Arrastrar;
                         }
-                        faseMovimiento = FaseMovimiento.Arrastrar;
                     }
+                    else //En el aire la direccion es la anterior mas una modificacion segun input
+                    {
+
+                        direccionMovimiento = direccionMovimientoAnt * 0.998f + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
+                        if (direccionMovimiento.magnitude > direccionMovimientoAnt.magnitude * salto.maximaAcelAire)
+                        {
+                            if (direccionMovimientoAnt.magnitude > 0.1)
+                            {
+                                escaladoMovimientoEnAire = (direccionMovimientoAnt.magnitude * salto.maximaAcelAire) / direccionMovimiento.magnitude;
+                            }
+                            else
+                            {
+                                escaladoMovimientoEnAire = 1 / salto.maximaAcelAire;
+                            }
+                            direccionMovimiento.Scale(new Vector3(escaladoMovimientoEnAire, escaladoMovimientoEnAire, escaladoMovimientoEnAire));
+                        }
+                    }
+
                 }
-                else //En el aire la direccion es la anterior mas una modificacion segun input
+                else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
                 {
-
-                    direccionMovimiento = direccionMovimientoAnt*0.998f + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
-                    if (direccionMovimiento.magnitude > direccionMovimientoAnt.magnitude * salto.maximaAcelAire)
-                    {
-                        if (direccionMovimientoAnt.magnitude > 0.1) 
-                        {
-                           escaladoMovimientoEnAire  = (direccionMovimientoAnt.magnitude * salto.maximaAcelAire) / direccionMovimiento.magnitude;
-                        }
-                        else
-                        {
-                            escaladoMovimientoEnAire = 1 / salto.maximaAcelAire;
-                        }
-                        direccionMovimiento.Scale(new Vector3(escaladoMovimientoEnAire, escaladoMovimientoEnAire, escaladoMovimientoEnAire));
-                    }
+                    faseMovimiento = FaseMovimiento.Idle;
+                    direccionMovimiento = Vector3.zero;
                 }
 
+                // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
+                //quitando dicha componente del movimiento
+                if (Physics.BoxCast(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size / 2 * 0.9f - Vector3.forward * alpacaBoxCollider.size.z / 2 * 0.6f, direccionMovimiento.normalized, out hitInfo, transform.rotation, alpacaBoxCollider.size.z / 2))
+                {
+                    Vector3 proyeccion = Vector3.Project(direccionMovimiento, hitInfo.normal);
+                    direccionMovimiento -= proyeccion;
+                }
+
+                //Mover la alpaca
+                if (timerSlowMovementOnJump < salto.slowMovementOnJump)
+                {
+                    direccionMovimiento *= Mathf.Max(1 - salto.reduccionVelocidadSalto * Time.deltaTime, 0);
+
+                    timerSlowMovementOnJump += Time.deltaTime;
+                }
+                transform.Translate((movimiento.speedMultiplier * direccionMovimiento + Vector3.up * velocidadVertical) * Time.deltaTime, Space.World);
+                direccionMovimientoAnt = direccionMovimiento;
             }
-            else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
+            else //Si estas en stun el movimiento es zero
             {
-                faseMovimiento = FaseMovimiento.Idle;
-                direccionMovimiento = Vector3.zero;
+                direccionMovimientoAnt = Vector3.zero;
             }
 
-            // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
-            //quitando dicha componente del movimiento
-            if (Physics.BoxCast(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size / 2 * 0.9f - Vector3.forward * alpacaBoxCollider.size.z / 2 * 0.6f, direccionMovimiento.normalized,out hitInfo, transform.rotation, alpacaBoxCollider.size.z/2))
-            { 
-                Vector3 proyeccion = Vector3.Project(direccionMovimiento, hitInfo.normal);
-                direccionMovimiento -= proyeccion;
-            }
-
-            //Mover la alpaca
-            if (timerSlowMovementOnJump < salto.slowMovementOnJump)
+            if (timerStunCaida < salto.stunCaida)
             {
-                direccionMovimiento *= Mathf.Max(1- salto.reduccionVelocidadSalto *Time.deltaTime,0);
-
-                timerSlowMovementOnJump +=Time.deltaTime;
+                timerStunCaida += Time.deltaTime;
             }
-            transform.Translate((movimiento.speedMultiplier * direccionMovimiento + Vector3.up * velocidadVertical) * Time.deltaTime , Space.World );
-            direccionMovimientoAnt = direccionMovimiento;
+            GestorAnimacion();
         }
-        else //Si estas en stun el movimiento es zero
-        {
-            direccionMovimientoAnt = Vector3.zero;
-        }
-
-        if (timerStunCaida < salto.stunCaida)
-        {
-            timerStunCaida += Time.deltaTime;
-        }
-        GestorAnimacion();
     }
+
 
    private void LateUpdate()
     {
@@ -220,6 +226,12 @@ public class AlpacaMovement : MonoBehaviour
                     //GirarVerticalAlpaca(hitInfo.normal);
                 }
                 break;
+        }
+
+        if (cambioPausa)
+        {
+            cambioPausa = false;
+            pause = !pause;
         }
     }
 
@@ -330,15 +342,6 @@ public class AlpacaMovement : MonoBehaviour
         transform.forward = newForward;
     }
 
-    private void GirarVerticalAlpaca(Vector3 normal)
-    {
-        float angle;
-
-        angle = Mathf.Acos(Vector3.Dot(transform.up, normal));
-
-        transform.Rotate(transform.forward, -angle,Space.Self);
-    }
-
     // Recepcion de input i determinar la direccion del mismo segun la camara
     private Vector3 GetTargetDirection()
     {
@@ -356,7 +359,10 @@ public class AlpacaMovement : MonoBehaviour
 
     public void SetPause(bool state)
     {
-        Debug.Log("Pausaaaaa!");
+        if (state != pause)
+        {
+            cambioPausa = true;
+        }
     }
 }
 
