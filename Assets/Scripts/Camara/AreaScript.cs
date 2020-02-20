@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class AreaScript : MonoBehaviour
 {
     public Cinemachine.CinemachineFreeLook camara;

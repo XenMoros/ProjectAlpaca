@@ -55,6 +55,7 @@ public class GuardiaMovement : Enemy
                 SetObjective(objective);
                 guardiaAnimator.SetBool("Relax", false);
                 guardiaAnimator.SetBool("AlpacaVista", true);
+                guardiaAnimator.SetBool("GuardiaPara", false);
             
             }
 
@@ -77,7 +78,8 @@ public class GuardiaMovement : Enemy
                         {
                             transform.rotation = initialRotation;
                             guardiaAnimator.SetBool("Caminar", false);
-                            guardiaAnimator.SetBool("Relax", true);                            
+                            guardiaAnimator.SetBool("Relax", true);
+                            guardiaAnimator.SetBool("AlpacaVista", false);
                         }
 
                     }
