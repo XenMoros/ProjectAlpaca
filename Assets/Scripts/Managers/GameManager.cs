@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    interfaceManager.ClosePauseMenu();
+                    interfaceManager.CloseAllGroups();
                 }
             }
         }
@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
     {
         pause = false;
         levelManager.SetPause(pause);
-        interfaceManager.ClosePauseMenu();
     }
 
     public void RestartCurrentLevel()

@@ -23,10 +23,12 @@ public class InterfaceManager : MonoBehaviour
     public Selectable optionsManuDefSelect;
     public Selectable levelSelectManuDefSelect;
 
+    public Stack<int> historialGrupos = new Stack<int>();
+    public Stack<Selectable> historialBotones = new Stack<Selectable>();
 
     public Selectable lastSelection;
 
-    public int grupoActivo, grupoAnterior=-1;
+    public int grupoActual;
 
     private void Update()
     {
@@ -34,6 +36,7 @@ public class InterfaceManager : MonoBehaviour
         {
             ReturnButton();
         }
+
     }
     public void Initialize()
     {
@@ -50,43 +53,33 @@ public class InterfaceManager : MonoBehaviour
         selectDefecto[3] = levelSelectManuDefSelect;
 
         StartMainMenu();
+        historialGrupos.Push(-1);
     }
 
     public void StartMainMenu()
     {
+        grupoActual = 0;
         CloseAllGroups();
-        OpenGroup(0);
-        grupoActivo = 0;
-        grupoAnterior = -1;
+        OpenGroup(grupoActual);
+        
     }
 
     public void OpenPauseMenu()
     {
-        OpenGroup(1);
-        grupoActivo = 1;
-        grupoAnterior = -1;
+        grupoActual = 1;
+        OpenGroup(grupoActual);
     }
 
     public void ClosePauseMenu()
     {
-        CloseGroup(1);
-        grupoActivo = -1;
-        grupoAnterior = -1;
+        CloseGroup(grupoActual);
     }
 
     public void OpenGroup(int indice)
     {
         grupos[indice].alpha = 1;
         grupos[indice].interactable = true;
-        if (indice == grupoAnterior)
-        {
-            lastSelection.Select();
-        }
-        else
-        {
-            selectDefecto[indice].Select();
-        }
-
+        selectDefecto[grupoActual].Select();
     }
 
     public void CloseAllGroups()
@@ -95,29 +88,35 @@ public class InterfaceManager : MonoBehaviour
         {
             CloseGroup(i);
         }
-
+        historialGrupos.Clear();
+        historialGrupos.Push(-1);
+        historialBotones.Clear();
     }
 
     public void CloseGroup(int indice)
     {
         grupos[indice].alpha = 0;
         grupos[indice].interactable = false;
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void LevelSelectButton()
     {
+        historialGrupos.Push(grupoActual);
         ButtonSelect();
-        OpenGroup(3);
-        grupoAnterior = grupoActivo;
-        grupoActivo = 3;
+
+        grupoActual = 3;
+        OpenGroup(grupoActual);
+
     }
 
     public void OptionsButton()
     {
+        historialGrupos.Push(grupoActual);
         ButtonSelect();
-        OpenGroup(2);
-        grupoAnterior = grupoActivo;
-        grupoActivo = 2;
+
+        grupoActual = 2;
+        OpenGroup(grupoActual);
 
     }
 
@@ -137,22 +136,30 @@ public class InterfaceManager : MonoBehaviour
 
     public void ContinueButton()
     {
-
+        ClosePauseMenu();
         gameManager.Continue();
     }
 
     public void ReturnButton()
     {
-        if (grupoAnterior != -1)
+        if (historialGrupos.Peek() != -1)
         {
-
-            int intermedio;
-            OpenGroup(grupoAnterior);
-            CloseGroup(grupoActivo);
-
-            intermedio = grupoActivo;
-            grupoActivo = grupoAnterior;
-            grupoAnterior = intermedio;
+            CloseGroup(grupoActual);
+            grupoActual = historialGrupos.Pop();
+            OpenGroup(grupoActual);
+            if (historialBotones.Count != 0)
+            {
+                Debug.Log("Boton" + historialBotones.Peek().name);
+                historialBotones.Pop().Select();
+            }
+            else
+            {
+                Debug.Log("Sin botones??");
+            }
+        }
+        else if(grupoActual == 1)
+        {
+            ClosePauseMenu();
         }
     }
 
@@ -189,15 +196,13 @@ public class InterfaceManager : MonoBehaviour
 
     public void ReturnToMainButton()
     {
-        LoadingGroup(true);
         gameManager.ReturnToMain();
-        LoadingGroup(false); 
         StartMainMenu();
     }
 
-    internal void ButtonSelect()
+    public void ButtonSelect()
     {
-        lastSelection = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
+        historialBotones.Push(EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>());
     }
 
 

@@ -17,7 +17,6 @@ public class LevelManager : MonoBehaviour
 
 
     private void Start()
-
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         enemyManager = Instantiate(enemyManagerPrefab).GetComponent<EnemyManager>();
