@@ -7,8 +7,9 @@ public class Elevador : MonoBehaviour, IActivable
     //public Animator animator;
     public GameObject activacionEnCadenaObj;
     public IActivable activacionEnCadena;
-    public Transform finalPosition;
-    Vector3 initialPosition;
+    public List<Transform> objetivos =  new List<Transform>();
+    int objetivoActual= 0;
+    bool activada = false;
     public float speed;
     
 
@@ -18,22 +19,41 @@ public class Elevador : MonoBehaviour, IActivable
         {
             activacionEnCadena = activacionEnCadenaObj.GetComponent<IActivable>();
         }
+    }
 
-        initialPosition = transform.position;
+    private void Update()
+    {
+        if (Vector3.Distance(transform.position, objetivos[objetivoActual].position) > 0.2f)
+        {
+            transform.Translate((objetivos[objetivoActual].position - transform.position).normalized * speed * Time.deltaTime);
+        }
+        else if((Vector3.Distance(transform.position, objetivos[objetivoActual].position) <= 0.2f))
+        {
+            transform.position = objetivos[objetivoActual].position;
+
+            if (objetivoActual < (objetivos.Count - 1) && activada)
+            {
+                objetivoActual++;
+            }
+            if(objetivoActual > 0 && !activada)
+            {
+                objetivoActual--;
+            }
+        }
     }
 
     public void SetActivationState(bool activateState)
     {
         if (activateState)
         {
-            //animator.SetBool("Activado", true)  
-            StartCoroutine(Movimiento(finalPosition.position));
+            objetivoActual++;
+            activada = true;
         }
 
         else
         {
-            //animator.SetBool("Activado", false);
-            StartCoroutine(Movimiento(initialPosition));
+            objetivoActual--;
+            activada = false;
 
         }
 
@@ -41,17 +61,5 @@ public class Elevador : MonoBehaviour, IActivable
         {
             activacionEnCadena.SetActivationState(activateState);
         }
-    }
-
-    public IEnumerator Movimiento(Vector3 objetivo)
-    {
-
-        while (Vector3.Distance(objetivo, transform.position) > 0.5f)
-        {
-            transform.Translate((objetivo-transform.position).normalized * speed * Time.deltaTime);
-            yield return null;
-        }
-
-        transform.position = objetivo;
     }
 }

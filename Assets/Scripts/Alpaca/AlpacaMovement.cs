@@ -108,7 +108,7 @@ public class AlpacaMovement : MonoBehaviour
             if (axisV != 0 || axisH != 0)
             {
 
-                alpacaAnimator.SetBool("Moviendose", true);
+                //alpacaAnimator.SetBool("Moviendose", true);
 
                 //Si no esta arrastrando, recolocar la alpaca
                 if (!arrastrando)
@@ -172,7 +172,7 @@ public class AlpacaMovement : MonoBehaviour
             {
                 faseMovimiento = FaseMovimiento.Idle;
                 direccionMovimiento = Vector3.zero;
-                alpacaAnimator.SetBool("Moviendose", false);
+                //alpacaAnimator.SetBool("Moviendose", false);
             }
 
             // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
