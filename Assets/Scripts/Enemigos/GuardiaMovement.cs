@@ -10,6 +10,7 @@ public class GuardiaMovement : Enemy
     public Animator guardiaAnimator;
     public WaypointManager waypointManager;
     public AnimationEventGuardia AEGuardia;
+    EnemyManager enemyManager;
 
     // Variables publicas de movimiento
     public float fieldOfView; // Campo de vision del guardia
@@ -24,6 +25,7 @@ public class GuardiaMovement : Enemy
     // Variables de movimiento
     private Vector3 objective; // Objetivo
     private Vector3 lastPosition; // Posicion inicial
+    private Quaternion lastRotation;
     private Quaternion initialRotation; // Rotacion inicial
     private float timerEnEstado;
     private float tiempoEnEstado; // Tiempo que el guardia esta cegado
@@ -36,58 +38,9 @@ public class GuardiaMovement : Enemy
     
     private void Start()
     {
-        // Captura de condiciones iniciales de transform 
-        //initialPosition = transform.position;
-        //initialRotation = transform.rotation;
-
-        //animationEvent.time = pararseGuardia.length;
         estado = Estado.Idle;
         estabaPatrullando = false;
     }
-
-    /*private void Update()
-    {
-        // Si esta cegado
-        if (cegacion)
-        {         
-            agente.isStopped = true;
-        }
-        // Si no esta cegado
-        else
-        {
-            agente.isStopped = false;
-
-            //Intenta buscar objetivo
-            if (BuscarObjetivo())
-            {
-                // Si encuentra un objetivo (te ve o oye) marca dicha posicion como nuevo objetivo
-                SetObjective(objective);
-            
-            }
-
-            // Si ha acabado de investigar o te pierde, vuelve a su posicion original
-            if (!agente.pathPending)
-            {              
-                if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
-                {                    
-                    if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
-                    {
-
-                        // Si esta lejos de su posicion original, marca como objetivo la misma
-                        if (Vector3.Distance(agente.destination, initialPosition) > distanciaVolverPosicion)
-                        {                            
-                        }
-                        // Si ya ha llegado a su posicion original simplemente vuelve a mirar hacia donde miraba al principio
-                        else
-                        {
-                            transform.rotation = initialRotation;
-                        }
-
-                    }
-                }
-            }
-        }
-    }*/
     private void LateUpdate()
     {
         if (estadoSiguiente != estado && estadoSiguiente != Estado.SinCambios)
@@ -124,6 +77,7 @@ public class GuardiaMovement : Enemy
                 if(estadoSiguiente != Estado.Patrullando && estadoSiguiente != Estado.Idle)
                 {
                     lastPosition = transform.position;
+                    lastRotation = transform.rotation;
                 }                
             }
 
@@ -160,39 +114,27 @@ public class GuardiaMovement : Enemy
 
     private void Update()
     {
-        Debug.Log(estado);
-        Debug.Log(estadoSiguiente);
-        Debug.Log(timerEnEstado);
-        Debug.Log(tiempoEnEstado);
-        Debug.Log(agente.hasPath);
-        Debug.Log(agente.velocity.sqrMagnitude);
-
         timerEnEstado += Time.deltaTime;
 
         switch (estado)
         {
             case Estado.Idle:
-                //guardiaAnimator.SetBool("Idle", true);
 
                 if (BuscarObjetivo())
                 {
-                    //guardiaAnimator.SetBool("Idle", false);
                     CambiarEstado(Estado.Perseguir);
                 }
                 else if (timerEnEstado > tiempoEnEstado && waypointManager.waypointList.Count > 1)
                 {
-                    //guardiaAnimator.SetBool("Idle", false);
                     waypointManager.AvanzarWaypoint();
                     objective = waypointManager.RetornarWaypoint().RetornarPosition();
                     CambiarEstado(Estado.Patrullando);
                 }
                 break;
             case Estado.Patrullando:
-                //guardiaAnimator.SetBool("Caminar", true);
 
                 if (BuscarObjetivo())
                 {
-                    //guardiaAnimator.SetBool("Caminar", false);
 
                     CambiarEstado(Estado.Perseguir);
                 }
@@ -204,7 +146,6 @@ public class GuardiaMovement : Enemy
                         {
                             if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
                             {
-                                //guardiaAnimator.SetBool("Caminar", false);
 
                                 CambiarEstado(Estado.Idle);
                             }
@@ -219,20 +160,17 @@ public class GuardiaMovement : Enemy
                 }
                 break;
             case Estado.Perseguir:
-                //guardiaAnimator.SetBool("Perseguir", true);
 
                 if (BuscarObjetivo())
                 {
                     SetObjective(objective);
                 }
-                // Si ha acabado de investigar o te pierde, vuelve a su posicion original
                 else if (!agente.pathPending)
                 {
                     if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
                     {
                         if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
                         {
-                            //guardiaAnimator.SetBool("Perseguir", false);
                             CambiarEstado(Estado.Buscando);
                         }
                     }
@@ -242,7 +180,6 @@ public class GuardiaMovement : Enemy
                 
                 break;
             case Estado.Volviendo:
-                //guardiaAnimator.SetBool("Caminar", true);
 
                 if (BuscarObjetivo())
                 {
@@ -261,6 +198,7 @@ public class GuardiaMovement : Enemy
                             }
                             else
                             {
+                                transform.rotation = lastRotation;
                                 CambiarEstado(Estado.Idle);
                             }
                             
@@ -269,14 +207,9 @@ public class GuardiaMovement : Enemy
                 }
                 break;
             case Estado.Investigar:
-                /*guardiaAnimator.SetBool("Caminar", true);
-                guardiaAnimator.SetBool("Perseguir", false);
-                guardiaAnimator.SetBool("Idle", false);
-                guardiaAnimator.SetBool("Buscando", false);*/
 
                 if (BuscarObjetivo())
                 {
-                    //guardiaAnimator.SetBool("Caminar", false);
                     CambiarEstado(Estado.Perseguir);
                 }
                 else if (!agente.pathPending)
@@ -285,17 +218,14 @@ public class GuardiaMovement : Enemy
                     {
                         if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
                         {
-                            //guardiaAnimator.SetBool("Caminar", false);
                             CambiarEstado(Estado.Buscando);
                         }
                     }
                 }
                 break;
             case Estado.Buscando:
-                //guardiaAnimator.SetBool("Buscando", true);
                 if (BuscarObjetivo())
                 {
-                    //guardiaAnimator.SetBool("Buscando", false);
                     CambiarEstado(Estado.Perseguir);
                 }
                 break;
@@ -406,7 +336,7 @@ public class GuardiaMovement : Enemy
         if (collision.gameObject.CompareTag("Player"))
         {
             //gameManager.Reload();
-            Debug.Log("Moriste");
+            
         }
         // En caso de chocar con una caja que le caiga desde Arriba, el Agente muere
         if (collision.gameObject.CompareTag("Caja"))
