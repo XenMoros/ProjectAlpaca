@@ -7,13 +7,13 @@ public class AnimationEventGuardia : MonoBehaviour
 
     public GuardiaMovement guardiaMovement;
 
-    public void PararGuardia()
+    public void FinalBuscar()
     {
-        guardiaMovement.AnimationEvent();
+        guardiaMovement.FinalBuscar();
     }
 
-    public void SalirEscupitajo()
+    public void FinalAturdido()
     {
-        guardiaMovement.QuitarseEscupitajos();
+        guardiaMovement.FinalAturdido();
     }
 }

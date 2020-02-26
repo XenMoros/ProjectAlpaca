@@ -28,7 +28,7 @@ public class WaypointManager : MonoBehaviour
         }
         else
         {
-            if (waypointActual > waypointList.Count)
+            if (waypointActual >= waypointList.Count)
             {
                 waypointActual = 0;
             }

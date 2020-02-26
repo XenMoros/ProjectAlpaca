@@ -28,6 +28,7 @@ public class GuardiaMovement : Enemy
     private float timerEnEstado;
     private float tiempoEnEstado; // Tiempo que el guardia esta cegado
     public float correrSpeed, andarSpeed;
+    bool estabaPatrullando;
 
     internal enum Estado {SinCambios ,Idle, Patrullando, Volviendo, Buscando, Investigar, Perseguir, Aturdido};
 
@@ -41,6 +42,7 @@ public class GuardiaMovement : Enemy
 
         //animationEvent.time = pararseGuardia.length;
         estado = Estado.Idle;
+        estabaPatrullando = false;
     }
 
     /*private void Update()
@@ -90,15 +92,39 @@ public class GuardiaMovement : Enemy
     {
         if (estadoSiguiente != estado && estadoSiguiente != Estado.SinCambios)
         {
-            if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle)
+            if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle || estadoSiguiente == Estado.Buscando)
             {
                 agente.isStopped = true;
 
-                tiempoEnEstado = 5;
+                if (estadoSiguiente == Estado.Idle)
+                {
+                    tiempoEnEstado = waypointManager.RetornarWaypoint().RetornarTiempo();
+                }
+                else
+                {
+                    tiempoEnEstado = 5f;
+                }
             }
-            else if (estado == Estado.Aturdido || estado == Estado.Idle)
+            else if (estado == Estado.Aturdido || estado == Estado.Idle || estado == Estado.Buscando)
             {
                 agente.isStopped = false;
+            }
+
+            if (estado == Estado.Idle || estado == Estado.Patrullando)
+            {
+                if (estado == Estado.Patrullando)
+                {
+                    estabaPatrullando = true;
+                }
+                else
+                {
+                    estabaPatrullando = false;
+                }
+
+                if(estadoSiguiente != Estado.Patrullando && estadoSiguiente != Estado.Idle)
+                {
+                    lastPosition = transform.position;
+                }                
             }
 
             if (estadoSiguiente == Estado.Perseguir || estadoSiguiente == Estado.Investigar || estadoSiguiente == Estado.Patrullando || estadoSiguiente == Estado.Volviendo)
@@ -106,8 +132,7 @@ public class GuardiaMovement : Enemy
                 SetObjective(objective);
 
                 if (estadoSiguiente == Estado.Perseguir)
-                {
-                    lastPosition = waypointManager.RetornarWaypoint().RetornarPosition();
+                {                    
                     agente.speed = correrSpeed;
                 }
                 else
@@ -124,6 +149,8 @@ public class GuardiaMovement : Enemy
 
             estado = estadoSiguiente;
             estadoSiguiente = Estado.SinCambios;
+
+            ControlDeAnimaciones();
 
             timerEnEstado = 0f;
 
@@ -145,27 +172,27 @@ public class GuardiaMovement : Enemy
         switch (estado)
         {
             case Estado.Idle:
-                guardiaAnimator.SetBool("Idle", true);
+                //guardiaAnimator.SetBool("Idle", true);
 
                 if (BuscarObjetivo())
                 {
-                    guardiaAnimator.SetBool("Idle", false);
+                    //guardiaAnimator.SetBool("Idle", false);
                     CambiarEstado(Estado.Perseguir);
                 }
                 else if (timerEnEstado > tiempoEnEstado && waypointManager.waypointList.Count > 1)
                 {
-                    guardiaAnimator.SetBool("Idle", false);
+                    //guardiaAnimator.SetBool("Idle", false);
                     waypointManager.AvanzarWaypoint();
                     objective = waypointManager.RetornarWaypoint().RetornarPosition();
                     CambiarEstado(Estado.Patrullando);
                 }
                 break;
             case Estado.Patrullando:
-                guardiaAnimator.SetBool("Caminar", true);
+                //guardiaAnimator.SetBool("Caminar", true);
 
                 if (BuscarObjetivo())
                 {
-                    guardiaAnimator.SetBool("Caminar", false);
+                    //guardiaAnimator.SetBool("Caminar", false);
 
                     CambiarEstado(Estado.Perseguir);
                 }
@@ -173,11 +200,11 @@ public class GuardiaMovement : Enemy
                 {
                     if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
                     {
-                        if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
+                        if (!agente.hasPath || agente.velocity.sqrMagnitude <= 0.2f)
                         {
                             if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
                             {
-                                guardiaAnimator.SetBool("Caminar", false);
+                                //guardiaAnimator.SetBool("Caminar", false);
 
                                 CambiarEstado(Estado.Idle);
                             }
@@ -192,7 +219,7 @@ public class GuardiaMovement : Enemy
                 }
                 break;
             case Estado.Perseguir:
-                guardiaAnimator.SetBool("Perseguir", true);
+                //guardiaAnimator.SetBool("Perseguir", true);
 
                 if (BuscarObjetivo())
                 {
@@ -205,37 +232,20 @@ public class GuardiaMovement : Enemy
                     {
                         if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
                         {
-                            guardiaAnimator.SetBool("Perseguir", false);
+                            //guardiaAnimator.SetBool("Perseguir", false);
                             CambiarEstado(Estado.Buscando);
                         }
                     }
                 }
                 break;
             case Estado.Aturdido:
-                guardiaAnimator.SetTrigger("Aturdido");
-                guardiaAnimator.SetBool("Caminar", false);
-                guardiaAnimator.SetBool("Perseguir", false);
-                guardiaAnimator.SetBool("Idle", false);
-                guardiaAnimator.SetBool("Buscando", false);
-
-                if (timerEnEstado > tiempoEnEstado)
-                {                    
-                    if (BuscarObjetivo())
-                    {                        
-                        CambiarEstado(Estado.Perseguir);
-                    }
-                    else
-                    {
-                        CambiarEstado(Estado.Buscando);
-                    }
-                }
+                
                 break;
             case Estado.Volviendo:
-                guardiaAnimator.SetBool("Caminar", true);
+                //guardiaAnimator.SetBool("Caminar", true);
 
                 if (BuscarObjetivo())
                 {
-                    guardiaAnimator.SetBool("Caminar", false);
                     CambiarEstado(Estado.Perseguir);
                 }
                 else if (!agente.pathPending)
@@ -244,21 +254,29 @@ public class GuardiaMovement : Enemy
                     {
                         if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
                         {
-                            guardiaAnimator.SetBool("Caminar", false);
-                            CambiarEstado(Estado.Idle);
+                            if(estabaPatrullando)
+                            {
+                                objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                                CambiarEstado(Estado.Patrullando);
+                            }
+                            else
+                            {
+                                CambiarEstado(Estado.Idle);
+                            }
+                            
                         }
                     }
                 }
                 break;
             case Estado.Investigar:
-                guardiaAnimator.SetBool("Caminar", true);
+                /*guardiaAnimator.SetBool("Caminar", true);
                 guardiaAnimator.SetBool("Perseguir", false);
                 guardiaAnimator.SetBool("Idle", false);
-                guardiaAnimator.SetBool("Buscando", false);
+                guardiaAnimator.SetBool("Buscando", false);*/
 
                 if (BuscarObjetivo())
                 {
-                    guardiaAnimator.SetBool("Caminar", false);
+                    //guardiaAnimator.SetBool("Caminar", false);
                     CambiarEstado(Estado.Perseguir);
                 }
                 else if (!agente.pathPending)
@@ -267,23 +285,18 @@ public class GuardiaMovement : Enemy
                     {
                         if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
                         {
-                            guardiaAnimator.SetBool("Caminar", false);
+                            //guardiaAnimator.SetBool("Caminar", false);
                             CambiarEstado(Estado.Buscando);
                         }
                     }
                 }
                 break;
             case Estado.Buscando:
-                guardiaAnimator.SetBool("Buscando", true);
+                //guardiaAnimator.SetBool("Buscando", true);
                 if (BuscarObjetivo())
                 {
-                    guardiaAnimator.SetBool("Buscando", false);
+                    //guardiaAnimator.SetBool("Buscando", false);
                     CambiarEstado(Estado.Perseguir);
-                }
-                if (timerEnEstado > tiempoEnEstado)
-                {
-                    guardiaAnimator.SetBool("Buscando", false);
-                    CambiarEstado(Estado.Volviendo);
                 }
                 break;
 
@@ -300,17 +313,24 @@ public class GuardiaMovement : Enemy
         agente.destination = position;
     }
 
-    public void AnimationEvent()
+    public void FinalBuscar()
     {
-        //CambiarEstado(Estado.Volviendo);
+        CambiarEstado(Estado.Volviendo);
     }
 
-    public void QuitarseEscupitajos()
+    public void FinalAturdido()
     {
-        cegacion = false;
+        if (BuscarObjetivo())
+        {
+            CambiarEstado(Estado.Perseguir);
+        }
+        else
+        {
+            CambiarEstado(Estado.Buscando);
+        }
     }
 
-    internal void CambiarEstado(Estado estadoPropuesto)
+        internal void CambiarEstado(Estado estadoPropuesto)
     {
         if ((int)estadoPropuesto > (int)estadoSiguiente)
         {
@@ -322,6 +342,31 @@ public class GuardiaMovement : Enemy
     {
         CambiarEstado(Estado.Investigar);
         objective = origen;
+    }
+
+    void ControlDeAnimaciones()
+    {
+        switch(estado)
+        {
+            case Estado.Aturdido:
+                guardiaAnimator.SetTrigger("Aturdido");
+                break;
+            case Estado.Perseguir:
+                guardiaAnimator.SetTrigger("Perseguir");
+                break;
+            case Estado.Patrullando:
+            case Estado.Investigar:
+            case Estado.Volviendo:
+                guardiaAnimator.SetTrigger("Caminar");
+                break;
+            case Estado.Buscando:
+                guardiaAnimator.SetTrigger("Buscando");
+                break;
+            case Estado.Idle:
+                guardiaAnimator.SetTrigger("Idle");
+                break;
+
+        }
     }
 
 
