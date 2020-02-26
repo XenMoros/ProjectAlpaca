@@ -22,7 +22,7 @@ public class AlpacaMovement : MonoBehaviour
     internal bool onAir = false, cozeando = false, arrastrando = false;
 
     // Timers de control de sucesos
-    private float timerSlowMovementOnJump = 9, timerStunCaida=9;
+    private float timerSlowMovementOnJump = 9, timerStunCaida = 9;
     private float timerFasesSalto = 999f, timerBotonSalto = 999f;
 
     // Direcciones de movimiento
@@ -36,10 +36,10 @@ public class AlpacaMovement : MonoBehaviour
     private float escaladoMovimientoEnAire;
 
     // Propiedades del Salto
-    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar};
+    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar };
     internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle;
 
-    internal float velocidadVertical,velocidadEntradaFaseFrenado;
+    internal float velocidadVertical, velocidadEntradaFaseFrenado;
     private bool botonSoltado;
     public LayerMask layerReposicionarSuelo;
 
@@ -52,11 +52,11 @@ public class AlpacaMovement : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position - transform.up * 0.1f, Vector3.one * 0.2f);
         Gizmos.DrawWireCube(transform.position + transform.up * (1.73f + 0.1f), Vector3.one * 0.2f);
-        Gizmos.DrawWireCube(transform.position, Vector3.right*0.8f+Vector3.forward*0.5f+Vector3.up*0.3f);
+        Gizmos.DrawWireCube(transform.position, Vector3.right * 0.8f + Vector3.forward * 0.5f + Vector3.up * 0.3f);
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
-        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward* (alpacaBoxCollider.size.z/2f+direccionMovimientoAnt.magnitude*Time.deltaTime*movimiento.speedMultiplier), alpacaBoxCollider.size*0.9f-Vector3.forward*alpacaBoxCollider.size.z*0.85f);
+        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward * (alpacaBoxCollider.size.z / 2f + direccionMovimientoAnt.magnitude * Time.deltaTime * movimiento.speedMultiplier), alpacaBoxCollider.size * 0.9f - Vector3.forward * alpacaBoxCollider.size.z * 0.85f);
 
     }
     void Start()
@@ -89,10 +89,8 @@ public class AlpacaMovement : MonoBehaviour
             if (!cozeando && timerStunCaida > salto.stunCaida)
             {
 
-                //alpacaAnimator.SetBool("Moviendose", true);
-
-                //Si no esta arrastrando, recolocar la alpaca
-                if (!arrastrando)
+                // Saltar al recibir input i no estar en el aire ni arrastrando
+                if (Input.GetButtonDown("A") && !onAir && !arrastrando)
                 {
                     onAir = true;
                     faseMovimiento = FaseMovimiento.Subida;
@@ -198,9 +196,7 @@ public class AlpacaMovement : MonoBehaviour
             }
             else //Si estas en stun el movimiento es zero
             {
-                faseMovimiento = FaseMovimiento.Idle;
-                direccionMovimiento = Vector3.zero;
-                //alpacaAnimator.SetBool("Moviendose", false);
+                direccionMovimientoAnt = Vector3.zero;
             }
 
             if (timerStunCaida < salto.stunCaida)
@@ -212,15 +208,15 @@ public class AlpacaMovement : MonoBehaviour
     }
 
 
-   private void LateUpdate()
+    private void LateUpdate()
     {
         switch (faseMovimiento)
         {
             case FaseMovimiento.Subida:
-                
+
                 break;
             case FaseMovimiento.Caida:
-                
+
                 break;
             default:
                 if (Physics.BoxCast(transform.position + transform.up * 0.4f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.6f, layerReposicionarSuelo))
@@ -245,7 +241,7 @@ public class AlpacaMovement : MonoBehaviour
         switch (faseMovimiento)
         {
             case FaseMovimiento.Subida:
-                if (Physics.BoxCast(transform.position+transform.up*1.73f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, transform.up, out hitInfo, transform.rotation, 0.1f, layerReposicionarSuelo))
+                if (Physics.BoxCast(transform.position + transform.up * 1.73f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, transform.up, out hitInfo, transform.rotation, 0.1f, layerReposicionarSuelo))
                 {
                     //transform.position = new Vector3(hitInfo.point;
                     faseMovimiento = FaseMovimiento.Caida;
@@ -273,7 +269,7 @@ public class AlpacaMovement : MonoBehaviour
             case FaseMovimiento.Caida:
                 if (Physics.BoxCast(transform.position + transform.up * 0.3f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.3f, layerReposicionarSuelo))
                 {
-                    transform.position = new Vector3(transform.position.x,hitInfo.point.y,transform.position.z);
+                    transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
                     faseMovimiento = FaseMovimiento.Idle;
                     onAir = false;
                     velocidadVertical = 0;
@@ -282,7 +278,7 @@ public class AlpacaMovement : MonoBehaviour
                 else
                 {
                     velocidadVertical = salto.velocidadInicialSalto * CalculoFormula(timerFasesSalto, salto.minimoTiempoSalto);
-                    if (velocidadVertical < - salto.velocidadTerminalCaida)
+                    if (velocidadVertical < -salto.velocidadTerminalCaida)
                     {
                         velocidadVertical = -salto.velocidadTerminalCaida;
                     }
@@ -307,7 +303,7 @@ public class AlpacaMovement : MonoBehaviour
 
     private void GestorAnimacion()
     {
-        if(faseMovimientoAnt!= faseMovimiento)
+        if (faseMovimientoAnt != faseMovimiento)
         {
             alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
             alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
@@ -316,12 +312,12 @@ public class AlpacaMovement : MonoBehaviour
         faseMovimientoAnt = faseMovimiento;
 
     }
-    private float CalculoFormula(float tiempo,float margen)
+    private float CalculoFormula(float tiempo, float margen)
     {
         float result;
         float div = tiempo / margen;
 
-        result = (-1) * (Mathf.Sign(div) * Mathf.Pow((Mathf.Abs(div)), 1/salto.coeficienteRaiz));
+        result = (-1) * (Mathf.Sign(div) * Mathf.Pow((Mathf.Abs(div)), 1 / salto.coeficienteRaiz));
 
         return result;
     }
@@ -354,7 +350,7 @@ public class AlpacaMovement : MonoBehaviour
         Vector3 camaraPerpendicular = new Vector3(-camaraDirection.z, 0, camaraDirection.x);
         return (camaraDirection * axisDirection.x - camaraPerpendicular * axisDirection.y);
     }
-    
+
     // Funcion publica para marcar la dimension de arrastre desde otros actores
     public void SetArrastre(bool arrastre)
     {
