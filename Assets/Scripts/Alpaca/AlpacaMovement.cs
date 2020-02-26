@@ -89,8 +89,10 @@ public class AlpacaMovement : MonoBehaviour
             if (!cozeando && timerStunCaida > salto.stunCaida)
             {
 
-                // Saltar al recibir input i no estar en el aire ni arrastrando
-                if (Input.GetButtonDown("A") && !onAir && !arrastrando)
+                //alpacaAnimator.SetBool("Moviendose", true);
+
+                //Si no esta arrastrando, recolocar la alpaca
+                if (!arrastrando)
                 {
                     onAir = true;
                     faseMovimiento = FaseMovimiento.Subida;
@@ -196,7 +198,9 @@ public class AlpacaMovement : MonoBehaviour
             }
             else //Si estas en stun el movimiento es zero
             {
-                direccionMovimientoAnt = Vector3.zero;
+                faseMovimiento = FaseMovimiento.Idle;
+                direccionMovimiento = Vector3.zero;
+                //alpacaAnimator.SetBool("Moviendose", false);
             }
 
             if (timerStunCaida < salto.stunCaida)
