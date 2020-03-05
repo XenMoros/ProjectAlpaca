@@ -9,12 +9,6 @@ public class CozScript : MonoBehaviour
     // GameObject de la Coz
     public GameObject coz;
 
-    // Variables de control de la coz
-    public float tiempoCozeo = 0.2f;
-
-    // Timers de control
-    float timerCozeo = 0;
-
     public void Reset()
     {
         alpacaMovement = GetComponent<AlpacaMovement>();
@@ -30,30 +24,22 @@ public class CozScript : MonoBehaviour
 
     void Update()
     {
-        if(timerCozeo > 0) 
-        { 
-            timerCozeo -= Time.deltaTime;
-        }
         // Mirar las acciones de la coz
-        CozActivate();
+        if (Input.GetButtonDown("B") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
+            || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo))
+        {
+            alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
+        }
     }
 
-    void CozActivate()
+    public void ActivarColliderCoz()
     {
-        // Al pulsar la tecla, activar el coceo, parar la Alpaca y empezar el timer
-        if (Input.GetButtonDown("B") && !(alpacaMovement.faseMovimiento==AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida))
-        {
-            alpacaMovement.cozeando = true;
+        coz.SetActive(true);
+    }
 
-            coz.SetActive(true);
-            timerCozeo = tiempoCozeo;
-        }
-        //Si no hemos pulsado y se acaba el tiempo, desactivar el coceo y destrabar la Alpaca
-        else if (timerCozeo <= 0)
-        {
-            coz.SetActive(false);
-            alpacaMovement.cozeando = false;
-        }
-
+    public void TerminarCozeo() 
+    {
+        coz.SetActive(false);
+        alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
     }
 }
