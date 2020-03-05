@@ -19,7 +19,7 @@ public class AlpacaMovement : MonoBehaviour
     Vector3 axisDirection;
 
     // Flags de situacion de movimiento
-    internal bool onAir = false, cozeando = false, arrastrando = false;
+    internal bool onAir = false, arrastrando = false;
 
     // Timers de control de sucesos
     private float timerSlowMovementOnJump = 9, timerStunCaida = 9;
@@ -36,7 +36,7 @@ public class AlpacaMovement : MonoBehaviour
     private float escaladoMovimientoEnAire;
 
     // Propiedades del Salto
-    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar };
+    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar, Cozeo };
     internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle;
 
     internal float velocidadVertical, velocidadEntradaFaseFrenado;
@@ -86,7 +86,7 @@ public class AlpacaMovement : MonoBehaviour
             targetDirection = GetTargetDirection();
 
             // Si no estas stuneada por ningun motivo
-            if (!cozeando && timerStunCaida > salto.stunCaida)
+            if (faseMovimiento!= FaseMovimiento.Cozeo && timerStunCaida > salto.stunCaida)
             {
 
                 // Saltar al recibir input i no estar en el aire ni arrastrando
@@ -305,8 +305,20 @@ public class AlpacaMovement : MonoBehaviour
     {
         if (faseMovimientoAnt != faseMovimiento)
         {
-            alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
-            alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+            if (faseMovimiento == FaseMovimiento.Cozeo)
+            {
+                alpacaAnimator.SetTrigger(faseMovimiento.ToString());
+                alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+            }
+            else if(faseMovimientoAnt != FaseMovimiento.Cozeo)
+            {
+                alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+                alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+            }
+            else
+            {
+                alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+            }
         }
 
         faseMovimientoAnt = faseMovimiento;

@@ -8,9 +8,10 @@ public class EscupitajoAction : MonoBehaviour
     public EscupitajoScript escupitajoPrefab; // Prefab de los escupitajos
     public Transform cabeza; // Cabeza de la alpca
     public Transform recamara; // Posicion de la Recamara
+    public Animator alpacaAnimator;
 
     // Variables publicas de control
-    [Range(0.1f,10)]public float tiempoEntreDisparos = 1f;
+    [Range(0.1f,10)]public float tiempoEntreDisparos = 2f;
     [Range(1,10)]public int numeroDisparos = 3;
     public bool autoapuntado = true;
 
@@ -44,12 +45,15 @@ public class EscupitajoAction : MonoBehaviour
         // Intenta escupir
         if (Input.GetAxis("RT") == 1 && timerEntreDisparos <= 0)
         {
-            Escupir();
+            //Escupir();
+            alpacaAnimator.SetTrigger("Escupitajo");
+            timerEntreDisparos = tiempoEntreDisparos; // Empieza a contar el tiempo de enfriamiento
         }
     }
 
-    void Escupir()
+    public void Escupir()
     {
+        Debug.Log("Miau");
         if (autoapuntado)
         {
             // Genera una lista de todos los objetos de tipo "Camara Lens, Guardia o BotonPared" que esten en el box de autoapuntado
@@ -74,7 +78,6 @@ public class EscupitajoAction : MonoBehaviour
         // Ordena a la bala que toca que dispare en la direccion calculada
         escupitajos[nBala].Escupir(direccion.normalized,cabeza.position);
         nBala += 1; // Recarga a la siguiente bala
-        timerEntreDisparos = tiempoEntreDisparos; // Empieza a contar el tiempo de enfriamiento
 
         // Si llegas al final de la lista de balas, vuelve a empezar
         if (nBala > (escupitajos.Count - 1))
