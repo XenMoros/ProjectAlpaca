@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3447278217043472625}
   - component: {fileID: 3447278217043472638}
   - component: {fileID: 3447278217043472626}
-  - component: {fileID: 7361259164078682762}
   - component: {fileID: 9093594402553193385}
+  - component: {fileID: 4490072501990482850}
   m_Layer: 11
   m_Name: Caja
   m_TagString: Caja
@@ -111,22 +111,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
---- !u!208 &7361259164078682762
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3447278217043472639}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!114 &9093594402553193385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +125,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   tiempoMovimiento: 0.5
+  layerBoxCast:
+    serializedVersion: 2
+    m_Bits: 0
+  activateM: 0
+--- !u!114 &4490072501990482850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3447278217043472639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183748dd497aa473a98ff0cd8cb67fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  uniqueID: 6534550875302636646
+  updateError: 1
+  checkTime: 0.2
 --- !u!1 &3856319387372273133
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class Elevador : MonoBehaviour, IActivable
     public IActivable activacionEnCadena;
     public List<Transform> objetivos =  new List<Transform>();
     int objetivoActual= 0;
-    bool activada = false;
+    public bool activada = false;
     public float speed;
     
 
