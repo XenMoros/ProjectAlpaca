@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Pathfinding;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class GuardiaMovement : Enemy
@@ -6,7 +7,8 @@ public class GuardiaMovement : Enemy
     // Elementos precacheados desde inspector
     //public EntradaYSalidaGM gameManager; // Esto será en un futuro un EnemyManager
     public Transform player; // Alpaca
-    public NavMeshAgent agente; // El pathfinding del agente
+    //public NavMeshAgent agente; // El pathfinding del agente
+    public IAstarAI agent;
     public Animator guardiaAnimator;
     public WaypointManager waypointManager;
     public AnimationEventGuardia AEGuardia;
@@ -40,6 +42,7 @@ public class GuardiaMovement : Enemy
     {
         estado = Estado.Idle;
         estabaPatrullando = false;
+        agent = GetComponent<IAstarAI>();
     }
     private void LateUpdate()
     {
@@ -47,7 +50,9 @@ public class GuardiaMovement : Enemy
         {
             if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle || estadoSiguiente == Estado.Buscando)
             {
-                agente.isStopped = true;
+                //agente.isStopped = true;
+                agent.canMove = false;
+                agent.canSearch = false;
 
                 if (estadoSiguiente == Estado.Idle)
                 {
@@ -60,7 +65,10 @@ public class GuardiaMovement : Enemy
             }
             else if (estado == Estado.Aturdido || estado == Estado.Idle || estado == Estado.Buscando)
             {
-                agente.isStopped = false;
+                //agente.isStopped = false;
+                agent.canMove = true;
+                agent.canSearch = true;
+                
             }
 
             if (estado == Estado.Idle || estado == Estado.Patrullando)
@@ -86,16 +94,14 @@ public class GuardiaMovement : Enemy
                 SetObjective(objective);
 
                 if (estadoSiguiente == Estado.Perseguir)
-                {                    
-                    agente.speed = correrSpeed;
+                {
+                    //agente.speed = correrSpeed;
+                    agent.maxSpeed = correrSpeed;
                 }
                 else
                 {
-                    agente.speed = andarSpeed;
-                }
-                if(estadoSiguiente== Estado.Volviendo)
-                {
-                    SetObjective(lastPosition);
+                    //agente.speed = andarSpeed;
+                    agent.maxSpeed = andarSpeed;
                 }
                 
             }
@@ -138,33 +144,53 @@ public class GuardiaMovement : Enemy
 
                     CambiarEstado(Estado.Perseguir);
                 }
-                else if (!agente.pathPending)
+                else if (agent.reachedEndOfPath && !agent.pathPending)
                 {
-                    if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
+                    if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
                     {
-                        if (!agente.hasPath || agente.velocity.sqrMagnitude <= 0.2f)
-                        {
-                            if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
-                            {
 
-                                CambiarEstado(Estado.Idle);
-                            }
-                            else
-                            {
-                                waypointManager.AvanzarWaypoint();
-                                objective = waypointManager.RetornarWaypoint().RetornarPosition();
-                                SetObjective(objective);
-                            }
-                        }
+                        CambiarEstado(Estado.Idle);
+                    }
+                    else
+                    {
+                        waypointManager.AvanzarWaypoint();
+                        objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                        SetObjective(objective);
                     }
                 }
-                break;
+
+                    /*else if (!agente.pathPending)
+                    {
+                        if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
+                        {
+                            if (!agente.hasPath || agente.velocity.sqrMagnitude <= 0.2f)
+                            {
+                                if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
+                                {
+
+                                    CambiarEstado(Estado.Idle);
+                                }
+                                else
+                                {
+                                    waypointManager.AvanzarWaypoint();
+                                    objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                                    SetObjective(objective);
+                                }
+                            }
+                        }
+                    }*/
+
+                    break;
             case Estado.Perseguir:
 
                 if (BuscarObjetivo())
                 {
                     SetObjective(objective);
                 }
+                else if (agent.reachedEndOfPath && !agent.pathPending)
+                {
+                    CambiarEstado(Estado.Buscando);
+                }/*
                 else if (!agente.pathPending)
                 {
                     if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
@@ -174,7 +200,7 @@ public class GuardiaMovement : Enemy
                             CambiarEstado(Estado.Buscando);
                         }
                     }
-                }
+                }*/
                 break;
             case Estado.Aturdido:
                 
@@ -185,6 +211,19 @@ public class GuardiaMovement : Enemy
                 {
                     CambiarEstado(Estado.Perseguir);
                 }
+                else if (agent.reachedEndOfPath && !agent.pathPending)
+                {
+                    if (estabaPatrullando)
+                    {
+                        objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                        CambiarEstado(Estado.Patrullando);
+                    }
+                    else
+                    {
+                        transform.rotation = lastRotation;
+                        CambiarEstado(Estado.Idle);
+                    }
+                }/*
                 else if (!agente.pathPending)
                 {
                     if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
@@ -204,7 +243,7 @@ public class GuardiaMovement : Enemy
                             
                         }
                     }
-                }
+                }*/
                 break;
             case Estado.Investigar:
 
@@ -212,6 +251,10 @@ public class GuardiaMovement : Enemy
                 {
                     CambiarEstado(Estado.Perseguir);
                 }
+                else if (agent.reachedEndOfPath && !agent.pathPending)
+                {
+                    CambiarEstado(Estado.Buscando);
+                }/*
                 else if (!agente.pathPending)
                 {
                     if (agente.remainingDistance <= (agente.stoppingDistance + 2))
@@ -221,7 +264,7 @@ public class GuardiaMovement : Enemy
                             CambiarEstado(Estado.Buscando);
                         }
                     }
-                }
+                }*/
                 break;
             case Estado.Buscando:
                 if (BuscarObjetivo())
@@ -239,13 +282,16 @@ public class GuardiaMovement : Enemy
 
     // Marca la posicion position como objetivo del agente
     public void SetObjective(Vector3 position)
-    {        
-        agente.destination = position;
+    {
+        //agente.destination = position;
+        agent.destination = position;
+        agent.SearchPath();
     }
 
     public void FinalBuscar()
     {
         CambiarEstado(Estado.Volviendo);
+        SetObjective(lastPosition);
     }
 
     public void FinalAturdido()
