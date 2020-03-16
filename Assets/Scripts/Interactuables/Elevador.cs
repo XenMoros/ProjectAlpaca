@@ -7,8 +7,9 @@ public class Elevador : MonoBehaviour, IActivable
     //public Animator animator;
     public GameObject activacionEnCadenaObj;
     public IActivable activacionEnCadena;
-    public List<Transform> objetivos =  new List<Transform>();
-    int objetivoActual= 0;
+    //public List<Transform> objetivos =  new List<Transform>();
+    public WaypointManager waypointManager;
+    //int objetivoActual= 0;
     public bool activada = false;
     public float speed;
     
@@ -23,39 +24,35 @@ public class Elevador : MonoBehaviour, IActivable
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, objetivos[objetivoActual].position) > 0.2f)
-        {
-            transform.Translate((objetivos[objetivoActual].position - transform.position).normalized * speed * Time.deltaTime);
-        }
-        else if((Vector3.Distance(transform.position, objetivos[objetivoActual].position) <= 0.2f))
-        {
-            transform.position = objetivos[objetivoActual].position;
 
-            if (objetivoActual < (objetivos.Count - 1) && activada)
+        if (Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 0.2f)
+        {
+            transform.Translate((waypointManager.RetornarWaypoint().RetornarPosition() - transform.position).normalized * speed * Time.deltaTime,Space.World);
+        }
+        else
+        {
+            transform.position = waypointManager.RetornarWaypoint().RetornarPosition();
+            if (activada)
             {
-                objetivoActual++;
+                if (waypointManager.waypointActual < waypointManager.waypointList.Count-1)
+                {
+                    waypointManager.AvanzarWaypoint();
+                }
             }
-            if(objetivoActual > 0 && !activada)
+            else
             {
-                objetivoActual--;
+                if (waypointManager.waypointActual > 0)
+                {
+                    waypointManager.RetrocederWaypoint();
+                }
             }
         }
     }
 
     public void SetActivationState(bool activateState)
     {
-        if (activateState)
-        {
-            objetivoActual++;
-            activada = true;
-        }
 
-        else
-        {
-            objetivoActual--;
-            activada = false;
-
-        }
+        activada = activateState;
 
         if (activacionEnCadena != null)
         {
