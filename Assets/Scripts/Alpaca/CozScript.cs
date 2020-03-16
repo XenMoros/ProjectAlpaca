@@ -24,11 +24,14 @@ public class CozScript : MonoBehaviour
 
     void Update()
     {
-        // Mirar las acciones de la coz
-        if (Input.GetButtonDown("B") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
-            || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo))
+        if (!alpacaMovement.pause)
         {
-            alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
+            // Mirar las acciones de la coz
+            if (Input.GetButtonDown("B") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
+                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo))
+            {
+                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
+            }
         }
     }
 

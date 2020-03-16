@@ -6,6 +6,8 @@ public class AlpacaSound : MonoBehaviour
     public AudioManager audioControll; // Controlador de Audio
     public AudioSource audioSource; // AudioSource de la Alpaca
 
+    public float hearDistance = 4;
+
     void Update()
     {
         if (Input.GetButtonDown("Y"))
@@ -16,7 +18,7 @@ public class AlpacaSound : MonoBehaviour
 
             //Ademas alertamos a todos los guardias de donde se ha berreado, en un radio de 100 unidades
 
-            Collider[] possibleEnemiesWhoHeardMe = Physics.OverlapSphere(transform.position, 100, LayerMask.GetMask("Guardia"));
+            Collider[] possibleEnemiesWhoHeardMe = Physics.OverlapSphere(transform.position, hearDistance, LayerMask.GetMask("Guardia"));
             foreach (Collider enemy in possibleEnemiesWhoHeardMe)
             {
                 enemy.GetComponent<GuardiaMovement>().GuardiaEscucha(transform.position);

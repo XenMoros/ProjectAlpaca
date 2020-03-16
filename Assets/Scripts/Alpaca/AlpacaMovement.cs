@@ -45,7 +45,8 @@ public class AlpacaMovement : MonoBehaviour
 
 
     //boleano de pause
-    bool pause = true, cambioPausa = false;
+    internal bool pause { get; set; } = true;
+    bool cambioPausa = false;
 
     void OnDrawGizmos()
     {
