@@ -117,7 +117,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4046606455050137480}
-  - component: {fileID: 5152351075508482034}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -140,25 +139,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &5152351075508482034
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4046606455050135668}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4046606455174111632
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,12 +276,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759ea00c42b300e41b7a1c8c93fceff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionScript: {fileID: 813553908239592106}
   alerta: 0
-  animator: {fileID: 5152351075508482034}
   cameraLight: {fileID: 4046606455174111632}
-  generalCamera: {fileID: 4046606455050137480}
+  generalCamera: {fileID: 749823243485099740}
   player: {fileID: 0}
+  waypointManager: {fileID: 0}
+  rotationSpeed: 20
+  maxAnglePerSecond: 30
+  tiempoMuerte: 5
 --- !u!1001 &749823243485228120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -377,7 +359,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e26a8dfdfa51f484584f37ebfc3c7068, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 6deb62cd8772fd54e86bcd1d77b1d31d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6deb62cd8772fd54e86bcd1d77b1d31d, type: 3}
 --- !u!4 &749823243485099738 stripped
 Transform:
