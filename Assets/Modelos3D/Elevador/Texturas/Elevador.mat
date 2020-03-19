@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColorMap:
-        m_Texture: {fileID: 2800000, guid: 8ff2572c33b2d334ba8fbeb46397ba5c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 47efd00be5addaa41a6aff3160ecf75c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 16ed8cf4948407d43b27f1393007400d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7ec51cd09d673024c9c9115ea8ce77e0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CoatMaskMap:
@@ -89,19 +89,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8ff2572c33b2d334ba8fbeb46397ba5c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 47efd00be5addaa41a6aff3160ecf75c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 2800000, guid: 5d4e35e7969958d4aafff4b6fbfd1359, type: 3}
+        m_Texture: {fileID: 2800000, guid: e0985289faeab2d4c9ff90b4d0615ba9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 1a5b975f6fcd8ce4792c67a92d78383b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4030b2b23cea5d64e9363a45ba3d6854, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 16ed8cf4948407d43b27f1393007400d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7ec51cd09d673024c9c9115ea8ce77e0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
@@ -231,7 +231,7 @@ Material:
     - _ShiverDrag: 0.2
     - _Smoothness: 0.5
     - _SmoothnessRemapMax: 0.528
-    - _SmoothnessRemapMin: 0
+    - _SmoothnessRemapMin: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
