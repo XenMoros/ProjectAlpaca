@@ -6,6 +6,7 @@ public static class StaticManager
     [Range(-5,5)] public static sbyte brightness = 0;
     [Range(0.2f, 10)] public static float sensibility = 1;
     public static bool axisV = false, axisH = false;
+    public static bool pause = true;
     
     public static void ChangeAxisV()
     {
@@ -24,5 +25,14 @@ public static class StaticManager
     public static void ChangeBrightness(int bright)
     {
         brightness = (sbyte) bright;
+    }
+
+    public static void SetPause(bool newState)
+    {
+        if(newState != pause)
+        {
+            pause = newState;
+        }
+
     }
 }

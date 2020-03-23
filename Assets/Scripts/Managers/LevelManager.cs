@@ -24,10 +24,11 @@ public class LevelManager : MonoBehaviour
         enemyManager.SetLevelManager(this);
     }
 
-    public void SetPause(bool state)
+    public void SetPause()
     {
-        alpaca.SetPause(state);
-        enemyManager.SetPause(state);
+
+        alpaca.SetPause();
+        //enemyManager.SetPause(state);
     }
 
     public Scene LoadLevel(int nivel)
