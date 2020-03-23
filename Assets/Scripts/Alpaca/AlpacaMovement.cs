@@ -370,9 +370,9 @@ public class AlpacaMovement : MonoBehaviour
         arrastrando = arrastre;
     }
 
-    public void SetPause(bool state)
+    public void SetPause()
     {
-        if (state != pause)
+        if (StaticManager.pause != pause)
         {
             cambioPausa = true;
         }

@@ -10,8 +10,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject interfaceManagerPrefab,levelManagerPrefab;
 
-    bool pause = true;
-
     int currentLevel, lastLevel, maxLevel;
 
     //ScoreManager scoreManager;
@@ -37,9 +35,9 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetButtonDown("Start"))
             {
-                pause = !pause;
-                levelManager.SetPause(pause);
-                if (pause)
+                StaticManager.pause = !StaticManager.pause;
+                levelManager.SetPause();
+                if (StaticManager.pause)
                 {
                     interfaceManager.OpenPauseMenu();
                 }
@@ -66,8 +64,8 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        pause = false;
-        levelManager.SetPause(pause);
+        StaticManager.pause = false;
+        levelManager.SetPause();
         interfaceManager.LoadingGroup(false);
     }
 
@@ -102,8 +100,8 @@ public class GameManager : MonoBehaviour
 
     public void Continue()
     {
-        pause = false;
-        levelManager.SetPause(pause);
+        StaticManager.pause = false;
+        levelManager.SetPause();
     }
 
     public void RestartCurrentLevel()
