@@ -16,7 +16,7 @@ public class InterfaceManager : MonoBehaviour
 
     public CanvasGroup loadingGroup;
 
-    Selectable[] selectDefecto = new Selectable[4];
+    public Selectable[] selectDefecto = new Selectable[4];
     public Selectable mainManuDefSelect;
     public Selectable mainManuDefSelect2;
     public Selectable pauseManuDefSelect;
