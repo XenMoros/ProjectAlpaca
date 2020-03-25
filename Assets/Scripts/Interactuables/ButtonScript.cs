@@ -7,7 +7,8 @@ public class ButtonScript : MonoBehaviour
     public GameObject activableObj; // Objeto enlazado a activar por el boton
 
     // Valores de control del proceso
-    public float timer = 6; // Tiempo de activacion del objeto enlazado
+    public float tiempoActivacion = 5f;
+    public float timerActivacion = 6f; // Tiempo de activacion del objeto enlazado
 
     // Interfaz IActivable del objeto asociado
     private IActivable activateObj;
@@ -31,8 +32,8 @@ public class ButtonScript : MonoBehaviour
         if (other.gameObject.CompareTag("Coz") || other.gameObject.CompareTag("Escupitajo"))
         {
             // Iniciar la cuenta atras, activar la animacion del boton i activar el objeto asociado
-            timer = 0;
-            buttonAnimator.SetTrigger("ActivateButton");
+            timerActivacion = 0;
+            buttonAnimator.SetTrigger("Pushed");
             activateObj.SetActivationState(true);
         }
     }
@@ -41,12 +42,12 @@ public class ButtonScript : MonoBehaviour
     void ManageTimer()
     {
         // Suma tiempo mientras este activo
-        if (timer <= 5)
+        if (timerActivacion <= tiempoActivacion)
         {
-            timer += Time.deltaTime;
+            timerActivacion += Time.deltaTime;
 
             // Si al sumar ha acabado el tiempo, desactiva el objeto asociado
-            if (timer > 5)
+            if (timerActivacion > tiempoActivacion)
             {
                 activateObj.SetActivationState(false);
             }

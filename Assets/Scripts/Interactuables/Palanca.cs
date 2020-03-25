@@ -9,8 +9,6 @@ public class Palanca : MonoBehaviour
 
     // Interfaz Iactivable del objeto a activar
     IActivable activateObj;
-
-
     private void Start()
     {
         // Asignacion de la interfaz IActivable correspodiente
@@ -20,17 +18,10 @@ public class Palanca : MonoBehaviour
     // En activar la palanca, empezar la animacion y activar el objeto asociado
     public void ActivatePalanca()
     {
-        palancaAnimator.SetTrigger("Activation");
-
-        if (palancaState)
-        {
-            activateObj.SetActivationState(false);
-        }
-        else
-        {
-            activateObj.SetActivationState(true);
-        }
 
         palancaState = !palancaState;
+        activateObj.SetActivationState(palancaState);
+        palancaAnimator.SetBool("Activada", palancaState);
+
     }
 }
