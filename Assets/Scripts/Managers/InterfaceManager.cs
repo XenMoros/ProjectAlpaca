@@ -16,7 +16,7 @@ public class InterfaceManager : MonoBehaviour
 
     public CanvasGroup loadingGroup;
 
-    Selectable[] selectDefecto = new Selectable[4];
+    public Selectable[] selectDefecto = new Selectable[4];
     public Selectable mainManuDefSelect;
     public Selectable mainManuDefSelect2;
     public Selectable pauseManuDefSelect;
@@ -107,7 +107,6 @@ public class InterfaceManager : MonoBehaviour
 
         grupoActual = 3;
         OpenGroup(grupoActual);
-
     }
 
     public void OptionsButton()
