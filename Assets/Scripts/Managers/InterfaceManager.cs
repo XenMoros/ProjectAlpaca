@@ -107,7 +107,6 @@ public class InterfaceManager : MonoBehaviour
 
         grupoActual = 3;
         OpenGroup(grupoActual);
-
     }
 
     public void OptionsButton()

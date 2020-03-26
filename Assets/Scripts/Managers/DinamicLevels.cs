@@ -14,17 +14,18 @@ public class DinamicLevels : MonoBehaviour
     public Button prefabButton;
     public Transform content;
     public Button returnButton;
+    public int numNiveles;
 
 
     void Start()
     {
-        int numNiveles = EditorBuildSettings.scenes.Length;
+        numNiveles = EditorBuildSettings.scenes.Length - 1;
         RectTransform contentRT = content.GetComponent<RectTransform>();
 
         contentRT.anchorMin = new Vector2(0, 1);
         contentRT.anchorMax = new Vector2(1, 1);
 
-        contentRT.offsetMax = new Vector2(0, numNiveles * 75);
+        contentRT.offsetMin = new Vector2(0, numNiveles * -75);
 
         Navigation botonN = new Navigation();
         botonN.mode = Navigation.Mode.Explicit;
@@ -42,9 +43,9 @@ public class DinamicLevels : MonoBehaviour
             botonRT.offsetMax = Vector2.zero;
             botonRT.offsetMin = Vector2.zero;
             
-            niveles[i].onClick.AddListener(() => interfaceManager.LevelButton(j));
+            niveles[i].onClick.AddListener(() => interfaceManager.LevelButton(j + 1));
 
-            niveles[i].GetComponentInChildren<TextMeshProUGUI>().text = "Level " + i;
+            niveles[i].GetComponentInChildren<TextMeshProUGUI>().text = "Level " + (i + 1);
         }
 
         interfaceManager.selectDefecto[3] = niveles[0];
@@ -56,7 +57,7 @@ public class DinamicLevels : MonoBehaviour
             if (i == 0)
             {
                 botonN.selectOnDown = niveles[j + 1];
-                botonN.selectOnUp = null;
+                botonN.selectOnUp = returnButton;
             }
             else if (i == numNiveles - 1)
             {
@@ -72,7 +73,7 @@ public class DinamicLevels : MonoBehaviour
             niveles[i].navigation = botonN;
         }
         botonN.selectOnUp = niveles[numNiveles - 1];
-        botonN.selectOnDown = null;
+        botonN.selectOnDown = niveles[0];
 
         returnButton.navigation = botonN;
     }
