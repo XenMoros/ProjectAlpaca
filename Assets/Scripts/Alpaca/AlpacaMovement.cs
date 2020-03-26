@@ -244,7 +244,6 @@ public class AlpacaMovement : MonoBehaviour
             case FaseMovimiento.Subida:
                 if (Physics.BoxCast(transform.position + transform.up * 1.73f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, transform.up, out hitInfo, transform.rotation, 0.1f, layerReposicionarSuelo))
                 {
-                    //transform.position = new Vector3(hitInfo.point;
                     faseMovimiento = FaseMovimiento.Caida;
                     velocidadVertical = 0;
                 }
