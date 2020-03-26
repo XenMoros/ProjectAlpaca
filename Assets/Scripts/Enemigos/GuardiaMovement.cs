@@ -7,7 +7,6 @@ public class GuardiaMovement : Enemy
     // Elementos precacheados desde inspector
     //public EntradaYSalidaGM gameManager; // Esto será en un futuro un EnemyManager
     public Transform player; // Alpaca
-    //public NavMeshAgent agente; // El pathfinding del agente
     public IAstarAI agent;
     public Animator guardiaAnimator;
     public WaypointManager waypointManager;
@@ -50,7 +49,6 @@ public class GuardiaMovement : Enemy
         {
             if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle || estadoSiguiente == Estado.Buscando)
             {
-                //agente.isStopped = true;
                 agent.canMove = false;
                 agent.canSearch = false;
 
@@ -65,10 +63,8 @@ public class GuardiaMovement : Enemy
             }
             else if (estado == Estado.Aturdido || estado == Estado.Idle || estado == Estado.Buscando)
             {
-                //agente.isStopped = false;
                 agent.canMove = true;
-                agent.canSearch = true;
-                
+                agent.canSearch = true; 
             }
 
             if (estado == Estado.Idle || estado == Estado.Patrullando)
@@ -95,18 +91,15 @@ public class GuardiaMovement : Enemy
 
                 if (estadoSiguiente == Estado.Perseguir)
                 {
-                    //agente.speed = correrSpeed;
                     agent.maxSpeed = correrSpeed;
                 }
                 else
                 {
-                    //agente.speed = andarSpeed;
                     agent.maxSpeed = andarSpeed;
                 }
                 
             }
             
-
             estado = estadoSiguiente;
             estadoSiguiente = Estado.SinCambios;
 
@@ -114,7 +107,6 @@ public class GuardiaMovement : Enemy
 
             timerEnEstado = 0f;
 
-            
         }
     }
 
@@ -148,7 +140,6 @@ public class GuardiaMovement : Enemy
                 {
                     if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
                     {
-
                         CambiarEstado(Estado.Idle);
                     }
                     else
@@ -158,29 +149,7 @@ public class GuardiaMovement : Enemy
                         SetObjective(objective);
                     }
                 }
-
-                    /*else if (!agente.pathPending)
-                    {
-                        if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
-                        {
-                            if (!agente.hasPath || agente.velocity.sqrMagnitude <= 0.2f)
-                            {
-                                if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
-                                {
-
-                                    CambiarEstado(Estado.Idle);
-                                }
-                                else
-                                {
-                                    waypointManager.AvanzarWaypoint();
-                                    objective = waypointManager.RetornarWaypoint().RetornarPosition();
-                                    SetObjective(objective);
-                                }
-                            }
-                        }
-                    }*/
-
-                    break;
+                break;
             case Estado.Perseguir:
 
                 if (BuscarObjetivo())
@@ -190,17 +159,7 @@ public class GuardiaMovement : Enemy
                 else if (agent.reachedEndOfPath && !agent.pathPending)
                 {
                     CambiarEstado(Estado.Buscando);
-                }/*
-                else if (!agente.pathPending)
-                {
-                    if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
-                    {
-                        if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
-                        {
-                            CambiarEstado(Estado.Buscando);
-                        }
-                    }
-                }*/
+                }
                 break;
             case Estado.Aturdido:
                 
@@ -223,27 +182,7 @@ public class GuardiaMovement : Enemy
                         transform.rotation = lastRotation;
                         CambiarEstado(Estado.Idle);
                     }
-                }/*
-                else if (!agente.pathPending)
-                {
-                    if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
-                    {
-                        if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
-                        {
-                            if(estabaPatrullando)
-                            {
-                                objective = waypointManager.RetornarWaypoint().RetornarPosition();
-                                CambiarEstado(Estado.Patrullando);
-                            }
-                            else
-                            {
-                                transform.rotation = lastRotation;
-                                CambiarEstado(Estado.Idle);
-                            }
-                            
-                        }
-                    }
-                }*/
+                }
                 break;
             case Estado.Investigar:
 
@@ -254,17 +193,7 @@ public class GuardiaMovement : Enemy
                 else if (agent.reachedEndOfPath && !agent.pathPending)
                 {
                     CambiarEstado(Estado.Buscando);
-                }/*
-                else if (!agente.pathPending)
-                {
-                    if (agente.remainingDistance <= (agente.stoppingDistance + 2))
-                    {
-                        if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
-                        {
-                            CambiarEstado(Estado.Buscando);
-                        }
-                    }
-                }*/
+                }
                 break;
             case Estado.Buscando:
                 if (BuscarObjetivo())
@@ -283,15 +212,17 @@ public class GuardiaMovement : Enemy
     // Marca la posicion position como objetivo del agente
     public void SetObjective(Vector3 position)
     {
-        //agente.destination = position;
         agent.destination = position;
-        agent.SearchPath();
+        if (!agent.pathPending)
+        {
+            agent.SearchPath();
+        }
     }
 
     public void FinalBuscar()
     {
         CambiarEstado(Estado.Volviendo);
-        SetObjective(lastPosition);
+        objective = lastPosition;
     }
 
     public void FinalAturdido()
