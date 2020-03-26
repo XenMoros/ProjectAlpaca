@@ -213,7 +213,10 @@ public class GuardiaMovement : Enemy
     public void SetObjective(Vector3 position)
     {
         agent.destination = position;
-        agent.SearchPath();
+        if (!agent.pathPending)
+        {
+            agent.SearchPath();
+        }
     }
 
     public void FinalBuscar()
@@ -245,7 +248,6 @@ public class GuardiaMovement : Enemy
     public void GuardiaEscucha (Vector3 origen)
     {
         CambiarEstado(Estado.Investigar);
-        lastPosition = transform.position;
         objective = origen;
     }
 
