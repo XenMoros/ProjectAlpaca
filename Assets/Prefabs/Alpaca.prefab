@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdf0d95bfab638d42be9427b5cc4d72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 0}
   camara: {fileID: 0}
   alpacaBoxCollider: {fileID: 6327881393461922473}
   alpacaAnimator: {fileID: 545654448887606689}
@@ -130,8 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4f7e55074e1104cab7f082d79f25c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alpacaMovement: {fileID: 4825375854857885428}
   audioControll: {fileID: 0}
   audioSource: {fileID: 5606836245571042573}
+  inputManager: {fileID: 0}
   hearDistance: 4
 --- !u!114 &5200323232761240194
 MonoBehaviour:
@@ -147,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entorno: {fileID: 0}
   alpacaMovement: {fileID: 4825375854857885428}
+  inputManager: {fileID: 0}
 --- !u!114 &3482507977617567749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +169,8 @@ MonoBehaviour:
   cabeza: {fileID: 1925919380467172470}
   recamara: {fileID: 0}
   alpacaAnimator: {fileID: 545654448887606689}
+  inputManager: {fileID: 0}
+  alpacaMovement: {fileID: 4825375854857885428}
   tiempoEntreDisparos: 1
   numeroDisparos: 3
   autoapuntado: 1
@@ -181,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alpacaMovement: {fileID: 4825375854857885428}
+  inputManager: {fileID: 0}
   coz: {fileID: 907351019936946796}
 --- !u!82 &5606836245571042573
 AudioSource:

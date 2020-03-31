@@ -7,6 +7,7 @@ public class InteractScript : MonoBehaviour
     // Referencias precacheadas en inspector de otros GameObjects
     public Transform entorno;
     public AlpacaMovement alpacaMovement;
+    public CustomInputManager inputManager;
 
     // Valores para casteo de rayos
     LayerMask cajaLayerMask;
@@ -25,44 +26,49 @@ public class InteractScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        // En caso de estar en influencia de una caja y no estar en el aire
-        if (other.CompareTag("ArrastreCaja") && !alpacaMovement.onAir)
+        if (!alpacaMovement.pause)
         {
-            // Si mantienes la X te acopla la caja
-            if (Input.GetButton("X"))
+            // En caso de estar en influencia de una caja y no estar en el aire
+            if (other.CompareTag("ArrastreCaja") && !alpacaMovement.onAir)
             {
-                AcoplarCaja(other);
+                // Si mantienes la X te acopla la caja
+                if (inputManager.GetButton("Interact"))
+                {
+                    AcoplarCaja(other);
+                }
+                // Si sueltas la X te desacopla la caja con reset de caida
+                else
+                {
+                    DesacoplarCaja(other, true);
+                }
             }
-            // Si sueltas la X te desacopla la caja con reset de caida
-            else
+            // En caso de pasar a estar cayendo mientras arrastras una caja, desacoplar la misma
+            else if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
             {
-                DesacoplarCaja(other, true);
+                DesacoplarCaja(other, false);
             }
-        }
-        // En caso de pasar a estar cayendo mientras arrastras una caja, desacoplar la misma
-        else if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
-        {
-            DesacoplarCaja(other, false);
-        }
-        // Si estaas en la influencia de una palanca
-        else if (other.CompareTag("Palanca"))
-        {
-            // Si pulsas X activar la palanca
-            if (Input.GetButtonDown("X"))
+            // Si estaas en la influencia de una palanca
+            else if (other.CompareTag("Palanca"))
             {
-                other.gameObject.GetComponent<Palanca>().ActivatePalanca();
+                // Si pulsas X activar la palanca
+                if (inputManager.GetButtonDown("Interact"))
+                {
+                    other.gameObject.GetComponent<Palanca>().ActivatePalanca();
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // En caso de salir de la influencia de la caja, desacoplarte automaticamente
-        if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
+        if (!alpacaMovement.pause)
         {
+            // En caso de salir de la influencia de la caja, desacoplarte automaticamente
+            if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
+            {
                 DesacoplarCaja(other, true);
+            }
         }
-        
     }
 
     // Acople y reclamar la caja para arrastrarla
@@ -104,4 +110,8 @@ public class InteractScript : MonoBehaviour
         }
     }
 
+    public void SetInputManager(CustomInputManager manager)
+    {
+        inputManager = manager;
+    }
 }
