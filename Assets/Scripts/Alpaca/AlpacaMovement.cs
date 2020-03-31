@@ -2,6 +2,7 @@
 
 public class AlpacaMovement : MonoBehaviour
 {
+    public CustomInputManager inputManager;
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara;
     public BoxCollider alpacaBoxCollider;
@@ -70,8 +71,10 @@ public class AlpacaMovement : MonoBehaviour
         if (!pause)
         {
             // GET AXIS INFO
-            axisV = Mathf.Floor(+Input.GetAxis("LS_v") * 1000f) / 1000f;
-            axisH = Mathf.Floor(+Input.GetAxis("LS_h") * 1000f) / 1000f;
+            //axisV = Mathf.Floor(+Input.GetAxis("LS_v") * 1000f) / 1000f;
+            //axisH = Mathf.Floor(+Input.GetAxis("LS_h") * 1000f) / 1000f;
+            axisV = Mathf.Floor(+inputManager.GetAxis("MovementVertical") * 1000f) / 1000f;
+            axisH = Mathf.Floor(+inputManager.GetAxis("MovementHorizontal") * 1000f) / 1000f;
 
             // if input is low, consider it zero
             if (Mathf.Abs(axisV) < 0.05)
@@ -91,9 +94,10 @@ public class AlpacaMovement : MonoBehaviour
             {
 
                 // Saltar al recibir input i no estar en el aire ni arrastrando
-                if (Input.GetButtonDown("A") && !onAir && !arrastrando)
+                //if (Input.GetButtonDown("A") && !onAir && !arrastrando)
+                if (inputManager.GetButtonDown("Jump") && !onAir && !arrastrando)
                 {
-                    onAir = true;
+                        onAir = true;
                     faseMovimiento = FaseMovimiento.Subida;
                     velocidadVertical = salto.velocidadInicialSalto;
                     timerFasesSalto = -salto.minimoTiempoSalto;
@@ -102,7 +106,8 @@ public class AlpacaMovement : MonoBehaviour
                     botonSoltado = false;
                 }
 
-                if (Input.GetButtonUp("A") && faseMovimiento == FaseMovimiento.Subida)
+                //if (Input.GetButtonUp("A") && faseMovimiento == FaseMovimiento.Subida)
+                if (inputManager.GetButtonUp("Jump") && faseMovimiento == FaseMovimiento.Subida)
                 {
                     botonSoltado = true;
                 }
@@ -375,6 +380,11 @@ public class AlpacaMovement : MonoBehaviour
         {
             cambioPausa = true;
         }
+    }
+
+    public void SetInputManager (CustomInputManager manager)
+    {
+        inputManager = manager;
     }
 }
 

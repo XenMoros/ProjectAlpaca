@@ -5,6 +5,7 @@ public class CozScript : MonoBehaviour
 {
     // Elementos precacheados en Inspector
     public AlpacaMovement alpacaMovement; //El movimiento de la Alaca
+    public CustomInputManager inputManager;
 
     // GameObject de la Coz
     public GameObject coz;
@@ -27,7 +28,7 @@ public class CozScript : MonoBehaviour
         if (!alpacaMovement.pause)
         {
             // Mirar las acciones de la coz
-            if (Input.GetButtonDown("B") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
+            if (inputManager.GetButtonDown("Coz") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
                 || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo))
             {
                 alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
@@ -44,5 +45,10 @@ public class CozScript : MonoBehaviour
     {
         coz.SetActive(false);
         alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
+    }
+
+    public void SetInputManager(CustomInputManager manager)
+    {
+        inputManager = manager;
     }
 }

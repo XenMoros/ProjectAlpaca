@@ -32,7 +32,7 @@ public class InterfaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("B"))
+        if (gameManager.inputManager.GetButtonDown("Return"))
         {
             ReturnButton();
         }
@@ -156,10 +156,10 @@ public class InterfaceManager : MonoBehaviour
                 Debug.Log("Sin botones??");
             }
         }
-        else if(grupoActual == 1)
+        /*else if(grupoActual == 1)
         {
             ClosePauseMenu();
-        }
+        }*/
     }
 
     public void LoadingGroup(bool state)

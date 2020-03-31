@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     InterfaceManager interfaceManager;
     LevelManager levelManager;
+    internal CustomInputManager inputManager;
     //AudioManager audioManager;
     //ScoreManager scoreManager;
 
@@ -27,13 +28,14 @@ public class GameManager : MonoBehaviour
         lastLevel = 1;
         currentLevel = 1;
         maxLevel = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
+        inputManager = GetComponent<CustomInputManager>();
     }
 
     private void Update()
     {
         if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1)
         {
-            if (Input.GetButtonDown("Start"))
+            if (inputManager.GetButtonDown("Start"))
             {
                 StaticManager.pause = !StaticManager.pause;
                 levelManager.SetPause();

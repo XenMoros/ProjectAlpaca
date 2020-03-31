@@ -83,11 +83,16 @@ public class LevelManager : MonoBehaviour
                 {
                     Debug.Log("Encontre la Alpaca");
                     alpaca = objeto.GetComponent<AlpacaMovement>();
+                    alpaca.SetInputManager(gameManager.inputManager);
+                    objeto.GetComponent<AlpacaSound>().SetInputManager(gameManager.inputManager);
+                    objeto.GetComponent<CozScript>().SetInputManager(gameManager.inputManager);
+                    objeto.GetComponent<EscupitajoAction>().SetInputManager(gameManager.inputManager);
+                    objeto.GetComponent<InteractScript>().SetInputManager(gameManager.inputManager);
                 }
-                else if(objeto.name == "Salida")
+                
+                if(objeto.name == "Entorno")
                 {
-                    Debug.Log("Encontre la Salida");
-                    objeto.GetComponent<SalidaNivel>().SetLevelManager(this);
+                    objeto.GetComponentInChildren<SalidaNivel>().SetLevelManager(this);
                 }
             }
             enemyManager.LoadEnemies();

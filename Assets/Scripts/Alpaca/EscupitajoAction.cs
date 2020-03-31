@@ -9,6 +9,8 @@ public class EscupitajoAction : MonoBehaviour
     public Transform cabeza; // Cabeza de la alpca
     public Transform recamara; // Posicion de la Recamara
     public Animator alpacaAnimator;
+    public CustomInputManager inputManager;
+    public AlpacaMovement alpacaMovement;
 
     // Variables publicas de control
     [Range(0.1f,10)]public float tiempoEntreDisparos = 2f;
@@ -36,24 +38,26 @@ public class EscupitajoAction : MonoBehaviour
 
     void Update()
     {
-        // Suma el tiempo de espera
-        if(tiempoEntreDisparos > 0)
+        if (!alpacaMovement.pause)
         {
-            timerEntreDisparos -= Time.deltaTime;
-        }
-        // Si esta el gatillo a fondo y no estas en tiempo de espera
-        // Intenta escupir
-        if (Input.GetAxis("RT") == 1 && timerEntreDisparos <= 0)
-        {
-            //Escupir();
-            alpacaAnimator.SetTrigger("Escupitajo");
-            timerEntreDisparos = tiempoEntreDisparos; // Empieza a contar el tiempo de enfriamiento
+            // Suma el tiempo de espera
+            if (tiempoEntreDisparos > 0)
+            {
+                timerEntreDisparos -= Time.deltaTime;
+            }
+            // Si esta el gatillo a fondo y no estas en tiempo de espera
+            // Intenta escupir
+            if (inputManager.GetAxis("Escupir") == 1 && timerEntreDisparos <= 0)
+            {
+                //Escupir();
+                alpacaAnimator.SetTrigger("Escupitajo");
+                timerEntreDisparos = tiempoEntreDisparos; // Empieza a contar el tiempo de enfriamiento
+            }
         }
     }
 
     public void Escupir()
     {
-        Debug.Log("Miau");
         if (autoapuntado)
         {
             // Genera una lista de todos los objetos de tipo "Camara Lens, Guardia o BotonPared" que esten en el box de autoapuntado
@@ -85,5 +89,10 @@ public class EscupitajoAction : MonoBehaviour
             nBala = 0;
         }
               
+    }
+
+    public void SetInputManager(CustomInputManager manager)
+    {
+        inputManager = manager;
     }
 }

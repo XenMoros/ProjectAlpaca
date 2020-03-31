@@ -6,10 +6,18 @@ public class DebugSetter : MonoBehaviour
 {
     public bool debugMode;
     AlpacaMovement alpaca;
+    public CustomInputManager inputManager;
 
     private void Start()
     {
-        alpaca = GameObject.FindGameObjectWithTag("Player").GetComponent<AlpacaMovement>();
+        GameObject objeto = GameObject.FindGameObjectWithTag("Player");
+        alpaca = objeto.GetComponent<AlpacaMovement>();
+        alpaca.SetInputManager(inputManager);
+        objeto.GetComponent<AlpacaSound>().SetInputManager(inputManager);
+        objeto.GetComponent<CozScript>().SetInputManager(inputManager);
+        objeto.GetComponent<EscupitajoAction>().SetInputManager(inputManager);
+        objeto.GetComponent<InteractScript>().SetInputManager(inputManager);
+
     }
 
     private void Update()
