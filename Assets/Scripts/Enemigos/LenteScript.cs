@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class LenteScript : Enemy
 {
-    //public DetectionScript detectionScript;
     bool alpacaHit;
     public bool alerta;
-    //public Animator animator;
+
     public GameObject cameraLight;
     public Transform generalCamera;
     public Transform player;
     Vector3 objective;
     public WaypointManager waypointManager;
     public float rotationSpeed = 20f, maxAnglePerSecond = 30;
-    //public float cameraAngle = Mathf.Clamp(0, -90, 90);
+
     float timer = 0;
     public float tiempoMuerte = 5f;
-
-    bool active = true;
 
     private void Start()
     {
@@ -28,7 +25,7 @@ public class LenteScript : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (active)
+        if (active && !pausa)
         {
             if (alerta)
             {
@@ -65,10 +62,6 @@ public class LenteScript : Enemy
                 }
             }
         }
-        //Debug.Log(timer);
-        //ActivarAlerta();
-        //AlertaAlpaca();
-        //alpacaHit = detectionScript.alpacaHit;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -80,40 +73,6 @@ public class LenteScript : Enemy
         }
     }
 
-    /*
-    void ActivarAlerta()
-    {
-        if (alpacaHit)
-        {
-            alerta = true;
-
-            if (timer >= 5)
-            {
-                Debug.Log("Moriste");
-            }
-        }
-        else
-        {
-            if (timer >= 5)
-            {
-                alerta = false;
-            }
-        }
-    }
-
-    void AlertaAlpaca()
-    {
-        if (alerta)
-        {
-            timer += Time.deltaTime;
-            generalCamera.LookAt(player.position, Vector3.up);
-        }
-        else
-        {
-            timer = 0;
-        }
-    }
-    */
     public void SetAlpacaHit(bool hit)
     {
         alpacaHit = hit;
@@ -146,8 +105,9 @@ public class LenteScript : Enemy
         generalCamera.forward = newForward;
     }
 
-    public override void SetPause(bool state)
+    public override void SetActivationState(bool activateState)
     {
-        base.SetPause(state);
+        base.SetActivationState(activateState);
+        cameraLight.SetActive(activateState);
     }
 }

@@ -17,9 +17,6 @@ public class GuardiaMovement : Enemy
     public float fieldOfView; // Campo de vision del guardia
     public float distanciaVolverPosicion; // Distancia minima para considerar volver al inicio
 
-    // Boleanos de estado
-    private bool cegacion = false;
-
     // Informacion de casteo de Rayos
     private RaycastHit hitInfo;
 
@@ -45,168 +42,173 @@ public class GuardiaMovement : Enemy
     }
     private void LateUpdate()
     {
-        if (estadoSiguiente != estado && estadoSiguiente != Estado.SinCambios)
+        if (!pausa && active)
         {
-            if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle || estadoSiguiente == Estado.Buscando)
+            if (estadoSiguiente != estado && estadoSiguiente != Estado.SinCambios)
             {
-                agent.canMove = false;
-                agent.canSearch = false;
+                if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle || estadoSiguiente == Estado.Buscando)
+                {
+                    agent.canMove = false;
+                    agent.canSearch = false;
 
-                if (estadoSiguiente == Estado.Idle)
-                {
-                    tiempoEnEstado = waypointManager.RetornarWaypoint().RetornarTiempo();
+                    if (estadoSiguiente == Estado.Idle)
+                    {
+                        tiempoEnEstado = waypointManager.RetornarWaypoint().RetornarTiempo();
+                    }
+                    else
+                    {
+                        tiempoEnEstado = 5f;
+                    }
                 }
-                else
+                else if (estado == Estado.Aturdido || estado == Estado.Idle || estado == Estado.Buscando)
                 {
-                    tiempoEnEstado = 5f;
+                    agent.canMove = true;
+                    agent.canSearch = true;
                 }
+
+                if (estado == Estado.Idle || estado == Estado.Patrullando)
+                {
+                    if (estado == Estado.Patrullando)
+                    {
+                        estabaPatrullando = true;
+                    }
+                    else
+                    {
+                        estabaPatrullando = false;
+                    }
+
+                    if (estadoSiguiente != Estado.Patrullando && estadoSiguiente != Estado.Idle)
+                    {
+                        lastPosition = transform.position;
+                        lastRotation = transform.rotation;
+                    }
+                }
+
+                if (estadoSiguiente == Estado.Perseguir || estadoSiguiente == Estado.Investigar || estadoSiguiente == Estado.Patrullando || estadoSiguiente == Estado.Volviendo)
+                {
+                    SetObjective(objective);
+
+                    if (estadoSiguiente == Estado.Perseguir)
+                    {
+                        agent.maxSpeed = correrSpeed;
+                    }
+                    else
+                    {
+                        agent.maxSpeed = andarSpeed;
+                    }
+
+                }
+
+                estado = estadoSiguiente;
+                estadoSiguiente = Estado.SinCambios;
+
+                ControlDeAnimaciones();
+
+                timerEnEstado = 0f;
+
             }
-            else if (estado == Estado.Aturdido || estado == Estado.Idle || estado == Estado.Buscando)
-            {
-                agent.canMove = true;
-                agent.canSearch = true; 
-            }
-
-            if (estado == Estado.Idle || estado == Estado.Patrullando)
-            {
-                if (estado == Estado.Patrullando)
-                {
-                    estabaPatrullando = true;
-                }
-                else
-                {
-                    estabaPatrullando = false;
-                }
-
-                if(estadoSiguiente != Estado.Patrullando && estadoSiguiente != Estado.Idle)
-                {
-                    lastPosition = transform.position;
-                    lastRotation = transform.rotation;
-                }                
-            }
-
-            if (estadoSiguiente == Estado.Perseguir || estadoSiguiente == Estado.Investigar || estadoSiguiente == Estado.Patrullando || estadoSiguiente == Estado.Volviendo)
-            {
-                SetObjective(objective);
-
-                if (estadoSiguiente == Estado.Perseguir)
-                {
-                    agent.maxSpeed = correrSpeed;
-                }
-                else
-                {
-                    agent.maxSpeed = andarSpeed;
-                }
-                
-            }
-            
-            estado = estadoSiguiente;
-            estadoSiguiente = Estado.SinCambios;
-
-            ControlDeAnimaciones();
-
-            timerEnEstado = 0f;
-
         }
     }
 
     private void Update()
     {
-        timerEnEstado += Time.deltaTime;
-
-        switch (estado)
+        if (!pausa && active)
         {
-            case Estado.Idle:
+            timerEnEstado += Time.deltaTime;
 
-                if (BuscarObjetivo())
-                {
-                    CambiarEstado(Estado.Perseguir);
-                }
-                else if (timerEnEstado > tiempoEnEstado && waypointManager.waypointList.Count > 1)
-                {
-                    waypointManager.AvanzarWaypoint();
-                    objective = waypointManager.RetornarWaypoint().RetornarPosition();
-                    CambiarEstado(Estado.Patrullando);
-                }
-                break;
-            case Estado.Patrullando:
+            switch (estado)
+            {
+                case Estado.Idle:
 
-                if (BuscarObjetivo())
-                {
-
-                    CambiarEstado(Estado.Perseguir);
-                }
-                else if (agent.reachedEndOfPath && !agent.pathPending)
-                {
-                    if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
+                    if (BuscarObjetivo())
                     {
-                        CambiarEstado(Estado.Idle);
+                        CambiarEstado(Estado.Perseguir);
                     }
-                    else
+                    else if (timerEnEstado > tiempoEnEstado && waypointManager.waypointList.Count > 1)
                     {
                         waypointManager.AvanzarWaypoint();
                         objective = waypointManager.RetornarWaypoint().RetornarPosition();
-                        SetObjective(objective);
-                    }
-                }
-                break;
-            case Estado.Perseguir:
-
-                if (BuscarObjetivo())
-                {
-                    SetObjective(objective);
-                }
-                else if (agent.reachedEndOfPath && !agent.pathPending)
-                {
-                    CambiarEstado(Estado.Buscando);
-                }
-                break;
-            case Estado.Aturdido:
-                
-                break;
-            case Estado.Volviendo:
-
-                if (BuscarObjetivo())
-                {
-                    CambiarEstado(Estado.Perseguir);
-                }
-                else if (agent.reachedEndOfPath && !agent.pathPending)
-                {
-                    if (estabaPatrullando)
-                    {
-                        objective = waypointManager.RetornarWaypoint().RetornarPosition();
                         CambiarEstado(Estado.Patrullando);
                     }
-                    else
+                    break;
+                case Estado.Patrullando:
+
+                    if (BuscarObjetivo())
                     {
-                        transform.rotation = lastRotation;
-                        CambiarEstado(Estado.Idle);
+
+                        CambiarEstado(Estado.Perseguir);
                     }
-                }
-                break;
-            case Estado.Investigar:
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
+                        {
+                            CambiarEstado(Estado.Idle);
+                        }
+                        else
+                        {
+                            waypointManager.AvanzarWaypoint();
+                            objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                            SetObjective(objective);
+                        }
+                    }
+                    break;
+                case Estado.Perseguir:
 
-                if (BuscarObjetivo())
-                {
-                    CambiarEstado(Estado.Perseguir);
-                }
-                else if (agent.reachedEndOfPath && !agent.pathPending)
-                {
-                    CambiarEstado(Estado.Buscando);
-                }
-                break;
-            case Estado.Buscando:
-                if (BuscarObjetivo())
-                {
-                    CambiarEstado(Estado.Perseguir);
-                }
-                break;
+                    if (BuscarObjetivo())
+                    {
+                        SetObjective(objective);
+                    }
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        CambiarEstado(Estado.Buscando);
+                    }
+                    break;
+                case Estado.Aturdido:
 
-            default:
-                break;
+                    break;
+                case Estado.Volviendo:
+
+                    if (BuscarObjetivo())
+                    {
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        if (estabaPatrullando)
+                        {
+                            objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                            CambiarEstado(Estado.Patrullando);
+                        }
+                        else
+                        {
+                            transform.rotation = lastRotation;
+                            CambiarEstado(Estado.Idle);
+                        }
+                    }
+                    break;
+                case Estado.Investigar:
+
+                    if (BuscarObjetivo())
+                    {
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        CambiarEstado(Estado.Buscando);
+                    }
+                    break;
+                case Estado.Buscando:
+                    if (BuscarObjetivo())
+                    {
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
         }
-
-
     }
 
     // Marca la posicion position como objetivo del agente
@@ -237,7 +239,7 @@ public class GuardiaMovement : Enemy
         }
     }
 
-        internal void CambiarEstado(Estado estadoPropuesto)
+    internal void CambiarEstado(Estado estadoPropuesto)
     {
         if ((int)estadoPropuesto > (int)estadoSiguiente)
         {
@@ -275,10 +277,6 @@ public class GuardiaMovement : Enemy
 
         }
     }
-
-
-
-    
 
     // Funcion de busqueda de objetivo
     private bool BuscarObjetivo()
@@ -330,9 +328,31 @@ public class GuardiaMovement : Enemy
         }
     }
 
-    public override void SetPause(bool state)
+    public override void SetPause()
     {
-        base.SetPause(state);
+        base.SetPause();
 
+        HabilitarGuardia();
+    }
+
+    public override void SetActivationState(bool activateState)
+    {
+        base.SetActivationState(activateState);
+
+        HabilitarGuardia();
+    }
+
+    void HabilitarGuardia()
+    {
+        if (!pausa && active)
+        {
+            agent.canMove = true;
+            guardiaAnimator.speed = 1;
+        }
+        else
+        {
+            agent.canMove = false;
+            guardiaAnimator.speed = 0;
+        }
     }
 }

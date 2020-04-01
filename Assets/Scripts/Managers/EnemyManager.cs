@@ -25,11 +25,11 @@ public class EnemyManager : MonoBehaviour
         this.levelManager = levelManager;
     }
 
-    public void SetPause(bool state)
+    public void SetPause()
     {
         foreach(Enemy enemy in enemies)
         {
-            enemy.SetPause(state);
+            enemy.SetPause();
         }
     }
 }
