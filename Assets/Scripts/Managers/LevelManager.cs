@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
     {
 
         alpaca.SetPause();
-        //enemyManager.SetPause(state);
+        enemyManager.SetPause();
     }
 
     public Scene LoadLevel(int nivel)

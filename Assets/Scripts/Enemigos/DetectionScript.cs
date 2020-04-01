@@ -15,9 +15,22 @@ public class DetectionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        direction = player.position - generalCamera.position;
-        Debug.DrawRay(generalCamera.position, direction * 13, Color.red);
-        HitAlpaca();
+        if(lenteScript.active && !lenteScript.pausa && lanzarRayos)
+        {
+            direction = player.position - generalCamera.position;
+
+            if (Physics.Raycast(generalCamera.position, direction, out hit))
+            {
+                if (hit.collider.name == "Alpaca")
+                {
+                    lenteScript.SetAlpacaHit(true);
+                }
+                else
+                {
+                    lenteScript.SetAlpacaHit(false);
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,23 +49,4 @@ public class DetectionScript : MonoBehaviour
         }
     }
 
-    void HitAlpaca()
-    {
-        if (lanzarRayos)
-        {
-            if (Physics.Raycast(generalCamera.position, direction, out hit))
-            {
-                if (hit.collider.name == "Alpaca")
-                {
-                    lenteScript.SetAlpacaHit(true);
-                   // alpacaHit = true;
-                }
-                else
-                {
-                    lenteScript.SetAlpacaHit(false);
-                   // alpacaHit = false;
-                }
-            }
-        }
-    }
 }
