@@ -106,15 +106,15 @@ MonoBehaviour:
     rotationSpeed: 360
     maxAnglePerSecond: 720
   salto:
-    velocidadInicialSalto: 7
-    maximoTiempoBoton: 0.4
+    velocidadInicialSalto: 6
+    maximoTiempoBoton: 0.2
     minimoTiempoSalto: 0.2
-    velocidadTerminalCaida: 15
+    velocidadTerminalCaida: 10
     coeficienteRaiz: 1.5
-    axisInfluenceOnAir: 0.5
+    axisInfluenceOnAir: 0.7
     maximaAcelAire: 1.2
-    slowMovementOnJump: 0.3
-    reduccionVelocidadSalto: 7
+    slowMovementOnJump: 0.2
+    reduccionVelocidadSalto: 4
     stunCaida: 0.05
   layerReposicionarSuelo:
     serializedVersion: 2
