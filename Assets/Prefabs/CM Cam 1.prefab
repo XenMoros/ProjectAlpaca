@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 2, z: -13}
+  m_FollowOffset: {x: 0, y: 1, z: -4.5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 2, z: -13}
+  m_FollowOffset: {x: 0, y: 1, z: -4.5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 2, z: -13}
+  m_FollowOffset: {x: 0, y: 1, z: -4.5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -936,6 +936,7 @@ GameObject:
   - component: {fileID: 6640731093539923733}
   - component: {fileID: 6640731093539923739}
   - component: {fileID: 143423601678911414}
+  - component: {fileID: 7332685034865924821}
   m_Layer: 0
   m_Name: CM Cam 1
   m_TagString: Untagged
@@ -1110,6 +1111,23 @@ MonoBehaviour:
   m_Damping: 0
   m_DampingWhenOccluded: 0
   m_OptimalTargetDistance: 0
+--- !u!114 &7332685034865924821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640731093539923735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 189c5c7d9a1ab5d41ad30e6860b1121d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cmCamara: {fileID: 6640731093539923733}
+  defVelV: 5
+  defVelH: 100
+  defInvertV: 0
+  defInvertH: 0
 --- !u!1 &7038466446593067323
 GameObject:
   m_ObjectHideFlags: 0
