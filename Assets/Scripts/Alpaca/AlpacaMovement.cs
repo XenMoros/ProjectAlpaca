@@ -71,8 +71,6 @@ public class AlpacaMovement : MonoBehaviour
         if (!pause)
         {
             // GET AXIS INFO
-            //axisV = Mathf.Floor(+Input.GetAxis("LS_v") * 1000f) / 1000f;
-            //axisH = Mathf.Floor(+Input.GetAxis("LS_h") * 1000f) / 1000f;
             axisV = Mathf.Floor(+inputManager.GetAxis("MovementVertical") * 1000f) / 1000f;
             axisH = Mathf.Floor(+inputManager.GetAxis("MovementHorizontal") * 1000f) / 1000f;
 
@@ -329,6 +327,7 @@ public class AlpacaMovement : MonoBehaviour
         faseMovimientoAnt = faseMovimiento;
 
     }
+
     private float CalculoFormula(float tiempo, float margen)
     {
         float result;
