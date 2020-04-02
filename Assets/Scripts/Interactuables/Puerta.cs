@@ -2,21 +2,30 @@
 
 public class Puerta : MonoBehaviour, IActivable
 {
-    // Elementos necesarios
-    MeshRenderer meshRenderer; // El Render de la puerta
-    Collider puertaCollider; // El collider de la puerta
+    public BoxCollider puerta1;
+    public BoxCollider puerta2;
+    public BoxCollider puerta3;
 
-    private void Start()
-    {
-        // Asignamos los elementos en start
-        meshRenderer = GetComponent<MeshRenderer>();
-        puertaCollider = GetComponent<Collider>();
-    }
+    public Animator puertaAnimator;
 
     // En caso de activacion, cambiar el estado de enable del renderizado y el collider de la puerta
     public void SetActivationState(bool activateState)
     {
-        meshRenderer.enabled = !activateState;
-        puertaCollider.enabled = !activateState;
+        if (activateState)
+        {
+            puertaAnimator.SetBool("puertaAbierta", true);
+
+            puerta1.enabled = false;
+            puerta2.enabled = false;
+            puerta3.enabled = false;
+        }
+        else
+        {
+            puertaAnimator.SetBool("puertaAbierta", false);
+
+            puerta1.enabled = true;
+            puerta2.enabled = true;
+            puerta3.enabled = true;
+        }
     }
 }
