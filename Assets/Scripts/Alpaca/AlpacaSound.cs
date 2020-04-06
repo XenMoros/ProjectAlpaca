@@ -7,6 +7,7 @@ public class AlpacaSound : MonoBehaviour
     public AudioManager audioControll; // Controlador de Audio
     public AudioSource audioSource; // AudioSource de la Alpaca
     public CustomInputManager inputManager;
+    public Animator alpacaAnimator;
     public float hearDistance = 4;
 
     void Update()
@@ -18,6 +19,7 @@ public class AlpacaSound : MonoBehaviour
             {
                 // Al Berrear, reproducimos el audio 0 desde nuestra source
 
+                alpacaAnimator.SetTrigger("Berreo");
                 audioControll.PlaySound(0, audioSource);
 
                 //Ademas alertamos a todos los guardias de donde se ha berreado, en un radio de 100 unidades
