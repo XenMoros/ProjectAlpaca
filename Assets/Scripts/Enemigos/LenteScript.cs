@@ -68,8 +68,8 @@ public class LenteScript : Enemy
     {
         if (other.gameObject.CompareTag("Escupitajo"))
         {
-            Destroy(cameraLight);
             active = false;
+            Destroy(this.gameObject);
         }
     }
 

@@ -15,7 +15,10 @@ public class AlpacaSound : MonoBehaviour
         if (!alpacaMovement.pause)
         {
             //if (Input.GetButtonDown("Y"))
-            if (inputManager.GetButtonDown("Yell"))
+            if (inputManager.GetButtonDown("Yell") && !(alpacaMovement.arrastrando
+                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo
+                || alpacaAnimator.GetCurrentAnimatorStateInfo(2).IsName("Escupitajo")
+                || alpacaAnimator.GetCurrentAnimatorStateInfo(1).IsName("Berreo")))
             {
                 // Al Berrear, reproducimos el audio 0 desde nuestra source
 
@@ -32,7 +35,7 @@ public class AlpacaSound : MonoBehaviour
             }
             // Al Cocear, reproducimos el audio 1 desde nuestra source
             //if (Input.GetButtonDown("B"))
-            if (inputManager.GetButtonDown("Coz"))
+            if (inputManager.GetButtonDown("Coz") && alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo)
             {
                 audioControll.PlaySound(1, audioSource);
             }

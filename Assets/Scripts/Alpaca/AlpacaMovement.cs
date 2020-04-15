@@ -7,6 +7,7 @@ public class AlpacaMovement : MonoBehaviour
     public Transform camara;
     public BoxCollider alpacaBoxCollider;
     public Animator alpacaAnimator;
+    public AlpacaSound sonidos;
 
     // Variables publicas de movimiento
     public MovementVariables movimiento;
@@ -227,7 +228,6 @@ public class AlpacaMovement : MonoBehaviour
                 {
                     transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
                     velocidadVertical = 0;
-                    //GirarVerticalAlpaca(hitInfo.normal);
                 }
                 break;
         }
@@ -385,6 +385,7 @@ public class AlpacaMovement : MonoBehaviour
     {
         inputManager = manager;
     }
+
 }
 
 [System.Serializable]

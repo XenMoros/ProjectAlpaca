@@ -1,5 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!135 &2652678259157487991
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3185933916579532554}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8113384723688818463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3185933916579532554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15dbf4a342fb02843964656262441450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonAnimator: {fileID: 5216623362248305876}
+  activableObj: {fileID: 0}
+  tiempoActivacion: 5
+  timerActivacion: 6
 --- !u!1 &7306653345885605722
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,8 +38,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7306653345885605721}
-  - component: {fileID: 5322338884247302097}
-  - component: {fileID: 3695926048664640881}
   - component: {fileID: 5216623362248305876}
   m_Layer: 0
   m_Name: BotonPared
@@ -34,34 +61,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!135 &5322338884247302097
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7306653345885605722}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.85, z: 0}
---- !u!114 &3695926048664640881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7306653345885605722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15dbf4a342fb02843964656262441450, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonAnimator: {fileID: 5216623362248305876}
-  activableObj: {fileID: 0}
-  timer: 6
 --- !u!95 &5216623362248305876
 Animator:
   serializedVersion: 3
@@ -91,6 +90,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 5dc0e00947aa1c940a01221c755dc1f6, type: 3}
       propertyPath: m_Name
       value: BotonPared_LP
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 5dc0e00947aa1c940a01221c755dc1f6, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 5dc0e00947aa1c940a01221c755dc1f6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -161,6 +164,12 @@ PrefabInstance:
 --- !u!4 &3185933916579042092 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 5dc0e00947aa1c940a01221c755dc1f6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3185933916579432878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3185933916579532554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100004, guid: 5dc0e00947aa1c940a01221c755dc1f6,
     type: 3}
   m_PrefabInstance: {fileID: 3185933916579432878}
   m_PrefabAsset: {fileID: 0}
