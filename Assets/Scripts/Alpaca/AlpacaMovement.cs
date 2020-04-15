@@ -7,6 +7,7 @@ public class AlpacaMovement : MonoBehaviour
     public Transform camara;
     public BoxCollider alpacaBoxCollider;
     public Animator alpacaAnimator;
+    public AlpacaSound sonidos;
 
     // Variables publicas de movimiento
     public MovementVariables movimiento;
@@ -385,6 +386,7 @@ public class AlpacaMovement : MonoBehaviour
     {
         inputManager = manager;
     }
+
 }
 
 [System.Serializable]

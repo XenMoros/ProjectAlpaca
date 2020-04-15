@@ -38,7 +38,7 @@ public class EscupitajoAction : MonoBehaviour
 
     void Update()
     {
-        if (!alpacaMovement.pause)
+        if (!alpacaMovement.pause && alpacaMovement.faseMovimiento != AlpacaMovement.FaseMovimiento.Cozeo)
         {
             // Suma el tiempo de espera
             if (tiempoEntreDisparos > 0)
