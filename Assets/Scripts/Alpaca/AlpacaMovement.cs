@@ -228,7 +228,6 @@ public class AlpacaMovement : MonoBehaviour
                 {
                     transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
                     velocidadVertical = 0;
-                    //GirarVerticalAlpaca(hitInfo.normal);
                 }
                 break;
         }

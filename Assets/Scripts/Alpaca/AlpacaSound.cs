@@ -15,8 +15,10 @@ public class AlpacaSound : MonoBehaviour
         if (!alpacaMovement.pause)
         {
             //if (Input.GetButtonDown("Y"))
-            if (inputManager.GetButtonDown("Yell") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Arrastrar
-                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo))
+            if (inputManager.GetButtonDown("Yell") && !(alpacaMovement.arrastrando
+                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo
+                || alpacaAnimator.GetCurrentAnimatorStateInfo(2).IsName("Escupitajo")
+                || alpacaAnimator.GetCurrentAnimatorStateInfo(1).IsName("Berreo")))
             {
                 // Al Berrear, reproducimos el audio 0 desde nuestra source
 

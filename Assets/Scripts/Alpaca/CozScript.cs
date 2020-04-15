@@ -29,7 +29,7 @@ public class CozScript : MonoBehaviour
         {
             // Mirar las acciones de la coz
             if (inputManager.GetButtonDown("Coz") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
-                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Arrastrar))
+                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo || alpacaMovement.arrastrando))
             {
                 alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
             }
