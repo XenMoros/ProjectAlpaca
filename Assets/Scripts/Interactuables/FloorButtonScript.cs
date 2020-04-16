@@ -17,24 +17,13 @@ public class FloorButtonScript : MonoBehaviour
 
     }
 
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        // En caso que la Alpaca, un Guardia o una Caja se suban al boton, activar la animacion y el objeto asociado
-        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Guardia") || other.gameObject.CompareTag("Caja"))
-        {
-            floorButton.SetBool("ActivateButton", true);
-            activable.SetActivationState(true);
-        }
-    }*/
-
     private void OnTriggerExit(Collider other)
     {
         // En caso de salir del boton, desactivar el objeto asociado y revertir animacion
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Guardia") || other.gameObject.CompareTag("Caja"))
         {
             activado = false;
-            floorButton.SetBool("ActivateButton", activado);
+            floorButton.SetBool("Active", activado);
             activable.SetActivationState(activado);
         }
 
@@ -45,7 +34,7 @@ public class FloorButtonScript : MonoBehaviour
         if (!activado && (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Guardia") || other.gameObject.CompareTag("Caja")))
         {
             activado = true;
-            floorButton.SetBool("ActivateButton", activado);
+            floorButton.SetBool("Active", activado);
             activable.SetActivationState(activado);
         }
 
