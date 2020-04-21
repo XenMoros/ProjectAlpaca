@@ -101,6 +101,7 @@ MonoBehaviour:
   camara: {fileID: 0}
   alpacaBoxCollider: {fileID: 6327881393461922473}
   alpacaAnimator: {fileID: 545654448887606689}
+  sonidos: {fileID: 0}
   movimiento:
     speedMultiplier: 10
     slowArrastre: 4
@@ -166,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef6909b76e299e44a7bf44e069a2d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  escupitajoParticleSystem: {fileID: 0}
   escupitajos: []
   escupitajoPrefab: {fileID: 7762008238760403013, guid: 79397a392fa9ab04ea85b815422bb387,
     type: 3}
