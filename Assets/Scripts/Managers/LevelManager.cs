@@ -85,6 +85,7 @@ public class LevelManager : MonoBehaviour
                     alpaca = objeto.GetComponent<AlpacaMovement>();
                     alpaca.SetInputManager(gameManager.inputManager);
                     objeto.GetComponent<AlpacaSound>().SetInputManager(gameManager.inputManager);
+                    objeto.GetComponent<AlpacaSound>().SetAudioManager(gameManager.audioManager);
                     objeto.GetComponent<CozScript>().SetInputManager(gameManager.inputManager);
                     objeto.GetComponent<EscupitajoAction>().SetInputManager(gameManager.inputManager);
                     objeto.GetComponent<InteractScript>().SetInputManager(gameManager.inputManager);

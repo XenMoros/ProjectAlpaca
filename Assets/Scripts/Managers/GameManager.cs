@@ -4,16 +4,14 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     InterfaceManager interfaceManager;
-    LevelManager levelManager;
+    internal LevelManager levelManager;
     internal CustomInputManager inputManager;
-    //AudioManager audioManager;
+    internal AudioManager audioManager;
     //ScoreManager scoreManager;
 
-    public GameObject interfaceManagerPrefab,levelManagerPrefab;
+    public GameObject interfaceManagerPrefab,levelManagerPrefab,audioManagerPrefab;
 
     int currentLevel, lastLevel, maxLevel;
-
-    //ScoreManager scoreManager;
 
     internal void ExitGame()
     {
@@ -24,7 +22,9 @@ public class GameManager : MonoBehaviour
     {
         interfaceManager = Instantiate(interfaceManagerPrefab).GetComponent<InterfaceManager>();
         levelManager = Instantiate(levelManagerPrefab).GetComponent<LevelManager>();
+        audioManager = Instantiate(audioManagerPrefab).GetComponent<AudioManager>();
         interfaceManager.Initialize();
+        audioManager.Initialize();
         lastLevel = 1;
         currentLevel = 1;
         maxLevel = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
