@@ -46,4 +46,9 @@ public class AlpacaSound : MonoBehaviour
     {
         inputManager = manager;
     }
+
+    public void SetAudioManager(AudioManager manager)
+    {
+        audioControll = manager;
+    }
 }

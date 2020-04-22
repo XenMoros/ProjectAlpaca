@@ -17,6 +17,11 @@ public class AudioManager : MonoBehaviour
     // - 1: Coz Alpaca
     // - 2: Sonido Ambiente
 
+    public void Initialize()
+    {
+        source = Camera.main.GetComponent<AudioSource>();
+    }
+
     public void PlaySound(int audio)
     {
             source.PlayOneShot(audios[audio]);
