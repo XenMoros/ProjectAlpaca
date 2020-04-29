@@ -8,7 +8,6 @@ public class CajaScript : MonoBehaviour
     public LayerMask layerBoxCast;
 
     // Flags de estado
-    private bool expanded = false; // Si el Collider esta expandido
     public bool activateM = false; // Si la caja se mueve
 
     // Variables de RayCast para parar la caja
@@ -38,19 +37,6 @@ public class CajaScript : MonoBehaviour
         timerMovimiento -= Time.deltaTime;
         // Prueba de mover la caja
         Movimiento();
-
-        // Si la caja esta cayendo, aumenta su hitbox de caida
-        /*if (cajaRB.velocity.y < -0.1 && !expanded)
-        {
-            cajaBC.size = new Vector3(2, 1, 2);
-            expanded = true;
-        }
-        // Si la caja NO esta cayendo reset la escala del collider a tamaño de la caja
-        if (expanded && cajaRB.velocity.y >= 0)
-        {
-            cajaBC.size = new Vector3(1, 1, 1);
-            expanded = false;
-        }*/
     }
 
     private void LateUpdate()
