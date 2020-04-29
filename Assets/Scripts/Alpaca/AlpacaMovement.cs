@@ -41,7 +41,7 @@ public class AlpacaMovement : MonoBehaviour
     internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar, Cozeo };
     internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle;
 
-    internal float velocidadVertical, velocidadEntradaFaseFrenado;
+    internal float velocidadVertical;
     private bool botonSoltado;
     public LayerMask layerReposicionarSuelo;
 

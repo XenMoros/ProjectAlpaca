@@ -11,7 +11,7 @@ public class EntradaYSalidaGM : MonoBehaviour
     public AlpacaMovement MovimientoAlpaca; // Movimiento de la alpaca
 
     // Variables de control
-    private float tiempoEsperaInicio = 1f;
+    //private float tiempoEsperaInicio = 1f;
 
     // Timers de control
     public float timer = 1;

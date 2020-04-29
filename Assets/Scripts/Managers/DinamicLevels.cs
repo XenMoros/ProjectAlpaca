@@ -9,23 +9,30 @@ using TMPro;
 public class DinamicLevels : MonoBehaviour
 {
 
+    Resolution res;
     public InterfaceManager interfaceManager;
     public List<Button> niveles = new List<Button>();
     public Button prefabButton;
     public Transform content;
     public Button returnButton;
     public int numNiveles;
+    public float porcionVertical = 1;
+
+    RectTransform contentRT;
 
 
     void Start()
     {
+        res = Screen.currentResolution;
+        Debug.Log(res);
         numNiveles = EditorBuildSettings.scenes.Length - 1;
-        RectTransform contentRT = content.GetComponent<RectTransform>();
+        contentRT = content.GetComponent<RectTransform>();
 
         contentRT.anchorMin = new Vector2(0, 1);
         contentRT.anchorMax = new Vector2(1, 1);
 
-        contentRT.offsetMin = new Vector2(0, numNiveles * -75);
+        //contentRT.offsetMin = new Vector2(0, numNiveles * -75);
+        contentRT.offsetMin = new Vector2(0, - numNiveles * (res.height/ porcionVertical));
 
         Navigation botonN = new Navigation();
         botonN.mode = Navigation.Mode.Explicit;
@@ -76,5 +83,15 @@ public class DinamicLevels : MonoBehaviour
         botonN.selectOnDown = niveles[0];
 
         returnButton.navigation = botonN;
+    }
+
+    private void Update()
+    {
+        if (res.height != Screen.currentResolution.height)
+        {
+
+            contentRT.offsetMin = new Vector2(0, - numNiveles * (res.height / porcionVertical));
+            res = Screen.currentResolution;
+        }
     }
 }
