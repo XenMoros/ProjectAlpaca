@@ -35,8 +35,6 @@ public class EscupitajoAction : MonoBehaviour
         {
             escupitajos.Add(Instantiate(escupitajoPrefab, recamara.position,Quaternion.identity,recamara));
         }
-
-        
     }
 
     void Update()
@@ -95,14 +93,12 @@ public class EscupitajoAction : MonoBehaviour
         {
             nBala = 0;
         }
-              
+
     }
 
     void ParticulasEscupitajo()
     {
-        escupitajoParticleSystem.transform.position = cabeza.position;
-        escupitajoParticleSystem.transform.localEulerAngles = transform.localEulerAngles;
-        escupitajoParticleSystem.Play();
+        escupitajoParticleSystem.Play(true);
     }
 
     public void SetInputManager(CustomInputManager manager)
