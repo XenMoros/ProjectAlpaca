@@ -18,18 +18,28 @@ public class EnemyManager : MonoBehaviour
         {
             enemies.Add((Enemy)enemigo);
         }
+
+        foreach(Enemy enemigo in enemies)
+        {
+            enemigo.SetEnemyManager(this);
+        }
     }
 
-    private void LateStart()
+    public void SetLevelManager(LevelManager levelManager)
     {
-        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        this.levelManager = levelManager;
     }
 
-    public void SetPause(bool state)
+    public void SetPause()
     {
         foreach(Enemy enemy in enemies)
         {
-            enemy.SetPause(state);
+            enemy.SetPause();
         }
+    }
+
+    public void ReloadLevel()
+    {
+        levelManager.RestartLevel();
     }
 }

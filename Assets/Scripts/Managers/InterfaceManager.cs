@@ -14,20 +14,34 @@ public class InterfaceManager : MonoBehaviour
     public CanvasGroup optionsManuGroup;
     public CanvasGroup levelSelectManuGroup;
 
-    Selectable[] selectDefecto = new Selectable[4];
+    public CanvasGroup loadingGroup;
+
+    public Selectable[] selectDefecto = new Selectable[4];
     public Selectable mainManuDefSelect;
     public Selectable mainManuDefSelect2;
     public Selectable pauseManuDefSelect;
     public Selectable optionsManuDefSelect;
     public Selectable levelSelectManuDefSelect;
 
+    public Stack<int> historialGrupos = new Stack<int>();
+    public Stack<Selectable> historialBotones = new Stack<Selectable>();
 
     public Selectable lastSelection;
 
-    public int grupoActivo, grupoAnterior=-1;
+    public int grupoActual;
 
-    private void Initialize()
+    private void Update()
     {
+        if (gameManager.inputManager.GetButtonDown("Return"))
+        {
+            ReturnButton();
+        }
+
+    }
+    public void Initialize()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         grupos[0] = mainManuGroup;
         grupos[1] = pauseManuGroup;
         grupos[2] = optionsManuGroup;
@@ -38,106 +52,140 @@ public class InterfaceManager : MonoBehaviour
         selectDefecto[2] = optionsManuDefSelect;
         selectDefecto[3] = levelSelectManuDefSelect;
 
-        for (int i=0;i<4;i++)
-        {
-            ClooseGroup(i);
-        }
+        StartMainMenu();
+        historialGrupos.Push(-1);
     }
 
     public void StartMainMenu()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        Initialize();
-        OpenGroup(0);
-        grupoActivo = 0;
-        grupoAnterior = -1;
+        grupoActual = 0;
+        CloseAllGroups();
+        OpenGroup(grupoActual);
+        LoadingGroup(false);
     }
 
     public void OpenPauseMenu()
     {
-        OpenGroup(1);
-        grupoActivo = 1;
-        grupoAnterior = -1;
+        grupoActual = 1;
+        OpenGroup(grupoActual);
+    }
+
+    public void ClosePauseMenu()
+    {
+        CloseGroup(grupoActual);
     }
 
     public void OpenGroup(int indice)
     {
         grupos[indice].alpha = 1;
         grupos[indice].interactable = true;
-        if (indice == grupoAnterior)
-        {
-            lastSelection.Select();
-        }
-        else
-        {
-            selectDefecto[indice].Select();
-        }
-
+        selectDefecto[grupoActual].Select();
     }
 
-    public void ClooseGroup(int indice)
+    public void CloseAllGroups()
+    {
+        for(int i = 0; i < grupos.Length; i++)
+        {
+            CloseGroup(i);
+        }
+        historialGrupos.Clear();
+        historialGrupos.Push(-1);
+        historialBotones.Clear();
+    }
+
+    public void CloseGroup(int indice)
     {
         grupos[indice].alpha = 0;
         grupos[indice].interactable = false;
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void LevelSelectButton()
     {
+        historialGrupos.Push(grupoActual);
         ButtonSelect();
-        OpenGroup(3);
-        grupoAnterior = grupoActivo;
-        grupoActivo = 3;
+
+        grupoActual = 3;
+        OpenGroup(grupoActual);
     }
 
     public void OptionsButton()
     {
+        historialGrupos.Push(grupoActual);
         ButtonSelect();
-        OpenGroup(2);
-        grupoAnterior = grupoActivo;
-        grupoActivo = 2;
+
+        grupoActual = 2;
+        OpenGroup(grupoActual);
 
     }
 
     public void NewGameButton()
     {
-        ButtonSelect();
-        OpenGroup(1);
-        grupoAnterior = grupoActivo;
-        grupoActivo = 1;
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.NewGame();
     }
 
     public void ContinueGameButton()
     {
+        CloseAllGroups();
+        LoadingGroup(true);
         gameManager.ContinueGame();
     }
 
     public void ContinueButton()
     {
-        grupoAnterior = grupoActivo;
-        ClooseGroup(grupoActivo);
+        ClosePauseMenu();
         gameManager.Continue();
     }
 
     public void ReturnButton()
     {
-        int intermedio;
-        OpenGroup(grupoAnterior);
-        ClooseGroup(grupoActivo);
-        
-        intermedio = grupoActivo;
-        grupoActivo = grupoAnterior;
-        grupoAnterior = intermedio;
+        if (historialGrupos.Peek() != -1)
+        {
+            CloseGroup(grupoActual);
+            grupoActual = historialGrupos.Pop();
+            OpenGroup(grupoActual);
+            if (historialBotones.Count != 0)
+            {
+                Debug.Log("Boton" + historialBotones.Peek().name);
+                historialBotones.Pop().Select();
+            }
+            else
+            {
+                Debug.Log("Sin botones??");
+            }
+        }
+        /*else if(grupoActual == 1)
+        {
+            ClosePauseMenu();
+        }*/
+    }
 
+    public void LoadingGroup(bool state)
+    {
+        if (state)
+        {
+            loadingGroup.alpha = 1;
+        }
+        else
+        {
+            loadingGroup.alpha = 0;
+        }
     }
 
     public void LevelButton(int level)
     {
-        //
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.LoadLevel(level);
     }
 
     public void RestartButton()
     {
-
+        CloseAllGroups();
+        LoadingGroup(true);
+        gameManager.RestartCurrentLevel();
     }
 
     public void ExitButton()
@@ -145,9 +193,15 @@ public class InterfaceManager : MonoBehaviour
         gameManager.ExitGame();
     }
 
-    internal void ButtonSelect()
+    public void ReturnToMainButton()
     {
-        lastSelection = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
+        gameManager.ReturnToMain();
+        StartMainMenu();
+    }
+
+    public void ButtonSelect()
+    {
+        historialBotones.Push(EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>());
     }
 
 

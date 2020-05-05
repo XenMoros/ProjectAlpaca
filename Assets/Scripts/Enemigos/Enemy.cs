@@ -1,10 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IActivable
 {
-    public virtual void SetPause(bool state)
-    {
+    public bool pausa = true, active = true;
+    public EnemyManager enemyManager;
 
+    public virtual void SetPause()
+    {
+        pausa = StaticManager.pause;
     }
+
+    public virtual void SetActivationState(bool activateState)
+    {
+        active = activateState;
+    }
+
+    public void SetEnemyManager(EnemyManager manager)
+    {
+        enemyManager = manager;
+    }
+
 }

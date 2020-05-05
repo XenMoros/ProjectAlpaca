@@ -7,6 +7,8 @@ public class InteractScript : MonoBehaviour
     // Referencias precacheadas en inspector de otros GameObjects
     public Transform entorno;
     public AlpacaMovement alpacaMovement;
+    public CustomInputManager inputManager;
+    public InteractionReminder interactReminder;
 
     // Valores para casteo de rayos
     LayerMask cajaLayerMask;
@@ -25,66 +27,96 @@ public class InteractScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        // En caso de estar en influencia de una caja y no estar en el aire
-        if (other.CompareTag("ArrastreCaja") && !alpacaMovement.onAir)
+        if (!alpacaMovement.pause)
         {
-            // Si mantienes la X te acopla la caja
-            if (Input.GetButton("X"))
+            // En caso de estar en influencia de una caja y no estar en el aire
+            if (other.CompareTag("ArrastreCaja") && !alpacaMovement.onAir)
             {
-                AcoplarCaja(other);
+                if (other.transform.parent.parent.gameObject != this.gameObject)
+                {
+                    //Compureba que mires a la caja
+                    if (Physics.Raycast(transform.position + new Vector3(0, transform.localScale.y / 4f, 0), transform.forward, out hitInfo, 5f, cajaLayerMask, QueryTriggerInteraction.Ignore))
+                    {
+                        // Si el objeto con el que choca el rayo casteado coincide con el objeto del trigger, asigna
+                        if (hitInfo.collider.gameObject == other.transform.parent.gameObject)
+                        {
+                            interactReminder.SetArrastre(true);
+                            // Si mantienes la X te acopla la caja
+                            if (inputManager.GetButton("Interact"))
+                            {
+                                AcoplarCaja(other);
+                            }
+                        }
+                        else
+                        {
+                            interactReminder.SetArrastre(false);
+                        }
+                    }
+                    else
+                    {
+                        interactReminder.SetArrastre(false);
+                    }
+                }
+                else
+                {
+                    interactReminder.SetArrastre(false);
+                }
+                // Si sueltas la X te desacopla la caja con reset de caida
+                if (!inputManager.GetButton("Interact"))
+                {
+                    DesacoplarCaja(other, true);
+                }
             }
-            // Si sueltas la X te desacopla la caja con reset de caida
-            else
+            // En caso de pasar a estar cayendo mientras arrastras una caja, desacoplar la misma
+            else if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
             {
-                DesacoplarCaja(other, true);
+                DesacoplarCaja(other, false);
             }
-        }
-        // En caso de pasar a estar cayendo mientras arrastras una caja, desacoplar la misma
-        else if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
-        {
-            DesacoplarCaja(other, false);
-        }
-        // Si estaas en la influencia de una palanca
-        else if (other.CompareTag("Palanca"))
-        {
-            // Si pulsas X activar la palanca
-            if (Input.GetButtonDown("X"))
+            // Si estaas en la influencia de una palanca
+            
+            if (other.CompareTag("Palanca") && !alpacaMovement.arrastrando)
             {
-                other.gameObject.GetComponent<Palanca>().ActivatePalanca();
+                interactReminder.SetInteraccion(true);
+                // Si pulsas X activar la palanca
+                if (inputManager.GetButtonDown("Interact"))
+                {
+                    other.gameObject.GetComponent<Palanca>().ActivatePalanca();
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // En caso de salir de la influencia de la caja, desacoplarte automaticamente
-        if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
+        if (!alpacaMovement.pause)
         {
+            // En caso de salir de la influencia de la caja, desacoplarte automaticamente
+            if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
+            {
                 DesacoplarCaja(other, true);
+                interactReminder.SetArrastre(false);
+            }
+            else if (other.CompareTag("ArrastreCaja"))
+            {
+                interactReminder.SetArrastre(false);
+            }
+            if (other.CompareTag("Palanca"))
+            {
+                interactReminder.SetInteraccion(false);
+            }
         }
-        
     }
 
     // Acople y reclamar la caja para arrastrarla
     private void AcoplarCaja(Collider other)
     {
-        if (other.transform.parent.parent.gameObject != this.gameObject)
-        {
-            //Compureba que mires a la caja
-            if (Physics.Raycast(transform.position + new Vector3(0, transform.localScale.y / 4f, 0), transform.forward, out hitInfo, 5f, cajaLayerMask, QueryTriggerInteraction.Ignore))
-            { 
-                // Si el objeto con el que choca el rayo casteado coincide con el objeto del trigger, asigna
-                if (hitInfo.collider.gameObject == other.transform.parent.gameObject)
-                {
-                // Reposicion mirando directamente la cara de la caja
-                transform.forward = -hitInfo.normal;
-                    // Asigna la caja como hija tuya para que te siga
-                    other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(this.transform);
-                    // Flags de movimiento
-                    alpacaMovement.SetArrastre(true);
-                }
-            }
-        }
+        interactReminder.SetArrastre(false);
+        // Reposicion mirando directamente la cara de la caja
+        transform.forward = -hitInfo.normal;
+        // Asigna la caja como hija tuya para que te siga
+        other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(this.transform);
+        // Flags de movimiento
+        alpacaMovement.SetArrastre(true);
     }
 
     // Desacople de la caja en caso de estar llevandola, con puesta a cero de la caida segun bool
@@ -101,7 +133,12 @@ public class InteractScript : MonoBehaviour
             {
                 alpacaMovement.velocidadVertical = 0;
             }
+            interactReminder.SetArrastre(true);
         }
     }
 
+    public void SetInputManager(CustomInputManager manager)
+    {
+        inputManager = manager;
+    }
 }

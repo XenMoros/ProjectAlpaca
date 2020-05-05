@@ -1,108 +1,288 @@
-﻿using UnityEngine;
+﻿using Pathfinding;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class GuardiaMovement : Enemy
 {
     // Elementos precacheados desde inspector
-    public EntradaYSalidaGM gameManager; // GameManager para reiniciar el nivel
+    //public EntradaYSalidaGM gameManager; // Esto será en un futuro un EnemyManager
     public Transform player; // Alpaca
-    public NavMeshAgent agente; // El pathfinding del agente
+    public IAstarAI agent;
     public Animator guardiaAnimator;
+    public WaypointManager waypointManager;
+    public AnimationEventGuardia AEGuardia;
+
 
     // Variables publicas de movimiento
     public float fieldOfView; // Campo de vision del guardia
     public float distanciaVolverPosicion; // Distancia minima para considerar volver al inicio
-
-    // Boleanos de estado
-    private bool cegacion = false;
 
     // Informacion de casteo de Rayos
     private RaycastHit hitInfo;
 
     // Variables de movimiento
     private Vector3 objective; // Objetivo
-    private Vector3 initialPosition; // Posicion inicial
+    private Vector3 lastPosition; // Posicion inicial
+    private Quaternion lastRotation;
     private Quaternion initialRotation; // Rotacion inicial
-    private readonly float tiempoCegacion = 5f; // Tiempo que el guardia esta cegado
+    private float timerEnEstado;
+    private float tiempoEnEstado; // Tiempo que el guardia esta cegado
+    public float correrSpeed, andarSpeed;
+    bool estabaPatrullando;
 
+    internal enum Estado {SinCambios ,Idle, Patrullando, Volviendo, Buscando, Investigar, Perseguir, Aturdido};
+
+    internal Estado estado, estadoSiguiente;
+    
     private void Start()
     {
-        // Captura de condiciones iniciales de transform 
-        initialPosition = transform.position;
-        initialRotation = transform.rotation;
+        estado = Estado.Idle;
+        estabaPatrullando = false;
+        agent = GetComponent<IAstarAI>();
+    }
+    private void LateUpdate()
+    {
+        if (!pausa && active)
+        {
+            if (estadoSiguiente != estado && estadoSiguiente != Estado.SinCambios)
+            {
+                if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle || estadoSiguiente == Estado.Buscando)
+                {
+                    agent.canMove = false;
+                    agent.canSearch = false;
 
-        //animationEvent.time = pararseGuardia.length;
+                    if (estadoSiguiente == Estado.Idle)
+                    {
+                        tiempoEnEstado = waypointManager.RetornarWaypoint().RetornarTiempo();
+                    }
+                    else
+                    {
+                        tiempoEnEstado = 5f;
+                    }
+                }
+                else if (estado == Estado.Aturdido || estado == Estado.Idle || estado == Estado.Buscando)
+                {
+                    agent.canMove = true;
+                    agent.canSearch = true;
+                }
+
+                if (estado == Estado.Idle || estado == Estado.Patrullando)
+                {
+                    if (estado == Estado.Patrullando)
+                    {
+                        estabaPatrullando = true;
+                    }
+                    else
+                    {
+                        estabaPatrullando = false;
+                    }
+
+                    if (estadoSiguiente != Estado.Patrullando && estadoSiguiente != Estado.Idle)
+                    {
+                        lastPosition = transform.position;
+                        lastRotation = transform.rotation;
+                    }
+                }
+
+                if (estadoSiguiente == Estado.Perseguir || estadoSiguiente == Estado.Investigar || estadoSiguiente == Estado.Patrullando || estadoSiguiente == Estado.Volviendo)
+                {
+                    SetObjective(objective);
+
+                    if (estadoSiguiente == Estado.Perseguir)
+                    {
+                        agent.maxSpeed = correrSpeed;
+                    }
+                    else
+                    {
+                        agent.maxSpeed = andarSpeed;
+                    }
+
+                }
+
+                estado = estadoSiguiente;
+                estadoSiguiente = Estado.SinCambios;
+
+                ControlDeAnimaciones();
+
+                timerEnEstado = 0f;
+
+            }
+        }
     }
 
     private void Update()
     {
-        // Si esta cegado
-        if (cegacion)
-        {         
-            agente.isStopped = true;
-            guardiaAnimator.SetBool("RecibeEscupitajo", true);
-        }
-        //Si no esta cegadp
-        else
+        if (!pausa && active)
         {
-            agente.isStopped = false;
-            guardiaAnimator.SetBool("RecibeEscupitajo", false);
+            timerEnEstado += Time.deltaTime;
 
-            //Intenta buscar objetivo
-            if (BuscarObjetivo())
+            switch (estado)
             {
-                // Si encuentra un objetivo (te ve o oye) marca dicha posicion como nuevo objetivo
-                SetObjective(objective);
-                guardiaAnimator.SetBool("Relax", false);
-                guardiaAnimator.SetBool("AlpacaVista", true);
-            
-            }
+                case Estado.Idle:
 
-            // Si ha acabado de investigar o te pierde, vuelve a su posicion original
-            if (!agente.pathPending)
-            {              
-                if (agente.remainingDistance <= (agente.stoppingDistance + 2f))
-                {                    
-                    if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
+                    if (BuscarObjetivo())
+                    {
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    else if (timerEnEstado > tiempoEnEstado && waypointManager.waypointList.Count > 1)
+                    {
+                        waypointManager.AvanzarWaypoint();
+                        objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                        CambiarEstado(Estado.Patrullando);
+                    }
+                    break;
+                case Estado.Patrullando:
+
+                    if (BuscarObjetivo())
                     {
 
-                        // Si esta lejos de su posicion original, marca como objetivo la misma
-                        if (Vector3.Distance(agente.destination, initialPosition) > distanciaVolverPosicion)
-                        {                            
-                            guardiaAnimator.SetBool("AlpacaVista", false);
-                            guardiaAnimator.SetBool("GuardiaPara", true);
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
+                        {
+                            CambiarEstado(Estado.Idle);
                         }
-                        // Si ya ha llegado a su posicion original simplemente vuelve a mirar hacia donde miraba al principio
                         else
                         {
-                            transform.rotation = initialRotation;
-                            guardiaAnimator.SetBool("Caminar", false);
-                            guardiaAnimator.SetBool("Relax", true);                            
+                            waypointManager.AvanzarWaypoint();
+                            objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                            SetObjective(objective);
                         }
-
                     }
-                }
+                    break;
+                case Estado.Perseguir:
+
+                    if (BuscarObjetivo())
+                    {
+                        SetObjective(objective);
+                    }
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        CambiarEstado(Estado.Buscando);
+                    }
+                    break;
+                case Estado.Aturdido:
+
+                    break;
+                case Estado.Volviendo:
+
+                    if (BuscarObjetivo())
+                    {
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        if (estabaPatrullando)
+                        {
+                            objective = waypointManager.RetornarWaypoint().RetornarPosition();
+                            CambiarEstado(Estado.Patrullando);
+                        }
+                        else
+                        {
+                            if(Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 0.5f){
+                                SetObjective(waypointManager.RetornarWaypoint().RetornarPosition());
+                            }
+                            else
+                            {
+                                transform.rotation = lastRotation;
+                                CambiarEstado(Estado.Idle);
+                            }
+
+                        }
+                    }
+                    break;
+                case Estado.Investigar:
+
+                    if (BuscarObjetivo())
+                    {
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    {
+                        CambiarEstado(Estado.Buscando);
+                    }
+                    break;
+                case Estado.Buscando:
+                    if (BuscarObjetivo())
+                    {
+                        CambiarEstado(Estado.Perseguir);
+                    }
+                    break;
+
+                default:
+                    break;
             }
+
         }
     }
 
     // Marca la posicion position como objetivo del agente
     public void SetObjective(Vector3 position)
-    {        
-        agente.destination = position;
+    {
+        agent.destination = position;
+        if (!agent.pathPending)
+        {
+            agent.SearchPath();
+        }
     }
 
-    public void AnimationEvent()
+    public void FinalBuscar()
     {
-        guardiaAnimator.SetBool("GuardiaPara", false);
-        guardiaAnimator.SetBool("Caminar", true);
-        SetObjective(initialPosition);
+        CambiarEstado(Estado.Volviendo);
+        objective = lastPosition;
     }
 
-    public void QuitarseEscupitajos()
+    public void FinalAturdido()
     {
+        if (BuscarObjetivo())
+        {
+            CambiarEstado(Estado.Perseguir);
+        }
+        else
+        {
+            CambiarEstado(Estado.Buscando);
+        }
+    }
 
-        cegacion = false;
+    internal void CambiarEstado(Estado estadoPropuesto)
+    {
+        if ((int)estadoPropuesto > (int)estadoSiguiente)
+        {
+            estadoSiguiente = estadoPropuesto;
+        }
+    }
+
+    public void GuardiaEscucha (Vector3 origen)
+    {
+        CambiarEstado(Estado.Investigar);
+        objective = origen;
+    }
+
+    void ControlDeAnimaciones()
+    {
+        switch(estado)
+        {
+            case Estado.Aturdido:
+                guardiaAnimator.SetTrigger("Aturdido");
+                break;
+            case Estado.Perseguir:
+                guardiaAnimator.SetTrigger("Perseguir");
+                break;
+            case Estado.Patrullando:
+            case Estado.Investigar:
+            case Estado.Volviendo:
+                guardiaAnimator.SetTrigger("Caminar");
+                break;
+            case Estado.Buscando:
+                guardiaAnimator.SetTrigger("Buscando");
+                break;
+            case Estado.Idle:
+                guardiaAnimator.SetTrigger("Idle");
+                break;
+
+        }
     }
 
     // Funcion de busqueda de objetivo
@@ -137,7 +317,8 @@ public class GuardiaMovement : Enemy
         // Si atrapa a la alpaca reinicia el nivel (de momento si toca, se tendra que mimar mas)
         if (collision.gameObject.CompareTag("Player"))
         {
-            gameManager.Reload();
+            enemyManager.ReloadLevel();
+            
         }
         // En caso de chocar con una caja que le caiga desde Arriba, el Agente muere
         if (collision.gameObject.CompareTag("Caja"))
@@ -148,18 +329,37 @@ public class GuardiaMovement : Enemy
             }
         }
         // En caso de que le escupas y no este cegado, parar el agente y empezar la cuenta del cegado
-        if (collision.gameObject.CompareTag("Escupitajo") && !cegacion)
+        if (collision.gameObject.CompareTag("Escupitajo"))
         {
-            //timerCegacion = 0;
-            cegacion = true;
-            agente.isStopped = true;
-            guardiaAnimator.SetBool("RecibeEscupitajo", true);
+            CambiarEstado(Estado.Aturdido);
         }
     }
 
-    public override void SetPause(bool state)
+    public override void SetPause()
     {
-        base.SetPause(state);
+        base.SetPause();
 
+        HabilitarGuardia();
+    }
+
+    public override void SetActivationState(bool activateState)
+    {
+        base.SetActivationState(activateState);
+
+        HabilitarGuardia();
+    }
+
+    void HabilitarGuardia()
+    {
+        if (!pausa && active)
+        {
+            agent.canMove = true;
+            guardiaAnimator.speed = 1;
+        }
+        else
+        {
+            agent.canMove = false;
+            guardiaAnimator.speed = 0;
+        }
     }
 }

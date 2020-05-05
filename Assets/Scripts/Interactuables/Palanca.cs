@@ -5,11 +5,10 @@ public class Palanca : MonoBehaviour
     // Elementos precacheados en Inspector
     public Animator palancaAnimator; // El animator de la palanca
     public GameObject activate; // El GameObject a activar 
+    bool palancaState = false;
 
     // Interfaz Iactivable del objeto a activar
     IActivable activateObj;
-
-
     private void Start()
     {
         // Asignacion de la interfaz IActivable correspodiente
@@ -19,8 +18,10 @@ public class Palanca : MonoBehaviour
     // En activar la palanca, empezar la animacion y activar el objeto asociado
     public void ActivatePalanca()
     {
-        palancaAnimator.SetTrigger("Activation");
-        activateObj.SetActivationState(true);
+
+        palancaState = !palancaState;
+        activateObj.SetActivationState(palancaState);
+        palancaAnimator.SetBool("Activada", palancaState);
 
     }
 }
