@@ -11,7 +11,7 @@ public class GuardiaMovement : Enemy
     public Animator guardiaAnimator;
     public WaypointManager waypointManager;
     public AnimationEventGuardia AEGuardia;
-    EnemyManager enemyManager;
+
 
     // Variables publicas de movimiento
     public float fieldOfView; // Campo de vision del guardia
@@ -181,8 +181,15 @@ public class GuardiaMovement : Enemy
                         }
                         else
                         {
-                            transform.rotation = lastRotation;
-                            CambiarEstado(Estado.Idle);
+                            if(Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 0.5f){
+                                SetObjective(waypointManager.RetornarWaypoint().RetornarPosition());
+                            }
+                            else
+                            {
+                                transform.rotation = lastRotation;
+                                CambiarEstado(Estado.Idle);
+                            }
+
                         }
                     }
                     break;
@@ -310,7 +317,7 @@ public class GuardiaMovement : Enemy
         // Si atrapa a la alpaca reinicia el nivel (de momento si toca, se tendra que mimar mas)
         if (collision.gameObject.CompareTag("Player"))
         {
-            //gameManager.Reload();
+            enemyManager.ReloadLevel();
             
         }
         // En caso de chocar con una caja que le caiga desde Arriba, el Agente muere

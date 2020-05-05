@@ -122,8 +122,7 @@ public class LevelManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        UnloadLevel();
-        LoadLevel(1);
+        gameManager.RestartCurrentLevel();
     }
 
     public void LevelComplete()
