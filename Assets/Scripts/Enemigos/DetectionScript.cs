@@ -7,6 +7,8 @@ public class DetectionScript : MonoBehaviour
     public LenteScript lenteScript;
     public Transform generalCamera;
     public Transform player;
+
+    public float distanceView;
     bool lanzarRayos;
    // public bool alpacaHit;
     RaycastHit hit;
@@ -15,21 +17,34 @@ public class DetectionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(lenteScript.active && !lenteScript.pausa && lanzarRayos)
+        
+        if (lenteScript.active && !lenteScript.pausa && lanzarRayos)
         {
-            direction = player.position - generalCamera.position;
-
-            if (Physics.Raycast(generalCamera.position, direction, out hit))
+            hit = new RaycastHit();
+            direction = (player.position - generalCamera.position).normalized;
+            Debug.DrawLine(generalCamera.position, generalCamera.position + direction * distanceView);
+            if (Physics.Raycast(generalCamera.position, direction, out hit, distanceView))
             {
                 if (hit.collider.name == "Alpaca")
                 {
+                    Debug.Log("Alpaca");
                     lenteScript.SetAlpacaHit(true);
                 }
                 else
                 {
+                    Debug.Log("No Alpaca");
                     lenteScript.SetAlpacaHit(false);
                 }
             }
+            else
+            {
+                Debug.Log("No Choque");
+                lenteScript.SetAlpacaHit(false);
+            }
+        }
+        else if(lenteScript.active && !lenteScript.pausa)
+        {
+            lenteScript.SetAlpacaHit(false);
         }
     }
 

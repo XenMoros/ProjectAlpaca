@@ -18,6 +18,11 @@ public class EnemyManager : MonoBehaviour
         {
             enemies.Add((Enemy)enemigo);
         }
+
+        foreach(Enemy enemigo in enemies)
+        {
+            enemigo.SetEnemyManager(this);
+        }
     }
 
     public void SetLevelManager(LevelManager levelManager)
@@ -31,5 +36,10 @@ public class EnemyManager : MonoBehaviour
         {
             enemy.SetPause();
         }
+    }
+
+    public void ReloadLevel()
+    {
+        levelManager.RestartLevel();
     }
 }

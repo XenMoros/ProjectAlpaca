@@ -15,7 +15,7 @@ public class LenteScript : Enemy
     public float rotationSpeed = 20f, maxAnglePerSecond = 30;
 
     float timer = 0;
-    public float tiempoMuerte = 5f;
+    public float tiempoMuerte = 10f;
 
     private void Start()
     {
@@ -25,6 +25,7 @@ public class LenteScript : Enemy
     // Update is called once per frame
     void Update()
     {
+        
         if (active && !pausa)
         {
             if (alerta)
@@ -41,7 +42,7 @@ public class LenteScript : Enemy
 
                 if(timer > tiempoMuerte)
                 {
-                    Debug.Log("Moriste");
+                    enemyManager.ReloadLevel();
                 }
             }
             else

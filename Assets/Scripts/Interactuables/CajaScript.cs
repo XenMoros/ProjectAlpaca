@@ -2,6 +2,7 @@
 
 public class CajaScript : MonoBehaviour
 {
+    public Transform entorno;
     // Variables publicas de control
     public float speed = 15; // Velocidad de movimiento de la caja
     public float tiempoMovimiento = 0.5f;
@@ -16,7 +17,6 @@ public class CajaScript : MonoBehaviour
 
     // Objetos para controlar la expansion del Collider en caida 
     private Rigidbody cajaRB; // Rigidbody de la caja
-    private BoxCollider cajaBC; // Collider de la caja
 
     // Timers de control
     float timerMovimiento = 0;
@@ -28,7 +28,6 @@ public class CajaScript : MonoBehaviour
     {
         // Capturamos el Rigidbody y el Collider de la caja
         cajaRB = gameObject.GetComponent<Rigidbody>();
-        cajaBC = gameObject.GetComponent<BoxCollider>();
     }
 
     void Update()
@@ -154,6 +153,24 @@ public class CajaScript : MonoBehaviour
     {
         transform.position = Hole + Vector3.up;
         activateM = false;
+    }
+
+    public void SetParent()
+    {
+        transform.parent = entorno;
+    }
+
+    public void SetParent(Transform newParent,bool forzado)
+    {
+        if (forzado)
+        {
+            transform.parent = newParent.transform;
+        }
+        else if (transform.parent.Equals(entorno))
+        {
+            transform.parent = newParent.transform;
+        }
+        
     }
 }
 

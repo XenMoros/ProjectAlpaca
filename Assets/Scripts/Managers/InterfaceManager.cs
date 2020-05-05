@@ -61,7 +61,7 @@ public class InterfaceManager : MonoBehaviour
         grupoActual = 0;
         CloseAllGroups();
         OpenGroup(grupoActual);
-        
+        LoadingGroup(false);
     }
 
     public void OpenPauseMenu()

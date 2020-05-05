@@ -25,7 +25,8 @@ public class DinamicLevels : MonoBehaviour
     {
         res = Screen.currentResolution;
         Debug.Log(res);
-        numNiveles = EditorBuildSettings.scenes.Length - 1;
+        //numNiveles = EditorBuildSettings.scenes.Length - 1;
+        numNiveles = 5;
         contentRT = content.GetComponent<RectTransform>();
 
         contentRT.anchorMin = new Vector2(0, 1);

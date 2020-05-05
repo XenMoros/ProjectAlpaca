@@ -4,6 +4,7 @@ using System.Collections;
 public class Enemy : MonoBehaviour, IActivable
 {
     public bool pausa = true, active = true;
+    public EnemyManager enemyManager;
 
     public virtual void SetPause()
     {
@@ -13,6 +14,11 @@ public class Enemy : MonoBehaviour, IActivable
     public virtual void SetActivationState(bool activateState)
     {
         active = activateState;
+    }
+
+    public void SetEnemyManager(EnemyManager manager)
+    {
+        enemyManager = manager;
     }
 
 }

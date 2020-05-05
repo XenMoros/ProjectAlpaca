@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Elevador : MonoBehaviour, IActivable
 {
     //public Animator animator;
     public GameObject activacionEnCadenaObj;
     public IActivable activacionEnCadena;
+   
     //public List<Transform> objetivos =  new List<Transform>();
     public WaypointManager waypointManager;
     //int objetivoActual= 0;
@@ -57,6 +59,30 @@ public class Elevador : MonoBehaviour, IActivable
         if (activacionEnCadena != null)
         {
             activacionEnCadena.SetActivationState(activateState);
+        }
+    }
+
+    /*private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Caja") && other.gameObject.transform.Equals(other.gameObject.GetComponent<CajaScript>().entorno))
+        {
+            other.gameObject.GetComponent<CajaScript>().SetParent(transform,true);
+        }
+    }*/
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Caja"))
+        {
+            other.gameObject.GetComponent<CajaScript>().SetParent(transform, false);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Caja") && other.gameObject.transform.parent.Equals(transform))
+        {
+            other.gameObject.GetComponent<CajaScript>().SetParent();
         }
     }
 }
