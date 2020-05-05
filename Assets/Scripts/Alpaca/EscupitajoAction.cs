@@ -4,6 +4,7 @@ using UnityEngine;
 public class EscupitajoAction : MonoBehaviour
 {
     // Elementos precacheados en Inspector
+    public ParticleSystem escupitajoParticleSystem;
     public List <EscupitajoScript> escupitajos; // Lista de escupitajos disponibles
     public EscupitajoScript escupitajoPrefab; // Prefab de los escupitajos
     public Transform cabeza; // Cabeza de la alpca
@@ -51,6 +52,7 @@ public class EscupitajoAction : MonoBehaviour
             if (inputManager.GetAxis("Escupir") == 1 && timerEntreDisparos <= 0)
             {
                 //Escupir();
+                
                 alpacaAnimator.SetTrigger("Escupitajo");
                 timerEntreDisparos = tiempoEntreDisparos; // Empieza a contar el tiempo de enfriamiento
             }
@@ -59,6 +61,8 @@ public class EscupitajoAction : MonoBehaviour
 
     public void Escupir()
     {
+        ParticulasEscupitajo();
+
         if (autoapuntado)
         {
             // Genera una lista de todos los objetos de tipo "Camara Lens, Guardia o BotonPared" que esten en el box de autoapuntado
@@ -89,7 +93,12 @@ public class EscupitajoAction : MonoBehaviour
         {
             nBala = 0;
         }
-              
+
+    }
+
+    void ParticulasEscupitajo()
+    {
+        escupitajoParticleSystem.Play(true);
     }
 
     public void SetInputManager(CustomInputManager manager)
