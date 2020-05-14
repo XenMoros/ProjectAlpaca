@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 9118975828518930266}
   - component: {fileID: 5606836245571042573}
   - component: {fileID: 6327881393461922473}
+  - component: {fileID: 2514760864693314962}
   m_Layer: 9
   m_Name: Alpaca
   m_TagString: Player
@@ -60,13 +61,13 @@ Rigidbody:
   m_GameObject: {fileID: 545654448897121839}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 99999
+  m_Drag: 10
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!95 &545654448887606689
 Animator:
   serializedVersion: 3
@@ -100,13 +101,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 0}
   camara: {fileID: 0}
-  alpacaBoxCollider: {fileID: 6327881393461922473}
   alpacaAnimator: {fileID: 545654448887606689}
   sonidos: {fileID: 0}
+  alpacaRB: {fileID: 2731804523480807688}
   movimiento:
-    speedMultiplier: 10
+    speedMultiplier: 50
     slowArrastre: 4
-    rotationSpeed: 360
+    movingDrag: 7
+    staticDrag: 10
+    blockDireccionArrastre: 2
+    rotationSpeed: 120
     maxAnglePerSecond: 720
   salto:
     velocidadInicialSalto: 8
@@ -114,10 +118,10 @@ MonoBehaviour:
     minimoTiempoSalto: 0.2
     velocidadTerminalCaida: 10
     coeficienteRaiz: 1.5
-    axisInfluenceOnAir: 0.7
+    axisInfluenceOnAir: 1.5
     maximaAcelAire: 1.2
-    slowMovementOnJump: 0.2
-    reduccionVelocidadSalto: 4
+    slowMovementOnJump: 0.1
+    reduccionVelocidadSalto: 2
     stunCaida: 0.05
   layerReposicionarSuelo:
     serializedVersion: 2
@@ -300,10 +304,24 @@ BoxCollider:
   m_GameObject: {fileID: 545654448897121839}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.59607136, y: 1.7220643, z: 1.234715}
   m_Center: {x: -0.0054585338, y: 0.8632139, z: 0.11735773}
+--- !u!136 &2514760864693314962
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545654448897121839}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.6466869
+  m_Height: 1.8131449
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8957442, z: 0.14668691}
 --- !u!1 &907351019936946796
 GameObject:
   m_ObjectHideFlags: 0
