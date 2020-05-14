@@ -110,8 +110,8 @@ MonoBehaviour:
     movingDrag: 7
     staticDrag: 10
     blockDireccionArrastre: 2
-    rotationSpeed: 120
-    maxAnglePerSecond: 720
+    rotationSpeed: 240
+    maxAnglePerSecond: 350
   salto:
     velocidadInicialSalto: 8
     maximoTiempoBoton: 0.2
@@ -3056,6 +3056,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shot
       objectReference: {fileID: 0}
+    - target: {fileID: 7643892968059817773, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
+    - target: {fileID: 7643892968059817773, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
+    - target: {fileID: 8436060736776984161, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
+    - target: {fileID: 8436060736776984161, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf61a08104ba64749bd61e04942c7434, type: 3}
 --- !u!4 &4446274344810193978 stripped
