@@ -63,7 +63,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 122
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &9093594402553193385
 MonoBehaviour:
@@ -77,6 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1deaca36fc614ee4fbde5b69bbd7f58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entorno: {fileID: 0}
+  interactScript: {fileID: 0}
   speed: 15
   tiempoMovimiento: 0.5
   layerBoxCast:
@@ -96,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  uniqueID: 7722768776723840192
+  uniqueID: 2971342313584017485
   updateError: 1
   checkTime: 0.2
 --- !u!1 &3856319387372273133
