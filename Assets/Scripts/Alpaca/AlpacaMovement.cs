@@ -134,8 +134,9 @@ public class AlpacaMovement : MonoBehaviour
                         //Si no arrastras, la direccion es acia alante
                         if (!arrastrando)
                         {
-                            direccionMovimiento = transform.forward;
-                            direccionMovimiento *= targetDirection.magnitude;
+                            direccionMovimiento = targetDirection;
+                            //direccionMovimiento = transform.forward;
+                            //direccionMovimiento *= targetDirection.magnitude;
                             if (direccionMovimiento.magnitude > 0.35f)
                             {
                                 faseMovimiento = FaseMovimiento.Correr;
@@ -185,8 +186,9 @@ public class AlpacaMovement : MonoBehaviour
                     }
                     else //En el aire la direccion es la anterior mas una modificacion segun input
                     {
-                        direccionMovimiento = transform.forward;
-                        direccionMovimiento *= targetDirection.magnitude * salto.axisInfluenceOnAir;
+                        direccionMovimiento = targetDirection * salto.axisInfluenceOnAir;
+                        //direccionMovimiento = transform.forward;
+                        //direccionMovimiento *= targetDirection.magnitude * salto.axisInfluenceOnAir;
                         /*
                         direccionMovimiento = direccionMovimientoAnt * 0.998f + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
                         if (direccionMovimiento.magnitude > direccionMovimientoAnt.magnitude * salto.maximaAcelAire)

@@ -106,18 +106,18 @@ MonoBehaviour:
   movimiento:
     speedMultiplier: 50
     slowArrastre: 4
-    movingDrag: 7
-    staticDrag: 10
+    movingDrag: 13
+    staticDrag: 30
     blockDireccionArrastre: 2
-    rotationSpeed: 240
-    maxAnglePerSecond: 350
+    rotationSpeed: 720
+    maxAnglePerSecond: 720
   salto:
     velocidadInicialSalto: 8
     maximoTiempoBoton: 0.2
     minimoTiempoSalto: 0.2
     velocidadTerminalCaida: 10
     coeficienteRaiz: 1.5
-    axisInfluenceOnAir: 0.5
+    axisInfluenceOnAir: 0.8
     maximaAcelAire: 0.8
     slowMovementOnJump: 0.2
     reduccionVelocidadSalto: 0.5
@@ -159,6 +159,7 @@ MonoBehaviour:
   alpacaMovement: {fileID: 4825375854857885428}
   inputManager: {fileID: 0}
   interactReminder: {fileID: 8365559010905447738}
+  hitInfoBool: 0
 --- !u!114 &3482507977617567749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,8 +337,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907351019936946796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.66, z: -0.892}
-  m_LocalScale: {x: 0.55, y: 0.375, z: 0.8}
+  m_LocalPosition: {x: 0, y: 0.66, z: -1.166}
+  m_LocalScale: {x: 0.55, y: 0.375, z: 1.58888}
   m_Children: []
   m_Father: {fileID: 545654448896623119}
   m_RootOrder: 9
