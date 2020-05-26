@@ -95,7 +95,7 @@ public class CajaScript : MonoBehaviour
 
             if (interactScript.hitInfoBool)
             {
-                interactScript.CompararNormales(collision);
+                interactScript.CompararNormales(collision, this);
             }          
         }
     }
@@ -104,7 +104,7 @@ public class CajaScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
         {
-            interactScript.CompararNormales(collision);
+            interactScript.CompararNormales(collision, this);
         }
     }
 
