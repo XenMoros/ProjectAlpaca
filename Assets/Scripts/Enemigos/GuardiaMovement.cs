@@ -329,7 +329,7 @@ public class GuardiaMovement : Enemy
             }
         }
         // En caso de que le escupas y no este cegado, parar el agente y empezar la cuenta del cegado
-        if (collision.gameObject.CompareTag("Escupitajo"))
+        if (collision.gameObject.CompareTag("Escupitajo") && estado != Estado.Aturdido)
         {
             CambiarEstado(Estado.Aturdido);
         }
