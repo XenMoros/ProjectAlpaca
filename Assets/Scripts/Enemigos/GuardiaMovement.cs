@@ -181,13 +181,14 @@ public class GuardiaMovement : Enemy
                         }
                         else
                         {
-                            if(Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 0.5f){
+                            if(Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 2f){
                                 SetObjective(waypointManager.RetornarWaypoint().RetornarPosition());
                             }
                             else
                             {
-                                transform.rotation = lastRotation;
                                 CambiarEstado(Estado.Idle);
+                                transform.rotation = lastRotation;
+                                transform.position = waypointManager.waypointList[waypointManager.waypointActual].transform.position;
                             }
 
                         }
