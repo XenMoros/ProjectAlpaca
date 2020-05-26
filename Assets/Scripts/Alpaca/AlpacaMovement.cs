@@ -206,7 +206,7 @@ public class AlpacaMovement : MonoBehaviour
                 }
                 else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
                 {
-                    alpacaRB.drag = movimiento.staticDrag; ;
+                    alpacaRB.drag = movimiento.staticDrag;
                     faseMovimiento = FaseMovimiento.Idle;
                     direccionMovimiento = Vector3.zero;
                 }
@@ -222,15 +222,12 @@ public class AlpacaMovement : MonoBehaviour
                 //Mover la alpaca
                 if (timerSlowMovementOnJump < salto.slowMovementOnJump)
                 {
-                    direccionMovimiento *= Mathf.Max(1 - salto.reduccionVelocidadSalto * Time.deltaTime, 0);
+                    direccionMovimiento *= Mathf.Max(1 - salto.reduccionVelocidadSalto, 0);
 
                     timerSlowMovementOnJump += Time.deltaTime;
                 }
                 //                transform.Translate((movimiento.speedMultiplier * direccionMovimiento + Vector3.up * velocidadVertical) * Time.deltaTime, Space.World);
-                if(Math.Abs(velocidadVertical) > 0.1f)
-                {
-                    transform.Translate(Vector3.up * velocidadVertical * Time.deltaTime, Space.World);
-                }
+                
 
                 direccionMovimientoAnt = direccionMovimiento;
             }
@@ -252,14 +249,28 @@ public class AlpacaMovement : MonoBehaviour
     {
         float velocity = alpacaRB.velocity.magnitude;
         float maxVelocity = movimiento.speedMultiplier ;
+        float velocityYChange;
 
-        alpacaRB.AddForce(direccionMovimiento,ForceMode.VelocityChange);
+        if (faseMovimiento == FaseMovimiento.Caida || faseMovimiento == FaseMovimiento.Subida)
+        {
+            velocityYChange = velocidadVertical - alpacaRB.velocity.y;
+        }
+        else
+        {
+            velocityYChange = 0;
+        }
+
+        Vector3 newMovement = direccionMovimiento + Vector3.up * velocityYChange;
 
         if (velocity > maxVelocity)
         {
             float breakspeed = velocity - maxVelocity;
             Vector3 breakVelocity = alpacaRB.velocity.normalized * breakspeed;
-            alpacaRB.AddForce(-breakVelocity,ForceMode.VelocityChange);
+            alpacaRB.AddForce(newMovement - breakVelocity,ForceMode.VelocityChange);
+        }
+        else
+        {
+            alpacaRB.AddForce(newMovement, ForceMode.VelocityChange);
         }
     }
 
@@ -289,6 +300,21 @@ public class AlpacaMovement : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if((collision.collider.CompareTag("Suelo") || 
+            collision.collider.CompareTag("Caja") ||
+            collision.collider.CompareTag("Escenario") ||
+            collision.collider.CompareTag("Untagged") ||
+            collision.collider.CompareTag("Elevador")) && 
+            faseMovimiento == FaseMovimiento.Caida )
+        {
+            faseMovimiento = FaseMovimiento.Idle;
+            onAir = false;
+            velocidadVertical = 0;
+            timerStunCaida = 0;
+        }
+    }
     private void CalculoSalto()
     {
 
@@ -320,22 +346,22 @@ public class AlpacaMovement : MonoBehaviour
                 }
                 break;
             case FaseMovimiento.Caida:
-                if (Physics.BoxCast(transform.position + transform.up * 0.5f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.7f, layerReposicionarSuelo))
+                /*if (Physics.BoxCast(transform.position + transform.up * 0.5f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.7f, layerReposicionarSuelo))
                 {
-                    transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+                    //transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
                     faseMovimiento = FaseMovimiento.Idle;
                     onAir = false;
                     velocidadVertical = 0;
                     timerStunCaida = 0;
                 }
                 else
-                {
+                {*/
                     velocidadVertical = salto.velocidadInicialSalto * CalculoFormula(timerFasesSalto, salto.minimoTiempoSalto);
                     if (velocidadVertical < -salto.velocidadTerminalCaida)
                     {
                         velocidadVertical = -salto.velocidadTerminalCaida;
                     }
-                }
+                //}
                 timerFasesSalto += Time.deltaTime;
                 break;
             default:
@@ -459,11 +485,11 @@ public class JumpSettings
     [Range(0, 10f)] public float velocidadInicialSalto = 7;
     [Range(0, 1f)] public float maximoTiempoBoton = 0.4f;
     [Range(0, 1f)] public float minimoTiempoSalto = 0.2f;
-    [Range(0, 30f)] public float velocidadTerminalCaida = 15;
+    [Range(0, 30f)] public float velocidadTerminalCaida = 10;
     [Range(0, 10f)] public float coeficienteRaiz = 1.5f;
-    [Range(0, 2f)] public float axisInfluenceOnAir = 1f;
-    [Range(0, 5f)] public float maximaAcelAire = 1.2f;
+    [Range(0, 2f)] public float axisInfluenceOnAir = 0.5f;
+    [Range(0, 5f)] public float maximaAcelAire = 0.8f;
     [Range(0, 1f)] public float slowMovementOnJump = 0.2f;
-    [Range(0, 20)] public float reduccionVelocidadSalto = 2;
+    [Range(0, 1f)] public float reduccionVelocidadSalto = 0.5f;
     [Range(0, 1f)] public float stunCaida = 0.05f;
 }
