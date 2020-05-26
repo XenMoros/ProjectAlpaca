@@ -196,12 +196,12 @@ PrefabInstance:
     - target: {fileID: 3447278217043472627, guid: c6fb4a25472391341bbf04510458705e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.001999
+      value: -19.98
       objectReference: {fileID: 0}
     - target: {fileID: 3447278217043472627, guid: c6fb4a25472391341bbf04510458705e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.000001
+      value: 1.07
       objectReference: {fileID: 0}
     - target: {fileID: 3447278217043472627, guid: c6fb4a25472391341bbf04510458705e,
         type: 3}
@@ -248,18 +248,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3447278217043472638, guid: c6fb4a25472391341bbf04510458705e,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3447278217043472639, guid: c6fb4a25472391341bbf04510458705e,
         type: 3}
       propertyPath: m_Name
       value: Caja
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490072501990482850, guid: c6fb4a25472391341bbf04510458705e,
+        type: 3}
+      propertyPath: uniqueID
+      value: 7281899452081650234
       objectReference: {fileID: 0}
     - target: {fileID: 9093594402553193385, guid: c6fb4a25472391341bbf04510458705e,
         type: 3}
       propertyPath: entorno
       value: 
       objectReference: {fileID: 1717885436}
+    - target: {fileID: 9093594402553193385, guid: c6fb4a25472391341bbf04510458705e,
+        type: 3}
+      propertyPath: interactScript
+      value: 
+      objectReference: {fileID: 49477858}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6fb4a25472391341bbf04510458705e, type: 3}
+--- !u!114 &49477858 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5200323232761240194, guid: 3098c91138a1e9f44821567dadb48429,
+    type: 3}
+  m_PrefabInstance: {fileID: 516779241}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870607d821e813e45b0f6af9a1c67674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &60971674 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1504204102725291555, guid: d6e8a8710c80f3742a921796de2b3329,
@@ -4146,6 +4173,11 @@ PrefabInstance:
       propertyPath: entorno
       value: 
       objectReference: {fileID: 1717885436}
+    - target: {fileID: 5200323232761240194, guid: 3098c91138a1e9f44821567dadb48429,
+        type: 3}
+      propertyPath: cajaScript
+      value: 
+      objectReference: {fileID: 1869947871}
     - target: {fileID: 5625052684589582271, guid: 3098c91138a1e9f44821567dadb48429,
         type: 3}
       propertyPath: audioControll
@@ -9968,6 +10000,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1855023804}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1869947871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9093594402553193385, guid: c6fb4a25472391341bbf04510458705e,
+    type: 3}
+  m_PrefabInstance: {fileID: 23945255}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1deaca36fc614ee4fbde5b69bbd7f58c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1881566682 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8392094395514729858, guid: 7d97f650ddb4e5148b6a0316ea76320f,

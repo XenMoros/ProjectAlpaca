@@ -3,6 +3,7 @@
 public class CajaScript : MonoBehaviour
 {
     public Transform entorno;
+    public InteractScript interactScript;
     // Variables publicas de control
     public float speed = 15; // Velocidad de movimiento de la caja
     public float tiempoMovimiento = 0.5f;
@@ -91,6 +92,19 @@ public class CajaScript : MonoBehaviour
         else if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
         {
             activateM = false;
+
+            if (interactScript.hitInfoBool)
+            {
+                interactScript.CompararNormales(collision, this);
+            }          
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
+        {
+            interactScript.CompararNormales(collision, this);
         }
     }
 
@@ -141,11 +155,6 @@ public class CajaScript : MonoBehaviour
                     activateM = false;
                 }
             }
-            /*else if (hit.collider == null)
-            {
-                Debug.Log("lolaso");
-                activateM = true;
-            }*/
         }    
     }
 
@@ -171,6 +180,17 @@ public class CajaScript : MonoBehaviour
             transform.parent = newParent.transform;
         }
         
+    }
+
+    public void EliminarMovimiento()
+    {
+        cajaRB.constraints = RigidbodyConstraints.None;
+        cajaRB.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
+    public void ActivarMovimiento()
+    {
+        cajaRB.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
     }
 }
 

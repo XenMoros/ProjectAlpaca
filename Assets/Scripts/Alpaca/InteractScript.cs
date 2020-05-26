@@ -13,6 +13,7 @@ public class InteractScript : MonoBehaviour
     // Valores para casteo de rayos
     LayerMask cajaLayerMask;
     RaycastHit hitInfo;
+    public bool hitInfoBool;
 
     public void Reset()
     {
@@ -37,6 +38,8 @@ public class InteractScript : MonoBehaviour
                     //Compureba que mires a la caja
                     if (Physics.Raycast(transform.position + new Vector3(0, transform.localScale.y / 4f, 0), transform.forward, out hitInfo, 5f, cajaLayerMask, QueryTriggerInteraction.Ignore))
                     {
+                        other.GetComponentInParent<CajaScript>().ActivarMovimiento();
+                        hitInfoBool = true;
                         // Si el objeto con el que choca el rayo casteado coincide con el objeto del trigger, asigna
                         if (hitInfo.collider.gameObject == other.transform.parent.gameObject)
                         {
@@ -55,6 +58,7 @@ public class InteractScript : MonoBehaviour
                     else
                     {
                         interactReminder.SetArrastre(false);
+                        hitInfoBool = false;
                     }
                 }
                 else
@@ -64,6 +68,7 @@ public class InteractScript : MonoBehaviour
                 // Si sueltas la X te desacopla la caja con reset de caida
                 if (!inputManager.GetButton("Interact"))
                 {
+                    other.GetComponentInParent<CajaScript>().EliminarMovimiento();
                     DesacoplarCaja(other, true);
                 }
             }
@@ -93,6 +98,7 @@ public class InteractScript : MonoBehaviour
             // En caso de salir de la influencia de la caja, desacoplarte automaticamente
             if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
             {
+                other.GetComponentInParent<CajaScript>().EliminarMovimiento();
                 DesacoplarCaja(other, true);
                 interactReminder.SetArrastre(false);
             }
@@ -140,5 +146,16 @@ public class InteractScript : MonoBehaviour
     public void SetInputManager(CustomInputManager manager)
     {
         inputManager = manager;
+    }
+
+    public void CompararNormales(Collision col, CajaScript cajaScript)
+    {
+        if (hitInfoBool)
+        {
+            if (hitInfo.normal == -col.contacts[0].normal)
+            {
+                cajaScript.EliminarMovimiento();
+            }
+        }        
     }
 }
