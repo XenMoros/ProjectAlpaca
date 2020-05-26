@@ -4136,6 +4136,11 @@ PrefabInstance:
       propertyPath: recamara
       value: 
       objectReference: {fileID: 1457338792}
+    - target: {fileID: 4825375854857885428, guid: 3098c91138a1e9f44821567dadb48429,
+        type: 3}
+      propertyPath: salto.axisInfluenceOnAir
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 5200323232761240194, guid: 3098c91138a1e9f44821567dadb48429,
         type: 3}
       propertyPath: entorno
@@ -4166,7 +4171,8 @@ PrefabInstance:
       propertyPath: recamara
       value: 
       objectReference: {fileID: 1457338792}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6327881393461922473, guid: 3098c91138a1e9f44821567dadb48429, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3098c91138a1e9f44821567dadb48429, type: 3}
 --- !u!1001 &524900644
 PrefabInstance:

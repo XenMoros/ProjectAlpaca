@@ -9150,21 +9150,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: -15
       objectReference: {fileID: 0}
-    - target: {fileID: 2731804523480807688, guid: 3098c91138a1e9f44821567dadb48429,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 2731804523480807688, guid: 3098c91138a1e9f44821567dadb48429,
-        type: 3}
-      propertyPath: m_Mass
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2731804523480807688, guid: 3098c91138a1e9f44821567dadb48429,
-        type: 3}
-      propertyPath: m_Drag
-      value: 9999
-      objectReference: {fileID: 0}
     - target: {fileID: 3482507977617567749, guid: 3098c91138a1e9f44821567dadb48429,
         type: 3}
       propertyPath: recamara
@@ -9177,28 +9162,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4825375854857885428, guid: 3098c91138a1e9f44821567dadb48429,
         type: 3}
-      propertyPath: salto.fuerzaSalto
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 4825375854857885428, guid: 3098c91138a1e9f44821567dadb48429,
-        type: 3}
-      propertyPath: salto.massaCaida
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 4825375854857885428, guid: 3098c91138a1e9f44821567dadb48429,
-        type: 3}
       propertyPath: alpacaBoxCollider
       value: 
-      objectReference: {fileID: 291482843}
-    - target: {fileID: 4825375854857885428, guid: 3098c91138a1e9f44821567dadb48429,
-        type: 3}
-      propertyPath: alpacaAnimator
-      value: 
-      objectReference: {fileID: 629622452}
+      objectReference: {fileID: 0}
     - target: {fileID: 4825375854857885428, guid: 3098c91138a1e9f44821567dadb48429,
         type: 3}
       propertyPath: layerReposicionarSuelo.m_Bits
-      value: 2271745
+      value: 3320321
       objectReference: {fileID: 0}
     - target: {fileID: 5200323232761240194, guid: 3098c91138a1e9f44821567dadb48429,
         type: 3}
@@ -13179,41 +13149,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1635109753}
-    - target: {fileID: 6640731093539923733, guid: 8a83c4258ee64e045bce896023e7d851,
-        type: 3}
-      propertyPath: m_Orbits.Array.data[0].m_Radius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640731093539923733, guid: 8a83c4258ee64e045bce896023e7d851,
-        type: 3}
-      propertyPath: m_Orbits.Array.data[1].m_Radius
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640731093539923733, guid: 8a83c4258ee64e045bce896023e7d851,
-        type: 3}
-      propertyPath: m_Orbits.Array.data[2].m_Radius
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640731093539923733, guid: 8a83c4258ee64e045bce896023e7d851,
-        type: 3}
-      propertyPath: m_Orbits.Array.data[0].m_Height
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640731093539923733, guid: 8a83c4258ee64e045bce896023e7d851,
-        type: 3}
-      propertyPath: m_Orbits.Array.data[1].m_Height
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640731093539923733, guid: 8a83c4258ee64e045bce896023e7d851,
-        type: 3}
-      propertyPath: m_YAxis.Value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640731093539923733, guid: 8a83c4258ee64e045bce896023e7d851,
-        type: 3}
-      propertyPath: m_XAxis.Value
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6640731093539923735, guid: 8a83c4258ee64e045bce896023e7d851,
         type: 3}
       propertyPath: m_Name
