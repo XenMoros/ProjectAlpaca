@@ -28,4 +28,18 @@ public class Puerta : MonoBehaviour, IActivable
             puerta3.enabled = true;
         }
     }
+
+    public void SetActivationState()
+    {
+        SetActivationState(true);
+    }
+
+    public void SetActivationState(int activateState)
+    {
+        if (activateState > 0)
+        {
+            SetActivationState(true);
+        }
+        SetActivationState(false);
+    }
 }

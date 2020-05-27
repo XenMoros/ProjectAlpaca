@@ -32,9 +32,7 @@ public class WaypointManager : MonoBehaviour
             {
                 waypointActual = 0;
             }
-        }
-
-        
+        } 
     }
 
     public void RetrocederWaypoint()
@@ -61,8 +59,16 @@ public class WaypointManager : MonoBehaviour
                 waypointActual = 0;
             }
         }
+    }
 
-
+    public bool SetWaypoint(int i)
+    {
+        if(i>=0 && i < waypointList.Count)
+        {
+            waypointActual = i;
+            return true;
+        }
+        return false;
     }
 
     public WaypointScript RetornarWaypoint()

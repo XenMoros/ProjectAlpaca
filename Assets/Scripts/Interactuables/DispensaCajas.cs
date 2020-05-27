@@ -26,4 +26,18 @@ public class DispensaCajas : MonoBehaviour, IActivable
             caja = Instantiate(cajaPrefab, transform.position + transform.up * alturaDeSpawn, Quaternion.identity);
         }
     }
+    public void SetActivationState()
+    {
+        SetActivationState(true);
+    }
+
+    public void SetActivationState(int activateState)
+    {
+        if (activateState > 0)
+        {
+            SetActivationState(true);
+        }
+        SetActivationState(false);
+    }
+
 }

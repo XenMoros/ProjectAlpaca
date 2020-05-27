@@ -79,13 +79,15 @@ public class InteractScript : MonoBehaviour
             }
             // Si estaas en la influencia de una palanca
             
-            if (other.CompareTag("Palanca") && !alpacaMovement.arrastrando)
+            if ((other.CompareTag("Conmutador") || other.CompareTag("Palanca")) && !alpacaMovement.arrastrando)
             {
                 interactReminder.SetInteraccion(true);
                 // Si pulsas X activar la palanca
                 if (inputManager.GetButtonDown("Interact"))
                 {
-                    other.gameObject.GetComponent<Palanca>().ActivatePalanca();
+                    if (other.CompareTag("Palanca")) other.gameObject.GetComponent<Palanca>().Activate();
+                    else other.gameObject.GetComponent<Conmutador>().Activate();
+
                 }
             }
         }

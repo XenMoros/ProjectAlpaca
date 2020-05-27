@@ -5,9 +5,6 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Elevador : MonoBehaviour, IActivable
 {
-    //public Animator animator;
-    public GameObject activacionEnCadenaObj;
-    public IActivable activacionEnCadena;
    
     //public List<Transform> objetivos =  new List<Transform>();
     public WaypointManager waypointManager;
@@ -16,59 +13,47 @@ public class Elevador : MonoBehaviour, IActivable
     public float speed;
     
 
-    private void Start()
-    {
-        if (activacionEnCadenaObj != null)
-        {
-            activacionEnCadena = activacionEnCadenaObj.GetComponent<IActivable>();
-        }
-    }
-
     private void Update()
     {
-
-        if (Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 0.2f)
+        if (activada)
         {
-            transform.Translate((waypointManager.RetornarWaypoint().RetornarPosition() - transform.position).normalized * speed * Time.deltaTime,Space.World);
-        }
-        else
-        {
-            transform.position = waypointManager.RetornarWaypoint().RetornarPosition();
-            if (activada)
+            if (Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 0.2f)
             {
-                if (waypointManager.waypointActual < waypointManager.waypointList.Count-1)
-                {
-                    waypointManager.AvanzarWaypoint();
-                }
+                transform.Translate((waypointManager.RetornarWaypoint().RetornarPosition() - transform.position).normalized * speed * Time.deltaTime, Space.World);
             }
             else
             {
-                if (waypointManager.waypointActual > 0)
-                {
-                    waypointManager.RetrocederWaypoint();
-                }
+                transform.position = waypointManager.RetornarWaypoint().RetornarPosition();
+                activada = false;
             }
         }
     }
 
     public void SetActivationState(bool activateState)
     {
-
-        activada = activateState;
-
-        if (activacionEnCadena != null)
+        if (activateState)
         {
-            activacionEnCadena.SetActivationState(activateState);
+            SetActivationState();
         }
+        else
+        {
+            waypointManager.RetrocederWaypoint();
+            activada = true;
+        }
+        
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    public void SetActivationState()
     {
-        if (other.gameObject.CompareTag("Caja") && other.gameObject.transform.Equals(other.gameObject.GetComponent<CajaScript>().entorno))
-        {
-            other.gameObject.GetComponent<CajaScript>().SetParent(transform,true);
-        }
-    }*/
+        waypointManager.AvanzarWaypoint();
+        activada = true;
+    }
+
+    public void SetActivationState(int activateState)
+    {
+        if (!waypointManager.SetWaypoint(activateState)) Debug.Log("Conmutador '" + gameObject.name + "': Piso " + activateState + " no encontrado.");
+        else activada = true;
+    }
 
     private void OnTriggerStay(Collider other)
     {

@@ -16,6 +16,20 @@ public class Enemy : MonoBehaviour, IActivable
         active = activateState;
     }
 
+    public void SetActivationState()
+    {
+        SetActivationState(true);
+    }
+
+    public void SetActivationState(int activateState)
+    {
+        if (activateState > 0)
+        {
+            SetActivationState(true);
+        }
+        SetActivationState(false);
+    }
+
     public void SetEnemyManager(EnemyManager manager)
     {
         enemyManager = manager;

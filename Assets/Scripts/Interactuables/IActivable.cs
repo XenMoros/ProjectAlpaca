@@ -3,4 +3,7 @@
 public interface IActivable
 {
     void SetActivationState(bool activateState);
+    void SetActivationState();
+    void SetActivationState(int activateState);
+
 }
