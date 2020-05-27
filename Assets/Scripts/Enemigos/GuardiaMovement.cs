@@ -113,7 +113,6 @@ public class GuardiaMovement : Enemy
 
     private void Update()
     {
-        Debug.DrawRay(transform.position, cabeza.position - transform.position, Color.red);
 
         if (!pausa && active)
         {
@@ -298,20 +297,21 @@ public class GuardiaMovement : Enemy
         // Si la alpaca esta en angulo de vision
         if (angle >= Mathf.Cos(fieldOfView)) 
         {
-            Debug.Log("Detectable");
             // Lanza un rayo a la alpaca a ver si la ve (puede haber obstaculos en medio
             if (Physics.Raycast(cabeza.position, playerDirection, out hitInfo, 50f))
             {
-                Debug.Log("Hit");
                 if (hitInfo.collider.CompareTag("Player"))
                 {
                     // Si si la ve marca como objetivo la alpaca, y se encara para mirar a la Alpaca
                     objective = player.position;
                     transform.forward = new Vector3(playerDirection.x,0,playerDirection.z);
-
-                    Debug.Log(player.position);
                     return true; // Retorna como que SI ha encontrado a la alpaca
                 }
+                if (hitInfo.collider.CompareTag("Suelo"))
+                {
+                    Debug.Log("Illoquease");
+                }
+
             }
         }
         // En caso de que la alpaca no este en angulo de vision o tenga obstaculos, NO encuentra a la Alpaca
