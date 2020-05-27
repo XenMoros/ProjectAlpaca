@@ -91,11 +91,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c1cc33e18ebef4199467aadec7aaaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pausa: 1
+  active: 1
+  enemyManager: {fileID: 0}
   player: {fileID: 0}
+  cabeza: {fileID: 6639480850800119957}
   guardiaAnimator: {fileID: 6639480850790874875}
   waypointManager: {fileID: 0}
   AEGuardia: {fileID: 958221285614184748}
-  fieldOfView: 20
+  fieldOfView: 90
   distanciaVolverPosicion: 10
   correrSpeed: 5
   andarSpeed: 2.5
@@ -142,7 +146,7 @@ MonoBehaviour:
   version: 2
   radius: 1.2
   height: 5
-  repathRate: 0.5
+  repathRate: 0.1
   canSearch: 1
   canMove: 1
   maxSpeed: 1
@@ -157,11 +161,11 @@ MonoBehaviour:
   maxAcceleration: -2.5
   rotationSpeed: 360
   slowdownDistance: 1.5
-  pickNextWaypointDist: 2
+  pickNextWaypointDist: 0.5
   endReachedDistance: 0.75
   alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
-  whenCloseToDestination: 0
+  whenCloseToDestination: 1
   constrainInsideGraph: 0
 --- !u!114 &8927147195954414047
 MonoBehaviour:
@@ -941,6 +945,12 @@ Transform:
 --- !u!95 &6639480850790874875 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 45b631dc813c2ad45b2b0441a6632a6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6639480850800249755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6639480850800119957 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400142, guid: 45b631dc813c2ad45b2b0441a6632a6e,
     type: 3}
   m_PrefabInstance: {fileID: 6639480850800249755}
   m_PrefabAsset: {fileID: 0}
