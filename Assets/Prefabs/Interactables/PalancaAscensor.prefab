@@ -128,11 +128,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4527928656394168225}
   - component: {fileID: 4527928656394168224}
-  - component: {fileID: 4527928656394167903}
   - component: {fileID: 1329295856852088629}
+  - component: {fileID: 3351621650378041968}
   m_Layer: 0
   m_Name: PalancaAscensor
-  m_TagString: Palanca
+  m_TagString: Conmutador
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,20 +166,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 0.41}
   m_Center: {x: 0.25, y: 0.5, z: 0}
---- !u!114 &4527928656394167903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4527928656394168226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c6279eaa84b69241b3173f1a590c202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  palancaAnimator: {fileID: 1329295856852088629}
-  activate: {fileID: 0}
 --- !u!95 &1329295856852088629
 Animator:
   serializedVersion: 3
@@ -199,6 +185,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3351621650378041968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4527928656394168226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dadf35ada46070d43a4006a032504c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactAnimator: {fileID: 1329295856852088629}
+  activatedGO: []
+  estatico: 0
+  numero: 0
 --- !u!1 &8160862476460399422
 GameObject:
   m_ObjectHideFlags: 0

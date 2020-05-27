@@ -26,8 +26,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ee277b333643043bafab8f3fcac087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorButton: {fileID: 7200807160275067900}
-  activableObj: {fileID: 0}
+  interactAnimator: {fileID: 7200807160275067900}
+  activatedGO: []
 --- !u!95 &7200807160275067900
 Animator:
   serializedVersion: 3
