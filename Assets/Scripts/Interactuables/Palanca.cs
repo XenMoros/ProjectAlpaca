@@ -1,27 +1,19 @@
 ﻿using UnityEngine;
 
-public class Palanca : MonoBehaviour
+public class Palanca : Interactuable
 {
-    // Elementos precacheados en Inspector
-    public Animator palancaAnimator; // El animator de la palanca
-    public GameObject activate; // El GameObject a activar 
     bool palancaState = false;
 
-    // Interfaz Iactivable del objeto a activar
-    IActivable activateObj;
-    private void Start()
+    public override void Start()
     {
-        // Asignacion de la interfaz IActivable correspodiente
-        activateObj = activate.GetComponent<IActivable>();
+        base.Start();
     }
 
     // En activar la palanca, empezar la animacion y activar el objeto asociado
-    public void ActivatePalanca()
+    public override void Activate()
     {
-
         palancaState = !palancaState;
-        activateObj.SetActivationState(palancaState);
-        palancaAnimator.SetBool("Activada", palancaState);
-
+        interactAnimator.SetBool("Activada", palancaState);
+        base.Activate(palancaState);
     }
 }

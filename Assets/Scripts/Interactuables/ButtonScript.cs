@@ -1,29 +1,29 @@
 ﻿using UnityEngine;
 
-public class ButtonScript : MonoBehaviour
+public class ButtonScript : Interactuable
 {
-    // Elementos precacheados en Inspector
-    public Animator buttonAnimator; // Animator del boton
-    public GameObject activableObj; // Objeto enlazado a activar por el boton
-
     // Valores de control del proceso
     public float tiempoActivacion = 5f;
     public float timerActivacion = 6f; // Tiempo de activacion del objeto enlazado
 
-    // Interfaz IActivable del objeto asociado
-    private IActivable activateObj;
-
-
-    private void Start()
+    public override void Start()
     {
-        // Capturar la interfaz IActivable del objeto enlazado
-        activateObj = activableObj.GetComponent<IActivable>();
+        base.Start();
     }
 
     private void Update()
     {
-       // Gestion de espera del boton
-       ManageTimer();        
+        // Gestion de espera del boton
+        if (timerActivacion <= tiempoActivacion)
+        {
+            timerActivacion += Time.deltaTime;
+
+            // Si al sumar ha acabado el tiempo, desactiva el objeto asociado
+            if (timerActivacion > tiempoActivacion)
+            {
+                base.Activate(false);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,25 +33,8 @@ public class ButtonScript : MonoBehaviour
         {
             // Iniciar la cuenta atras, activar la animacion del boton i activar el objeto asociado
             timerActivacion = 0;
-            buttonAnimator.SetTrigger("Pushed");
-            activateObj.SetActivationState(true);
+            interactAnimator.SetTrigger("Pushed");
+            base.Activate(true);
         }
-    }
-
-    // Funcion de control del tiempo de activacion
-    void ManageTimer()
-    {
-        // Suma tiempo mientras este activo
-        if (timerActivacion <= tiempoActivacion)
-        {
-            timerActivacion += Time.deltaTime;
-
-            // Si al sumar ha acabado el tiempo, desactiva el objeto asociado
-            if (timerActivacion > tiempoActivacion)
-            {
-                activateObj.SetActivationState(false);
-            }
-        }
-        
     }
 }

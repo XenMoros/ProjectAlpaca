@@ -1,20 +1,12 @@
 ﻿using UnityEngine;
 
-public class FloorButtonScript : MonoBehaviour
+public class FloorButtonScript : Interactuable
 {
-    // Elementos precacheados en Inspector
-    public Animator floorButton; // El animator del boton
-    public GameObject activableObj; // Objeto controlado por el boton
-
-    // Interfaz IActivable del objeto a activar
-    private  IActivable activable;
     bool activado = false;
 
-    private void Start()
+    public override void Start()
     {
-        // Capturar el elemento IActivable del objeto asociado al boton
-        activable = activableObj.GetComponent<IActivable>();
-
+        base.Start();
     }
 
     private void OnTriggerExit(Collider other)
@@ -23,8 +15,8 @@ public class FloorButtonScript : MonoBehaviour
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Guardia") || other.gameObject.CompareTag("Caja"))
         {
             activado = false;
-            floorButton.SetBool("Active", activado);
-            activable.SetActivationState(activado);
+            interactAnimator.SetBool("Active", activado);
+            base.Activate(activado);
         }
 
     }
@@ -34,8 +26,8 @@ public class FloorButtonScript : MonoBehaviour
         if (!activado && (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Guardia") || other.gameObject.CompareTag("Caja")))
         {
             activado = true;
-            floorButton.SetBool("Active", activado);
-            activable.SetActivationState(activado);
+            interactAnimator.SetBool("Active", activado);
+            base.Activate(activado);
         }
 
     }
