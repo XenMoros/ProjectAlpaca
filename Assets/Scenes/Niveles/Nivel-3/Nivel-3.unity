@@ -12317,6 +12317,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870607d821e813e45b0f6af9a1c67674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &579542037 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1925919380467172470, guid: 3098c91138a1e9f44821567dadb48429,
+    type: 3}
+  m_PrefabInstance: {fileID: 579542035}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &590651363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27219,7 +27225,7 @@ PrefabInstance:
     - target: {fileID: 6992303267470424856, guid: 65c625c9c5062ad40bf1943d9f8fd7b8,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65c625c9c5062ad40bf1943d9f8fd7b8, type: 3}
@@ -43817,7 +43823,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 190230835}
+      objectReference: {fileID: 579542037}
     - target: {fileID: 6990243223023095830, guid: 5397f86e68dfb26459c1c4a9c6db4ba7,
         type: 3}
       propertyPath: waypointManager

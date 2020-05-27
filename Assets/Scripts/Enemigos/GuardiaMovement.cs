@@ -7,6 +7,7 @@ public class GuardiaMovement : Enemy
     // Elementos precacheados desde inspector
     //public EntradaYSalidaGM gameManager; // Esto será en un futuro un EnemyManager
     public Transform player; // Alpaca
+    public Transform cabeza;
     public IAstarAI agent;
     public Animator guardiaAnimator;
     public WaypointManager waypointManager;
@@ -112,6 +113,7 @@ public class GuardiaMovement : Enemy
 
     private void Update()
     {
+
         if (!pausa && active)
         {
             timerEnEstado += Time.deltaTime;
@@ -223,10 +225,10 @@ public class GuardiaMovement : Enemy
     public void SetObjective(Vector3 position)
     {
         agent.destination = position;
-        if (!agent.pathPending)
+        /*if (!agent.pathPending)
         {
             agent.SearchPath();
-        }
+        }*/
     }
 
     public void FinalBuscar()
@@ -289,16 +291,15 @@ public class GuardiaMovement : Enemy
     // Funcion de busqueda de objetivo
     private bool BuscarObjetivo()
     {
-        Vector3 playerDirection = (player.position - transform.position).normalized; // Direccion a la que esta la Alpaca
+        Vector3 playerDirection = (player.position - cabeza.position).normalized; // Direccion a la que esta la Alpaca
         float angle = Vector3.Dot(transform.forward, playerDirection); // Angulo entre donde mira el Agente y la Alpaca
 
         // Si la alpaca esta en angulo de vision
         if (angle >= Mathf.Cos(fieldOfView)) 
         {
             // Lanza un rayo a la alpaca a ver si la ve (puede haber obstaculos en medio
-            if (Physics.Raycast(transform.position, playerDirection, out hitInfo, 50f))
+            if (Physics.Raycast(cabeza.position, playerDirection, out hitInfo, 50f))
             {
-
                 if (hitInfo.collider.CompareTag("Player"))
                 {
                     // Si si la ve marca como objetivo la alpaca, y se encara para mirar a la Alpaca
@@ -306,6 +307,11 @@ public class GuardiaMovement : Enemy
                     transform.forward = new Vector3(playerDirection.x,0,playerDirection.z);
                     return true; // Retorna como que SI ha encontrado a la alpaca
                 }
+                if (hitInfo.collider.CompareTag("Suelo"))
+                {
+                    Debug.Log("Illoquease");
+                }
+
             }
         }
         // En caso de que la alpaca no este en angulo de vision o tenga obstaculos, NO encuentra a la Alpaca
