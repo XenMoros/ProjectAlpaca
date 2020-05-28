@@ -108,7 +108,7 @@ public class InteractScript : MonoBehaviour
             {
                 interactReminder.SetArrastre(false);
             }
-            if (other.CompareTag("Palanca"))
+            if (other.CompareTag("Palanca") || other.CompareTag("Conmutador"))
             {
                 interactReminder.SetInteraccion(false);
             }
