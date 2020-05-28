@@ -8,7 +8,6 @@ public class CajaScript : MonoBehaviour
     public float speed = 15; // Velocidad de movimiento de la caja
     public float tiempoMovimiento = 0.5f;
     public LayerMask layerBoxCast;
-
     // Flags de estado
     public bool activateM = false; // Si la caja se mueve
 
@@ -34,25 +33,29 @@ public class CajaScript : MonoBehaviour
     void Update()
     {
         // Restamos al timer de movimiento
-        timerMovimiento -= Time.deltaTime;
-        // Prueba de mover la caja
-        Movimiento();
+        timerMovimiento -= Time.deltaTime;       
     }
 
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
         if (Physics.BoxCast(transform.position, new Vector3(1, 0.5f, 1), -transform.up, out boxCastHit, Quaternion.identity, 1f, layerBoxCast))
         {
             transform.position = new Vector3(transform.position.x, boxCastHit.point.y + 1f, transform.position.z);
-            cajaRB.velocity = Vector3.zero;
+            //cajaRB.velocity = Vector3.zero;
         }
+    }*/
+
+    private void FixedUpdate()
+    {
+        Movimiento();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         // Si la caja es coceada
-        if (collision.gameObject.CompareTag("Coz"))
+        /*if (collision.gameObject.CompareTag("Coz"))
         {
+            Debug.Log(collision.contactCount);
             // Calcula desde donde ha sido cozeada
             if (collision.contacts[0].normal.x != 0)
             {
@@ -83,15 +86,27 @@ public class CajaScript : MonoBehaviour
                 }
             }
 
+            cajadirection = Vector3.zero;
+            ContactPoint[] contacts = new ContactPoint[collision.contactCount];
+            collision.GetContacts(contacts);
+            foreach(ContactPoint contact in contacts)
+            {
+                cajadirection += contact.normal;
+            }
+            cajadirection.y = 0;
+            cajadirection.Normalize();
+
             // Calcula si la caja puede ser movida
-            CalcularMovimiento();
+            //CalcularMovimiento();
             // Set el tiempo de movimiento de la caja
+            activateM = true;
             timerMovimiento = tiempoMovimiento;
         }
         // Si choca con las paredes, parar la caja
-        else if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
+        else */
+        if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
         {
-            activateM = false;
+            //activateM = false;
 
             if (interactScript.hitInfoBool)
             {
@@ -108,38 +123,26 @@ public class CajaScript : MonoBehaviour
         }
     }
 
-    // Funcion para asociarle el padre de la Caja
-    public bool AsociarPadre(Transform padre)
-    {
-        try
-        {
-            this.transform.SetParent(padre);
-        }
-        catch
-        {
-            return false;
-        }
-        return true;
-
-    }
-
     // Funcion para mover la caja
     void Movimiento()
     {
         // Si la caja puede moverse, muevela en la direcion y con la velocidad undicadas
         if (activateM)
         {
-            transform.Translate(cajadirection * speed * Time.deltaTime,Space.World);
+            //transform.Translate(cajadirection * speed * Time.deltaTime,Space.World);
+            cajaRB.AddForce(cajadirection * speed, ForceMode.Acceleration);
+
         }
         // Desactiva el movimiento al acabar el tiempo asignado
         if (timerMovimiento <= 0)
         {
+            cajaRB.AddForce(-cajaRB.velocity*0.5f, ForceMode.VelocityChange);
             activateM = false;
         }
     }
 
     // Prevision de movimiento
-    void CalcularMovimiento()
+    /*void CalcularMovimiento()
     {
         // Si el movimiento se chocara con algo, y ese algo esta cerca, paralo
         if (Physics.Raycast(transform.position, cajadirection, out hit))
@@ -156,7 +159,7 @@ public class CajaScript : MonoBehaviour
                 }
             }
         }    
-    }
+    }*/
 
     public void Agujero(Vector3 Hole)
     {
@@ -180,6 +183,18 @@ public class CajaScript : MonoBehaviour
             transform.parent = newParent.transform;
         }
         
+    }
+
+    public void PushCaja(Vector3 direction)
+    {
+        cajadirection = direction;
+        if (Mathf.Abs(cajadirection.x) < 0.7f) cajadirection.x = 0;
+        cajadirection.y = 0;
+        if (Mathf.Abs(cajadirection.z) < 0.7f) cajadirection.z = 0;
+        cajadirection.Normalize();
+        Debug.Log("Direccion Movimiento: " + cajadirection);
+        timerMovimiento = tiempoMovimiento;
+        activateM = true;
     }
 
     public void EliminarMovimiento()
