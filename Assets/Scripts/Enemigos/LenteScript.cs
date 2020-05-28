@@ -15,7 +15,7 @@ public class LenteScript : Enemy
     public float rotationSpeed = 20f, maxAnglePerSecond = 30;
 
     float timer = 0;
-    public float tiempoMuerte = 10f;
+    public float tiempoMuerte = 8f;
 
     private void Start()
     {
