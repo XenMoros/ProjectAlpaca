@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6279eaa84b69241b3173f1a590c202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  palancaAnimator: {fileID: 1329295856852088629}
-  activate: {fileID: 0}
+  interactAnimator: {fileID: 1329295856852088629}
+  activatedGO: []
 --- !u!95 &1329295856852088629
 Animator:
   serializedVersion: 3

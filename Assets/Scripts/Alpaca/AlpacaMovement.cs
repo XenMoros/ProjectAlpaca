@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class AlpacaMovement : MonoBehaviour
 {
     public CustomInputManager inputManager;
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara;
-    public BoxCollider alpacaBoxCollider;
+    //public BoxCollider alpacaBoxCollider;
     public Animator alpacaAnimator;
     public AlpacaSound sonidos;
+    public Rigidbody alpacaRB;
 
     // Variables publicas de movimiento
     public MovementVariables movimiento;
@@ -24,12 +26,13 @@ public class AlpacaMovement : MonoBehaviour
     internal bool onAir = false, arrastrando = false;
 
     // Timers de control de sucesos
-    private float timerSlowMovementOnJump = 9, timerStunCaida = 9;
+    private float timerSlowMovementOnJump = 9, timerStunCaida = 9, timerBlockDirectionArrastre = 3f;
     private float timerFasesSalto = 999f, timerBotonSalto = 999f;
 
     // Direcciones de movimiento
     Vector3 direccionMovimiento = Vector3.zero;
     Vector3 direccionMovimientoAnt = Vector3.zero;
+    Vector2 direccionArrastre = Vector2.zero;
 
     // Valores para casteo de rayos
     private RaycastHit hitInfo;
@@ -57,14 +60,15 @@ public class AlpacaMovement : MonoBehaviour
         Gizmos.DrawWireCube(transform.position + transform.up * (1.73f + 0.1f), Vector3.one * 0.2f);
         Gizmos.DrawWireCube(transform.position, Vector3.right * 0.8f + Vector3.forward * 0.5f + Vector3.up * 0.3f);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
-        Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward * (alpacaBoxCollider.size.z / 2f + direccionMovimientoAnt.magnitude * Time.deltaTime * movimiento.speedMultiplier), alpacaBoxCollider.size * 0.9f - Vector3.forward * alpacaBoxCollider.size.z * 0.85f);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
+        //Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward * (alpacaBoxCollider.size.z / 2f + direccionMovimientoAnt.magnitude * Time.deltaTime * movimiento.speedMultiplier), alpacaBoxCollider.size * 0.9f - Vector3.forward * alpacaBoxCollider.size.z * 0.85f);
 
     }
     void Start()
     {
         camara = Camera.main.transform;
+        alpacaRB.drag = 10;
     }
 
     void Update()
@@ -91,12 +95,12 @@ public class AlpacaMovement : MonoBehaviour
             // Si no estas stuneada por ningun motivo
             if (faseMovimiento!= FaseMovimiento.Cozeo && timerStunCaida > salto.stunCaida)
             {
-
+                
                 // Saltar al recibir input i no estar en el aire ni arrastrando
                 //if (Input.GetButtonDown("A") && !onAir && !arrastrando)
                 if (inputManager.GetButtonDown("Jump") && !onAir && !arrastrando)
                 {
-                        onAir = true;
+                    onAir = true;
                     faseMovimiento = FaseMovimiento.Subida;
                     velocidadVertical = salto.velocidadInicialSalto;
                     timerFasesSalto = -salto.minimoTiempoSalto;
@@ -116,7 +120,7 @@ public class AlpacaMovement : MonoBehaviour
                 // ONLY MODIFI DIRECTION IF AXIS IS != 0
                 if (axisV != 0 || axisH != 0)
                 {
-
+                    alpacaRB.drag = movimiento.movingDrag;
                     //Si no esta arrastrando, recolocar la alpaca
                     if (!arrastrando)
                     {
@@ -130,8 +134,9 @@ public class AlpacaMovement : MonoBehaviour
                         //Si no arrastras, la direccion es acia alante
                         if (!arrastrando)
                         {
-                            direccionMovimiento = transform.forward;
-                            direccionMovimiento *= targetDirection.magnitude;
+                            direccionMovimiento = targetDirection;
+                            //direccionMovimiento = transform.forward;
+                            //direccionMovimiento *= targetDirection.magnitude;
                             if (direccionMovimiento.magnitude > 0.35f)
                             {
                                 faseMovimiento = FaseMovimiento.Correr;
@@ -145,20 +150,46 @@ public class AlpacaMovement : MonoBehaviour
                         {
                             direccionMovimiento = -transform.forward;
 
-                            if (Vector3.Dot(targetDirection, -transform.forward) > 0)
+                            if(timerBlockDirectionArrastre <= movimiento.blockDireccionArrastre)
                             {
-                                direccionMovimiento *= targetDirection.magnitude * Vector3.Dot(targetDirection, -transform.forward) / movimiento.slowArrastre;
+                                if (Vector3.Dot(targetDirection, -transform.forward) > 0)
+                                {
+                                    direccionMovimiento *= targetDirection.magnitude * Vector3.Dot(targetDirection, -transform.forward) / movimiento.slowArrastre;
+                                    direccionArrastre += new Vector2(axisV, axisH);
+                                }
+                                else
+                                {
+                                    direccionMovimiento *= 0;
+                                }
+
+                                timerBlockDirectionArrastre += Time.deltaTime;
+
+                                if(timerBlockDirectionArrastre > movimiento.blockDireccionArrastre)
+                                {
+                                    direccionArrastre.Normalize();
+                                }
                             }
                             else
                             {
-                                direccionMovimiento *= 0;
+                                Vector2 axisDirection = new Vector2(axisV, axisH);
+                                if (Vector2.Dot(axisDirection, direccionArrastre) > 0)
+                                {
+                                    direccionMovimiento *= axisDirection.magnitude * Vector2.Dot(axisDirection, direccionArrastre) / movimiento.slowArrastre;
+                                }
+                                else
+                                {
+                                    direccionMovimiento *= 0;
+                                }
                             }
                             faseMovimiento = FaseMovimiento.Arrastrar;
                         }
                     }
                     else //En el aire la direccion es la anterior mas una modificacion segun input
                     {
-
+                        direccionMovimiento = targetDirection * salto.axisInfluenceOnAir;
+                        //direccionMovimiento = transform.forward;
+                        //direccionMovimiento *= targetDirection.magnitude * salto.axisInfluenceOnAir;
+                        /*
                         direccionMovimiento = direccionMovimientoAnt * 0.998f + targetDirection * salto.axisInfluenceOnAir * Time.deltaTime;
                         if (direccionMovimiento.magnitude > direccionMovimientoAnt.magnitude * salto.maximaAcelAire)
                         {
@@ -171,37 +202,41 @@ public class AlpacaMovement : MonoBehaviour
                                 escaladoMovimientoEnAire = 1 / salto.maximaAcelAire;
                             }
                             direccionMovimiento.Scale(new Vector3(escaladoMovimientoEnAire, escaladoMovimientoEnAire, escaladoMovimientoEnAire));
-                        }
+                        }*/
                     }
 
                 }
                 else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
                 {
+                    alpacaRB.drag = movimiento.staticDrag;
                     faseMovimiento = FaseMovimiento.Idle;
                     direccionMovimiento = Vector3.zero;
                 }
 
                 // Comprueba si tienes algo enmedio del movimiento para evitar chocar i entrar dentro de un obstaculo
                 //quitando dicha componente del movimiento
-                if (Physics.BoxCast(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size / 2 * 0.9f - Vector3.forward * alpacaBoxCollider.size.z / 2 * 0.6f, direccionMovimiento.normalized, out hitInfo, transform.rotation, alpacaBoxCollider.size.z / 2))
+                /*if (Physics.BoxCast(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size / 2 * 0.9f - Vector3.forward * alpacaBoxCollider.size.z / 2 * 0.6f, direccionMovimiento.normalized, out hitInfo, transform.rotation, alpacaBoxCollider.size.z / 2))
                 {
                     Vector3 proyeccion = Vector3.Project(direccionMovimiento, hitInfo.normal);
                     direccionMovimiento -= proyeccion;
-                }
+                }*/
 
                 //Mover la alpaca
                 if (timerSlowMovementOnJump < salto.slowMovementOnJump)
                 {
-                    direccionMovimiento *= Mathf.Max(1 - salto.reduccionVelocidadSalto * Time.deltaTime, 0);
+                    direccionMovimiento *= Mathf.Max(1 - salto.reduccionVelocidadSalto, 0);
 
                     timerSlowMovementOnJump += Time.deltaTime;
                 }
-                transform.Translate((movimiento.speedMultiplier * direccionMovimiento + Vector3.up * velocidadVertical) * Time.deltaTime, Space.World);
+                //                transform.Translate((movimiento.speedMultiplier * direccionMovimiento + Vector3.up * velocidadVertical) * Time.deltaTime, Space.World);
+                
+
                 direccionMovimientoAnt = direccionMovimiento;
             }
             else //Si estas en stun el movimiento es zero
             {
                 direccionMovimientoAnt = Vector3.zero;
+                alpacaRB.AddForce(-alpacaRB.velocity,ForceMode.VelocityChange);
             }
 
             if (timerStunCaida < salto.stunCaida)
@@ -212,10 +247,38 @@ public class AlpacaMovement : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        float velocity = alpacaRB.velocity.magnitude;
+        float maxVelocity = movimiento.speedMultiplier ;
+        float velocityYChange;
+
+        if (faseMovimiento == FaseMovimiento.Caida || faseMovimiento == FaseMovimiento.Subida)
+        {
+            velocityYChange = velocidadVertical - alpacaRB.velocity.y;
+        }
+        else
+        {
+            velocityYChange = 0;
+        }
+
+        Vector3 newMovement = direccionMovimiento + Vector3.up * velocityYChange;
+
+        if (velocity > maxVelocity)
+        {
+            float breakspeed = velocity - maxVelocity;
+            Vector3 breakVelocity = alpacaRB.velocity.normalized * breakspeed;
+            alpacaRB.AddForce(newMovement - breakVelocity,ForceMode.VelocityChange);
+        }
+        else
+        {
+            alpacaRB.AddForce(newMovement, ForceMode.VelocityChange);
+        }
+    }
 
     private void LateUpdate()
     {
-        switch (faseMovimiento)
+        /*switch (faseMovimiento)
         {
             case FaseMovimiento.Subida:
 
@@ -230,7 +293,7 @@ public class AlpacaMovement : MonoBehaviour
                     velocidadVertical = 0;
                 }
                 break;
-        }
+        }*/
 
         if (cambioPausa)
         {
@@ -239,6 +302,21 @@ public class AlpacaMovement : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if((collision.collider.CompareTag("Suelo") || 
+            collision.collider.CompareTag("Caja") ||
+            collision.collider.CompareTag("Escenario") ||
+            collision.collider.CompareTag("Untagged") ||
+            collision.collider.CompareTag("Elevador")) && 
+            faseMovimiento == FaseMovimiento.Caida )
+        {
+            faseMovimiento = FaseMovimiento.Idle;
+            onAir = false;
+            velocidadVertical = 0;
+            timerStunCaida = 0;
+        }
+    }
     private void CalculoSalto()
     {
 
@@ -270,22 +348,22 @@ public class AlpacaMovement : MonoBehaviour
                 }
                 break;
             case FaseMovimiento.Caida:
-                if (Physics.BoxCast(transform.position + transform.up * 0.5f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.7f, layerReposicionarSuelo))
+                /*if (Physics.BoxCast(transform.position + transform.up * 0.5f, Vector3.right * 0.6f + Vector3.forward * 0.4f + Vector3.up * 0.2f, -transform.up, out hitInfo, transform.rotation, 0.7f, layerReposicionarSuelo))
                 {
-                    transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+                    //transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
                     faseMovimiento = FaseMovimiento.Idle;
                     onAir = false;
                     velocidadVertical = 0;
                     timerStunCaida = 0;
                 }
                 else
-                {
+                {*/
                     velocidadVertical = salto.velocidadInicialSalto * CalculoFormula(timerFasesSalto, salto.minimoTiempoSalto);
                     if (velocidadVertical < -salto.velocidadTerminalCaida)
                     {
                         velocidadVertical = -salto.velocidadTerminalCaida;
                     }
-                }
+                //}
                 timerFasesSalto += Time.deltaTime;
                 break;
             default:
@@ -371,6 +449,9 @@ public class AlpacaMovement : MonoBehaviour
     public void SetArrastre(bool arrastre)
     {
         arrastrando = arrastre;
+        alpacaRB.velocity = Vector3.zero;
+        direccionArrastre = Vector2.zero;
+        timerBlockDirectionArrastre = 0f;
     }
 
     public void SetPause()
@@ -391,8 +472,11 @@ public class AlpacaMovement : MonoBehaviour
 [System.Serializable]
 public class MovementVariables
 {
-    [Range(0, 10f)] public float speedMultiplier = 7.5f;
+    [Range(0, 50f)] public float speedMultiplier = 7.5f;
     [Range(1, 10f)] public float slowArrastre = 4;
+    [Range(0, 30f)] public float movingDrag = 5;
+    [Range(0, 30f)] public float staticDrag = 10;
+    [Range(0, 5f)] public float blockDireccionArrastre = 2;
     [Range(0, 720)] public float rotationSpeed = 360;
     [Range(0, 1440)] public float maxAnglePerSecond = 720;
 }
@@ -403,11 +487,11 @@ public class JumpSettings
     [Range(0, 10f)] public float velocidadInicialSalto = 7;
     [Range(0, 1f)] public float maximoTiempoBoton = 0.4f;
     [Range(0, 1f)] public float minimoTiempoSalto = 0.2f;
-    [Range(0, 30f)] public float velocidadTerminalCaida = 15;
+    [Range(0, 30f)] public float velocidadTerminalCaida = 10;
     [Range(0, 10f)] public float coeficienteRaiz = 1.5f;
-    [Range(0, 2f)] public float axisInfluenceOnAir = 1f;
-    [Range(0, 5f)] public float maximaAcelAire = 1.2f;
+    [Range(0, 2f)] public float axisInfluenceOnAir = 0.5f;
+    [Range(0, 5f)] public float maximaAcelAire = 0.8f;
     [Range(0, 1f)] public float slowMovementOnJump = 0.2f;
-    [Range(0, 20)] public float reduccionVelocidadSalto = 2;
+    [Range(0, 1f)] public float reduccionVelocidadSalto = 0.5f;
     [Range(0, 1f)] public float stunCaida = 0.05f;
 }

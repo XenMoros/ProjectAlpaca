@@ -8,7 +8,7 @@ public class AlpacaSound : MonoBehaviour
     public AudioSource audioSource; // AudioSource de la Alpaca
     public CustomInputManager inputManager;
     public Animator alpacaAnimator;
-    public float hearDistance = 4;
+    [Range(0f,20f)] public float hearDistance = 10;
 
     void Update()
     {

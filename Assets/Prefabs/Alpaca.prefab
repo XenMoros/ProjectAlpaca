@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3482507977617567749}
   - component: {fileID: 9118975828518930266}
   - component: {fileID: 5606836245571042573}
-  - component: {fileID: 6327881393461922473}
+  - component: {fileID: 2514760864693314962}
   m_Layer: 9
   m_Name: Alpaca
   m_TagString: Player
@@ -59,12 +59,12 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545654448897121839}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 99999
+  m_Mass: 50
+  m_Drag: 10
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!95 &545654448887606689
@@ -100,24 +100,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 0}
   camara: {fileID: 0}
-  alpacaBoxCollider: {fileID: 6327881393461922473}
   alpacaAnimator: {fileID: 545654448887606689}
   sonidos: {fileID: 0}
+  alpacaRB: {fileID: 2731804523480807688}
   movimiento:
-    speedMultiplier: 10
+    speedMultiplier: 50
     slowArrastre: 4
-    rotationSpeed: 360
+    movingDrag: 13
+    staticDrag: 30
+    blockDireccionArrastre: 2
+    rotationSpeed: 720
     maxAnglePerSecond: 720
   salto:
-    velocidadInicialSalto: 8
+    velocidadInicialSalto: 8.7
     maximoTiempoBoton: 0.2
     minimoTiempoSalto: 0.2
     velocidadTerminalCaida: 10
     coeficienteRaiz: 1.5
-    axisInfluenceOnAir: 0.7
-    maximaAcelAire: 1.2
+    axisInfluenceOnAir: 0.8
+    maximaAcelAire: 0.8
     slowMovementOnJump: 0.2
-    reduccionVelocidadSalto: 4
+    reduccionVelocidadSalto: 0.5
     stunCaida: 0.05
   layerReposicionarSuelo:
     serializedVersion: 2
@@ -139,7 +142,7 @@ MonoBehaviour:
   audioSource: {fileID: 5606836245571042573}
   inputManager: {fileID: 0}
   alpacaAnimator: {fileID: 545654448887606689}
-  hearDistance: 4
+  hearDistance: 10
 --- !u!114 &5200323232761240194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +159,7 @@ MonoBehaviour:
   alpacaMovement: {fileID: 4825375854857885428}
   inputManager: {fileID: 0}
   interactReminder: {fileID: 8365559010905447738}
+  hitInfoBool: 0
 --- !u!114 &3482507977617567749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +198,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpacaMovement: {fileID: 4825375854857885428}
   inputManager: {fileID: 0}
+  collideLayers:
+    serializedVersion: 2
+    m_Bits: 2048
   coz: {fileID: 907351019936946796}
 --- !u!82 &5606836245571042573
 AudioSource:
@@ -291,8 +298,8 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &6327881393461922473
-BoxCollider:
+--- !u!136 &2514760864693314962
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -301,9 +308,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.59607136, y: 1.7220643, z: 1.234715}
-  m_Center: {x: -0.0054585338, y: 0.8632139, z: 0.11735773}
+  m_Radius: 0.6186604
+  m_Height: 1.8131449
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8957442, z: 0.14671582}
 --- !u!1 &907351019936946796
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,8 +340,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907351019936946796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.66, z: -0.892}
-  m_LocalScale: {x: 0.55, y: 0.375, z: 0.8}
+  m_LocalPosition: {x: 0, y: 0.66, z: -0.39}
+  m_LocalScale: {x: 0.55, y: 0.375, z: 1.58888}
   m_Children: []
   m_Father: {fileID: 545654448896623119}
   m_RootOrder: 9
@@ -392,7 +400,7 @@ BoxCollider:
   m_GameObject: {fileID: 907351019936946796}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -3038,6 +3046,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shot
       objectReference: {fileID: 0}
+    - target: {fileID: 7643892968059817773, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
+    - target: {fileID: 7643892968059817773, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
+    - target: {fileID: 8436060736776984161, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
+    - target: {fileID: 8436060736776984161, guid: cf61a08104ba64749bd61e04942c7434,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e922315cf57670b45bff702696cc0eb2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf61a08104ba64749bd61e04942c7434, type: 3}
 --- !u!4 &4446274344810193978 stripped

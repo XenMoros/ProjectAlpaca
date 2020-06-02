@@ -20,4 +20,18 @@ public class Restart : MonoBehaviour, IActivable
             SceneManager.LoadScene(currentScene.name);
         }
     }
+
+    public void SetActivationState()
+    {
+        SetActivationState(true);
+    }
+
+    public void SetActivationState(int activateState)
+    {
+        if (activateState > 0)
+        {
+            SetActivationState(true);
+        }
+        SetActivationState(false);
+    }
 }

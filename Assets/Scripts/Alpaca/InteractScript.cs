@@ -13,6 +13,7 @@ public class InteractScript : MonoBehaviour
     // Valores para casteo de rayos
     LayerMask cajaLayerMask;
     RaycastHit hitInfo;
+    public bool hitInfoBool;
 
     public void Reset()
     {
@@ -37,6 +38,8 @@ public class InteractScript : MonoBehaviour
                     //Compureba que mires a la caja
                     if (Physics.Raycast(transform.position + new Vector3(0, transform.localScale.y / 4f, 0), transform.forward, out hitInfo, 5f, cajaLayerMask, QueryTriggerInteraction.Ignore))
                     {
+                        other.GetComponentInParent<CajaScript>().ActivarMovimiento();
+                        hitInfoBool = true;
                         // Si el objeto con el que choca el rayo casteado coincide con el objeto del trigger, asigna
                         if (hitInfo.collider.gameObject == other.transform.parent.gameObject)
                         {
@@ -55,6 +58,7 @@ public class InteractScript : MonoBehaviour
                     else
                     {
                         interactReminder.SetArrastre(false);
+                        hitInfoBool = false;
                     }
                 }
                 else
@@ -64,6 +68,7 @@ public class InteractScript : MonoBehaviour
                 // Si sueltas la X te desacopla la caja con reset de caida
                 if (!inputManager.GetButton("Interact"))
                 {
+                    other.GetComponentInParent<CajaScript>().EliminarMovimiento();
                     DesacoplarCaja(other, true);
                 }
             }
@@ -74,13 +79,15 @@ public class InteractScript : MonoBehaviour
             }
             // Si estaas en la influencia de una palanca
             
-            if (other.CompareTag("Palanca") && !alpacaMovement.arrastrando)
+            if ((other.CompareTag("Conmutador") || other.CompareTag("Palanca")) && !alpacaMovement.arrastrando)
             {
                 interactReminder.SetInteraccion(true);
                 // Si pulsas X activar la palanca
                 if (inputManager.GetButtonDown("Interact"))
                 {
-                    other.gameObject.GetComponent<Palanca>().ActivatePalanca();
+                    if (other.CompareTag("Palanca")) other.gameObject.GetComponent<Palanca>().Activate();
+                    else other.gameObject.GetComponent<Conmutador>().Activate();
+
                 }
             }
         }
@@ -93,6 +100,7 @@ public class InteractScript : MonoBehaviour
             // En caso de salir de la influencia de la caja, desacoplarte automaticamente
             if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
             {
+                other.GetComponentInParent<CajaScript>().EliminarMovimiento();
                 DesacoplarCaja(other, true);
                 interactReminder.SetArrastre(false);
             }
@@ -100,7 +108,7 @@ public class InteractScript : MonoBehaviour
             {
                 interactReminder.SetArrastre(false);
             }
-            if (other.CompareTag("Palanca"))
+            if (other.CompareTag("Palanca") || other.CompareTag("Conmutador"))
             {
                 interactReminder.SetInteraccion(false);
             }
@@ -114,7 +122,7 @@ public class InteractScript : MonoBehaviour
         // Reposicion mirando directamente la cara de la caja
         transform.forward = -hitInfo.normal;
         // Asigna la caja como hija tuya para que te siga
-        other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(this.transform);
+        other.transform.parent.gameObject.GetComponent<CajaScript>().SetParent(this.transform,true);
         // Flags de movimiento
         alpacaMovement.SetArrastre(true);
     }
@@ -125,7 +133,7 @@ public class InteractScript : MonoBehaviour
         if (other.transform.parent.parent.gameObject == this.gameObject)
         {
             // Desacoplarte la caja
-            other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(entorno);
+            other.transform.parent.gameObject.GetComponent<CajaScript>().SetParent();
             // Flags de movimiento
             alpacaMovement.SetArrastre(false);
             // Resetea la caida en caso necesario (por bug)
@@ -140,5 +148,16 @@ public class InteractScript : MonoBehaviour
     public void SetInputManager(CustomInputManager manager)
     {
         inputManager = manager;
+    }
+
+    public void CompararNormales(Collision col, CajaScript cajaScript)
+    {
+        if (hitInfoBool)
+        {
+            if (hitInfo.normal == -col.contacts[0].normal)
+            {
+                cajaScript.EliminarMovimiento();
+            }
+        }        
     }
 }

@@ -40,7 +40,8 @@ public class EscupitajoAction : MonoBehaviour
     void Update()
     {
         if (!alpacaMovement.pause && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo || alpacaMovement.arrastrando 
-            || alpacaAnimator.GetCurrentAnimatorStateInfo(1).IsName("Berreo")))
+            || alpacaAnimator.GetCurrentAnimatorStateInfo(1).IsName("Berreo") || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || 
+            alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida))
         {
             // Suma el tiempo de espera
             if (tiempoEntreDisparos > 0)
@@ -66,7 +67,7 @@ public class EscupitajoAction : MonoBehaviour
         if (autoapuntado)
         {
             // Genera una lista de todos los objetos de tipo "Camara Lens, Guardia o BotonPared" que esten en el box de autoapuntado
-            colliderList = Physics.OverlapBox(transform.position + transform.forward * 15 + transform.up * 4, new Vector3(5, 3, 15), transform.rotation, LayerMask.GetMask("CameraLens", "BotonPared", "Guardia"), QueryTriggerInteraction.Collide);
+            colliderList = Physics.OverlapBox(transform.position + transform.forward * 15 + transform.up * 2, new Vector3(5, 2, 12), transform.rotation, LayerMask.GetMask("CameraLens", "BotonPared", "Guardia"), QueryTriggerInteraction.Collide);
 
             // Si la lista no esta vacia, apunta automatiacamente al primer elemento
             if (colliderList.Length > 0)
