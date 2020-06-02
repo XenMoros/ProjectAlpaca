@@ -7,13 +7,13 @@ public class CajaScript : MonoBehaviour
     // Variables publicas de control
     public float speed = 15; // Velocidad de movimiento de la caja
     public float tiempoMovimiento = 0.5f;
-    public LayerMask layerBoxCast;
+    //public LayerMask layerBoxCast;
     // Flags de estado
     public bool activateM = false; // Si la caja se mueve
 
     // Variables de RayCast para parar la caja
-    private RaycastHit hit;
-    RaycastHit boxCastHit;
+    //private RaycastHit hit;
+    //RaycastHit boxCastHit;
 
     // Objetos para controlar la expansion del Collider en caida 
     private Rigidbody cajaRB; // Rigidbody de la caja
@@ -33,7 +33,7 @@ public class CajaScript : MonoBehaviour
     void Update()
     {
         // Restamos al timer de movimiento
-        timerMovimiento -= Time.deltaTime;       
+        if(activateM) timerMovimiento -= Time.deltaTime;       
     }
 
     /*private void LateUpdate()
@@ -104,11 +104,7 @@ public class CajaScript : MonoBehaviour
         }
         // Si choca con las paredes, parar la caja
         else */
-        if (collision.gameObject.CompareTag("Suelo"))
-        {
-            Movimiento();
-        }
-        else if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
+        if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
         {
             //activateM = false;
 
@@ -122,7 +118,11 @@ public class CajaScript : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
+        if (collision.gameObject.CompareTag("Suelo"))
+        {
+            Movimiento();
+        }
+        else if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
         {
             interactScript.CompararNormales(collision, this);
         }
@@ -137,13 +137,15 @@ public class CajaScript : MonoBehaviour
             //transform.Translate(cajadirection * speed * Time.deltaTime,Space.World);
             //cajaRB.AddForce(cajadirection * speed, ForceMode.Acceleration);
             cajaRB.velocity = cajadirection * speed + Vector3.up * cajaRB.velocity.y;
-
+            // Desactiva el movimiento al acabar el tiempo asignado
+            if (timerMovimiento <= 0)
+            {
+                activateM = false;
+            }
         }
-        // Desactiva el movimiento al acabar el tiempo asignado
-        if (timerMovimiento <= 0)
+        else
         {
-            cajaRB.AddForce(-cajaRB.velocity*0.5f, ForceMode.VelocityChange);
-            activateM = false;
+            cajaRB.AddForce(-cajaRB.velocity * 0.5f, ForceMode.VelocityChange);
         }
     }
 
