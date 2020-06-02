@@ -122,7 +122,7 @@ public class InteractScript : MonoBehaviour
         // Reposicion mirando directamente la cara de la caja
         transform.forward = -hitInfo.normal;
         // Asigna la caja como hija tuya para que te siga
-        other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(this.transform);
+        other.transform.parent.gameObject.GetComponent<CajaScript>().SetParent(this.transform,true);
         // Flags de movimiento
         alpacaMovement.SetArrastre(true);
     }
@@ -133,7 +133,7 @@ public class InteractScript : MonoBehaviour
         if (other.transform.parent.parent.gameObject == this.gameObject)
         {
             // Desacoplarte la caja
-            other.transform.parent.gameObject.GetComponent<CajaScript>().AsociarPadre(entorno);
+            other.transform.parent.gameObject.GetComponent<CajaScript>().SetParent();
             // Flags de movimiento
             alpacaMovement.SetArrastre(false);
             // Resetea la caida en caso necesario (por bug)
