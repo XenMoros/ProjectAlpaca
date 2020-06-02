@@ -198,6 +198,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpacaMovement: {fileID: 4825375854857885428}
   inputManager: {fileID: 0}
+  collideLayers:
+    serializedVersion: 2
+    m_Bits: 0
   coz: {fileID: 907351019936946796}
 --- !u!82 &5606836245571042573
 AudioSource:
@@ -337,7 +340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907351019936946796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.66, z: -1.166}
+  m_LocalPosition: {x: 0, y: 0.66, z: -0.39}
   m_LocalScale: {x: 0.55, y: 0.375, z: 1.58888}
   m_Children: []
   m_Father: {fileID: 545654448896623119}
@@ -397,7 +400,7 @@ BoxCollider:
   m_GameObject: {fileID: 907351019936946796}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

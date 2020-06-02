@@ -104,7 +104,11 @@ public class CajaScript : MonoBehaviour
         }
         // Si choca con las paredes, parar la caja
         else */
-        if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
+        if (collision.gameObject.CompareTag("Suelo"))
+        {
+            Movimiento();
+        }
+        else if (collision.gameObject.CompareTag("Paredes") || collision.gameObject.CompareTag("Escenario"))
         {
             //activateM = false;
 
@@ -113,6 +117,7 @@ public class CajaScript : MonoBehaviour
                 interactScript.CompararNormales(collision, this);
             }          
         }
+
     }
 
     private void OnCollisionStay(Collision collision)
@@ -130,7 +135,8 @@ public class CajaScript : MonoBehaviour
         if (activateM)
         {
             //transform.Translate(cajadirection * speed * Time.deltaTime,Space.World);
-            cajaRB.AddForce(cajadirection * speed, ForceMode.Acceleration);
+            //cajaRB.AddForce(cajadirection * speed, ForceMode.Acceleration);
+            cajaRB.velocity = cajadirection * speed + Vector3.up * cajaRB.velocity.y;
 
         }
         // Desactiva el movimiento al acabar el tiempo asignado
