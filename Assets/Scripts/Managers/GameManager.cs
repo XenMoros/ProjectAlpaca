@@ -42,10 +42,12 @@ public class GameManager : MonoBehaviour
                 if (StaticManager.pause)
                 {
                     interfaceManager.OpenPauseMenu();
+                    StaticManager.ChangeSensibility(0);
                 }
                 else
                 {
                     interfaceManager.CloseAllGroups();
+                    StaticManager.ChangeSensibility(StaticManager.lastSensibility);
                 }
             }
         }
@@ -127,7 +129,6 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(CargarOtraEscena(currentLevel));
         }
-
     }
 
     public void ReturnToMain()
