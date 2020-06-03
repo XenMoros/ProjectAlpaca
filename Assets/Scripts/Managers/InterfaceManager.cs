@@ -37,6 +37,12 @@ public class InterfaceManager : MonoBehaviour
             ReturnButton();
         }
 
+        if(Input.GetMouseButtonDown(0) ||
+            Input.GetMouseButtonDown(1) ||
+            Input.GetMouseButtonDown(2))
+        {
+            selectDefecto[grupoActual].Select();
+        }
     }
     public void Initialize()
     {
@@ -54,6 +60,9 @@ public class InterfaceManager : MonoBehaviour
 
         StartMainMenu();
         historialGrupos.Push(-1);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void StartMainMenu()

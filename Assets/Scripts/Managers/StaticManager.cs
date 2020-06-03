@@ -5,6 +5,7 @@ public static class StaticManager
 {
     [Range(-5,5)] public static sbyte brightness = 0;
     [Range(0.1f, 10)] public static float sensibility = 1;
+    public static float lastSensibility = 0;
     public static bool axisV = false, axisH = false;
     public static bool pause = true;
     public static bool cameraOptionsChanged = false;
@@ -23,6 +24,7 @@ public static class StaticManager
 
     public static void ChangeSensibility(float sens)
     {
+        lastSensibility = sensibility;
         sensibility = sens;
         cameraOptionsChanged = true;
     }
