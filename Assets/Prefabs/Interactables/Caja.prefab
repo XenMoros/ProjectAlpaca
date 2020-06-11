@@ -43,7 +43,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3447278217043472639}
-  m_Material: {fileID: 13400000, guid: e2debe152c2c10e40b97638d34d9666a, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -81,9 +81,6 @@ MonoBehaviour:
   interactScript: {fileID: 0}
   speed: 15
   tiempoMovimiento: 0.5
-  layerBoxCast:
-    serializedVersion: 2
-    m_Bits: 0
   activateM: 0
 --- !u!114 &4490072501990482850
 MonoBehaviour:

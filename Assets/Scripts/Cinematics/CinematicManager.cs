@@ -89,7 +89,12 @@ public class CinematicManager : MonoBehaviour
             velocity = direction.magnitude / (animationTime - arrayAnimaciones[animationNumber].animationDelayMovement - arrayAnimaciones[animationNumber].animationFinishMovement);
             direction.Normalize();
 
-            transform.forward = new Vector3(direction.x, 0, direction.z).normalized;
+            if(direction != Vector3.zero)
+            {
+                if (!arrayAnimaciones[animationNumber].animationReverseMovement) transform.forward = new Vector3(direction.x, 0, direction.z).normalized;
+                else transform.forward = -new Vector3(direction.x, 0, direction.z).normalized;
+            }
+
             finishMovement = animationTime - arrayAnimaciones[animationNumber].animationFinishMovement;
         }
 
@@ -110,6 +115,7 @@ internal struct AnimationGuide
     public bool animationIsMoving;
     public float animationDelayMovement;
     public float animationFinishMovement;
+    public bool animationReverseMovement;
 
     public AnimationGuide(string aName,float aLength,bool aIsMoving)
     {
@@ -118,6 +124,7 @@ internal struct AnimationGuide
         animationIsMoving = aIsMoving;
         animationDelayMovement = 0;
         animationFinishMovement = 0;
+        animationReverseMovement = false;
     }
 
     public AnimationGuide(string aName, float aLength, bool aIsMoving, float aDelayMovement, float aFinishMovement)
@@ -127,5 +134,16 @@ internal struct AnimationGuide
         animationIsMoving = aIsMoving;
         animationDelayMovement = aDelayMovement;
         animationFinishMovement = aFinishMovement;
+        animationReverseMovement = false;
+    }
+
+    public AnimationGuide(string aName, float aLength, bool aIsMoving, float aDelayMovement, float aFinishMovement, bool aReverseMovement)
+    {
+        animationName = aName;
+        animationLength = aLength;
+        animationIsMoving = aIsMoving;
+        animationDelayMovement = aDelayMovement;
+        animationFinishMovement = aFinishMovement;
+        animationReverseMovement = aReverseMovement;
     }
 }

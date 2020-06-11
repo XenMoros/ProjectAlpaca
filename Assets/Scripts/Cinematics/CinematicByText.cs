@@ -26,11 +26,6 @@ public class CinematicByText : CinematicManager
     {
         string[] fLines = Regex.Split(file.text, "\n");
 
-        foreach (string value in fLines)
-        {
-            Debug.Log(value);
-        }
-
         arrayAnimaciones = new AnimationGuide[fLines.Length];
 
         for (int i = 0; i < fLines.Length; i++)
@@ -51,13 +46,5 @@ public class CinematicByText : CinematicManager
             arrayAnimaciones[i] = new AnimationGuide(name, time, moving, delay, finish);
         }
 
-        Debug.Log(arrayAnimaciones.Length);
-
-        foreach(AnimationGuide animationGuide in arrayAnimaciones)
-        {
-            Debug.Log(animationGuide.animationName);
-            Debug.Log(animationGuide.animationLength);
-            Debug.Log(animationGuide.animationIsMoving);
-        }
     }
 }
