@@ -310,7 +310,7 @@ public class AlpacaMovement : MonoBehaviour
             collision.collider.CompareTag("Escenario") ||
             collision.collider.CompareTag("Untagged") ||
             collision.collider.CompareTag("Elevador")) && 
-            faseMovimiento == FaseMovimiento.Caida )
+            faseMovimiento == FaseMovimiento.Caida)
         {
             faseMovimiento = FaseMovimiento.Idle;
             onAir = false;
