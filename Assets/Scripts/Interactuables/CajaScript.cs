@@ -200,7 +200,7 @@ public class CajaScript : MonoBehaviour
         cajadirection.y = 0;
         if (Mathf.Abs(cajadirection.z) < 0.7f) cajadirection.z = 0;
         cajadirection.Normalize();
-        Debug.Log("Direccion Movimiento: " + cajadirection);
+        //Debug.Log("Direccion Movimiento: " + cajadirection);
         timerMovimiento = tiempoMovimiento;
         activateM = true;
     }

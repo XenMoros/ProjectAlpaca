@@ -61,6 +61,10 @@ public class Elevador : MonoBehaviour, IActivable
         {
             other.gameObject.GetComponent<CajaScript>().SetParent(transform, false);
         }
+        else if(other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<AlpacaMovement>().SetParent(transform, false);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -68,6 +72,10 @@ public class Elevador : MonoBehaviour, IActivable
         if (other.gameObject.CompareTag("Caja") && other.gameObject.transform.parent.Equals(transform))
         {
             other.gameObject.GetComponent<CajaScript>().SetParent();
+        }
+        else if (other.gameObject.CompareTag("Player") && other.gameObject.transform.parent.Equals(transform))
+        {
+            other.gameObject.GetComponent<AlpacaMovement>().SetParent();
         }
     }
 }
