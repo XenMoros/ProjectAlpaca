@@ -6,6 +6,8 @@ public class CinematicManager : MonoBehaviour
 {
     public Animator animator;
     public WaypointManager waipoints;
+    public float rotationSpeed = 360f;
+    public float maxAnglePerSecond = 720f;
 
     float animationTimer;
     float animationTime;
@@ -15,6 +17,8 @@ public class CinematicManager : MonoBehaviour
     Vector3 direction;
     float velocity;
     float finishMovement;
+    Vector3 targetDirection;
+
 
     RuntimeAnimatorController ac;
     internal virtual void Start()
@@ -31,6 +35,8 @@ public class CinematicManager : MonoBehaviour
     // Update is called once per frame
     internal virtual void Update()
     {
+        GirarPersonaje();
+
         if (arrayAnimaciones[animNumber].animationIsMoving &&
             animationTimer >= arrayAnimaciones[animNumber].animationDelayMovement &&
             animationTimer <= finishMovement)
@@ -91,14 +97,36 @@ public class CinematicManager : MonoBehaviour
 
             if(direction != Vector3.zero)
             {
-                if (!arrayAnimaciones[animationNumber].animationReverseMovement) transform.forward = new Vector3(direction.x, 0, direction.z).normalized;
-                else transform.forward = -new Vector3(direction.x, 0, direction.z).normalized;
+                if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = new Vector3(direction.x, 0, direction.z).normalized;
+                else targetDirection = -new Vector3(direction.x, 0, direction.z).normalized;
             }
 
             finishMovement = animationTime - arrayAnimaciones[animationNumber].animationFinishMovement;
         }
 
 
+    }
+
+    private void GirarPersonaje()
+    {
+        // First calculate the look vector as normal
+
+        Vector3 newForward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * rotationSpeed);
+
+        // Now check if the new vector is rotating more than allowed
+        float angle = Vector3.Angle(transform.forward, newForward);
+        float maxAngle = maxAnglePerSecond * Time.deltaTime;
+        if (angle > maxAngle)
+        {
+            // It's rotating too fast, clamp the vector
+            newForward = Vector3.Slerp(transform.forward, newForward, maxAngle / angle);
+        }    
+        
+        // Assign the new forward to the transform
+        if (newForward != Vector3.zero)
+        {
+            transform.forward = newForward;
+        }
     }
 
     internal virtual void RellenarArrayAnimaciones()

@@ -406,6 +406,24 @@ public class AlpacaMovement : MonoBehaviour
 
     }
 
+    public void SetParent()
+    {
+        transform.parent = null;
+    }
+
+    public void SetParent(Transform newParent, bool forzado)
+    {
+        if (forzado)
+        {
+            transform.parent = newParent.transform;
+        }
+        else if (transform.parent==null)
+        {
+            transform.parent = newParent.transform;
+        }
+
+    }
+
     private float CalculoFormula(float tiempo, float margen)
     {
         float result;

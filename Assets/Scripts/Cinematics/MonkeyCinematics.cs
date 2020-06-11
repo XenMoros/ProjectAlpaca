@@ -41,7 +41,7 @@ public class MonkeyCinematics : CinematicByText
                     arrayAnimaciones[i] = new AnimationGuide(arrayAnimaciones[i].animationName,
                                                                 arrayAnimaciones[i].animationLength,
                                                                 arrayAnimaciones[i].animationIsMoving,
-                                                                0.25f,
+                                                                0.3f,
                                                                 arrayAnimaciones[i].animationFinishMovement,
                                                                 true);
                     break;
