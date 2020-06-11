@@ -41,7 +41,7 @@ public class AlpacaMovement : MonoBehaviour
     private float escaladoMovimientoEnAire;
 
     // Propiedades del Salto
-    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, Arrastrar, Cozeo };
+    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, IdleArrastre, Arrastrar, Cozeo };
     internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle;
 
     internal float velocidadVertical;
@@ -55,10 +55,10 @@ public class AlpacaMovement : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position - transform.up * 0.1f, Vector3.one * 0.2f);
-        Gizmos.DrawWireCube(transform.position + transform.up * (1.73f + 0.1f), Vector3.one * 0.2f);
-        Gizmos.DrawWireCube(transform.position, Vector3.right * 0.8f + Vector3.forward * 0.5f + Vector3.up * 0.3f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(transform.position - transform.up * 0.1f, Vector3.one * 0.2f);
+        //Gizmos.DrawWireCube(transform.position + transform.up * (1.73f + 0.1f), Vector3.one * 0.2f);
+        //Gizmos.DrawWireCube(transform.position, Vector3.right * 0.8f + Vector3.forward * 0.5f + Vector3.up * 0.3f);
 
         //Gizmos.color = Color.blue;
         //Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
@@ -209,7 +209,8 @@ public class AlpacaMovement : MonoBehaviour
                 else if (!onAir) // Si no hay input i estas en el suelo, el movimiento es zero
                 {
                     alpacaRB.drag = movimiento.staticDrag;
-                    faseMovimiento = FaseMovimiento.Idle;
+                    if (!arrastrando) faseMovimiento = FaseMovimiento.Idle;
+                    else faseMovimiento = FaseMovimiento.IdleArrastre;
                     direccionMovimiento = Vector3.zero;
                 }
 
