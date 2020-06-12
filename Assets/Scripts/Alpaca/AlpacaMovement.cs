@@ -36,6 +36,7 @@ public class AlpacaMovement : MonoBehaviour
 
     // Valores para casteo de rayos
     private RaycastHit hitInfo;
+    private Vector3 planeNormal = Vector3.up;
 
     // Valor interno de escalado al modificar velocidad en el aire
     private float escaladoMovimientoEnAire;
@@ -107,6 +108,7 @@ public class AlpacaMovement : MonoBehaviour
                     timerBotonSalto = 0;
                     timerSlowMovementOnJump = 0;
                     botonSoltado = false;
+                    planeNormal = Vector3.up;
                 }
 
                 //if (Input.GetButtonUp("A") && faseMovimiento == FaseMovimiento.Subida)
@@ -263,7 +265,7 @@ public class AlpacaMovement : MonoBehaviour
             velocityYChange = 0;
         }
 
-        Vector3 newMovement = direccionMovimiento + Vector3.up * velocityYChange;
+        Vector3 newMovement = Vector3.ProjectOnPlane(direccionMovimiento, planeNormal) + Vector3.up * velocityYChange;
 
         if (velocity > maxVelocity)
         {
@@ -315,7 +317,11 @@ public class AlpacaMovement : MonoBehaviour
             faseMovimiento = FaseMovimiento.Idle;
             onAir = false;
             velocidadVertical = 0;
-            timerStunCaida = 0;
+            if (timerFasesSalto > 0.24f)
+            {
+                timerStunCaida = 0;
+            }
+            timerFasesSalto = 0;
         }
     }
     private void CalculoSalto()
@@ -373,10 +379,12 @@ public class AlpacaMovement : MonoBehaviour
                     faseMovimiento = FaseMovimiento.Caida;
                     onAir = true;
                     timerFasesSalto = 0;
+                    planeNormal = Vector3.up;
                 }
                 else
                 {
                     velocidadVertical = 0;
+                    planeNormal = hitInfo.normal;
                 }
                 break;
         }
