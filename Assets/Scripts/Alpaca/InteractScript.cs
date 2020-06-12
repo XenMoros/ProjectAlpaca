@@ -121,6 +121,11 @@ public class InteractScript : MonoBehaviour
         interactReminder.SetArrastre(false);
         // Reposicion mirando directamente la cara de la caja
         transform.forward = -hitInfo.normal;
+        float projection = Vector3.Project(other.transform.position - transform.position,transform.forward).magnitude - 1.73f;
+        if (projection != 0)
+        {
+            transform.Translate(- transform.forward * projection);
+        }
         // Asigna la caja como hija tuya para que te siga
         other.transform.parent.gameObject.GetComponent<CajaScript>().SetParent(this.transform,true);
         // Flags de movimiento

@@ -322,7 +322,7 @@ BoxCollider:
   m_GameObject: {fileID: 545654448897121839}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.55, y: 1.6997867, z: 1.2116737}
   m_Center: {x: 0, y: 0.86048365, z: 0.12229198}
@@ -644,6 +644,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1925919380467172366}
   - component: {fileID: 1925919380455970092}
+  - component: {fileID: 882902256926288512}
   m_Layer: 0
   m_Name: Alpaca_LP
   m_TagString: Untagged
@@ -756,6 +757,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.36455512, y: -0.14235798, z: -0.001359582}
     m_Extent: {x: 0.6729753, y: 0.86076796, z: 0.3128618}
   m_DirtyAABB: 0
+--- !u!64 &882902256926288512
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925919380467537966}
+  m_Material: {fileID: 13400000, guid: 1bc5a898e55af104fa3a02b7e65d85d4, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300018, guid: 7893758fe7a50ac4f9787c75a31853c4, type: 3}
 --- !u!1 &1925919380467537968
 GameObject:
   m_ObjectHideFlags: 0
