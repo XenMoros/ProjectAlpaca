@@ -34,6 +34,7 @@ public class AlpacaMovement : MonoBehaviour
     Vector3 direccionMovimiento = Vector3.zero; // Direccion hacia donde mover la alpaca
     Vector2 direccionArrastre = Vector2.zero; // Direccion en la que se arrastran cosas
     private Vector3 planeNormal = Vector3.up; // Orientacion del plano en el que te mueves
+    Vector3 lastVelocity = Vector3.zero; // Ultima velocidad de la alpaca (para pausa)
 
     // Valores para casteo de rayos
     private RaycastHit hitInfo; // Salida de los Physics Raycast
@@ -154,19 +155,18 @@ public class AlpacaMovement : MonoBehaviour
                         }
                         else
                         { // Si esta arrastrando siempre anda hacia atras
-                            direccionMovimiento = -transform.forward;
 
                             if(timerBlockDirectionArrastre <= movimiento.blockDireccionArrastre)
                             { // Si no se ha bloqueado la direccion de arrastre te mueves segun si el stich se alinea con la alpaca y 
                               // va moviendo progresivamente la direccion arrastre para adequarla a tu input
                                 if (Vector3.Dot(targetDirection, -transform.forward) > 0)
                                 { // Si te alineas con el culo alpaca te mueves
-                                    direccionMovimiento *= targetDirection.magnitude * Vector3.Dot(targetDirection, -transform.forward);
+                                    direccionMovimiento = -transform.forward * Vector3.Dot(targetDirection, -transform.forward) / movimiento.slowArrastre;
                                     direccionArrastre += new Vector2(axisV, axisH);
                                 }
                                 else
                                 { // Si intentas andar hacia alante no te mueves
-                                    direccionMovimiento *= 0;
+                                    direccionMovimiento = Vector3.zero;
                                 }
 
                                 timerBlockDirectionArrastre += Time.deltaTime; // Aumenta timer de block direccion arrastre
@@ -181,14 +181,18 @@ public class AlpacaMovement : MonoBehaviour
                                 Vector2 axisDirection = new Vector2(axisV, axisH);
                                 if (Vector2.Dot(axisDirection, direccionArrastre) > 0)
                                 { // Si el mando se alinea con la direccion arrastre te mueves
-                                    direccionMovimiento *= axisDirection.magnitude * Vector2.Dot(axisDirection, direccionArrastre);
+                                    direccionMovimiento = -transform.forward * Vector2.Dot(axisDirection, direccionArrastre) / movimiento.slowArrastre;
                                 }
                                 else
                                 { // Si apuntas al contrario de la direccion arrastre no te mueves
-                                    direccionMovimiento *= 0;
+                                    direccionMovimiento = Vector3.zero;
                                 }
                             }
-                            faseMovimiento = FaseMovimiento.Arrastrar; // Set la fase de movimiento como arrastre
+                            if(direccionMovimiento != Vector3.zero)
+                            {
+                                faseMovimiento = FaseMovimiento.Arrastrar;
+                            }
+                            else faseMovimiento = FaseMovimiento.IdleArrastre; // Set la fase de movimiento como arrastre
                         }
                     }
                     else
@@ -268,6 +272,19 @@ public class AlpacaMovement : MonoBehaviour
         {
             cambioPausa = false;
             pause = !pause;
+
+            if (pause)
+            { // Si entras a la pausa guarda la velocidad que tenias y frena el movimiento
+                lastVelocity = alpacaRB.velocity;
+                alpacaRB.velocity = Vector3.zero;
+                alpacaRB.useGravity = false;
+            }
+            else
+            { // Si sales de la pausa recupera el movimiento que tenias
+                alpacaRB.velocity = lastVelocity;
+                lastVelocity = Vector3.zero;
+                alpacaRB.useGravity = true;
+            }
         }
     }
 
@@ -460,6 +477,7 @@ public class AlpacaMovement : MonoBehaviour
     {     // Funcion publica para marcar la dimension de arrastre desde otros actores
         arrastrando = arrastre; // Set si esta arrastrando o no
         alpacaRB.velocity = Vector3.zero; // Detiene la alaca al cambiar de estado
+        alpacaRB.drag = movimiento.staticDrag;
         if (arrastrando)
         { // Si empieza a arrastrar setea la direccion de input de arrastre y resetea el timer del block de la direccion
             direccionArrastre = GetAxisDirection(camara.forward, transform.forward);
