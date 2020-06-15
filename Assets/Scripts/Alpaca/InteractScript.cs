@@ -112,7 +112,7 @@ public class InteractScript : MonoBehaviour
             { // En caso de salir si no estabas arrastrando
                 interactReminder.SetArrastre(false); // Desactiva el reminder de interaccion
             }
-            if (other.CompareTag("Palanca") || other.CompareTag("Conmutador"))
+            if (other.CompareTag("Interactuable"))
             { //
                 interactReminder.SetInteraccion(false);
             }

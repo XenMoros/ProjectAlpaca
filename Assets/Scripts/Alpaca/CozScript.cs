@@ -5,63 +5,46 @@ public class CozScript : MonoBehaviour
 {
     // Elementos precacheados en Inspector
     public AlpacaMovement alpacaMovement; //El movimiento de la Alaca
-    public CustomInputManager inputManager;
-    public LayerMask collideLayers;
-    RaycastHit hitInfo;
-    // GameObject de la Coz
-    public GameObject coz;
+    public CustomInputManager inputManager; // Input manager (segun prod o debug)
+    public LayerMask collideLayers; // Layers con las que colisionara la coz 
+    RaycastHit hitInfo; // Informacion del hit del raycast
+    public Transform coz; // Posicion desde donde se da la coz
 
     public void Reset()
-    {
+    { // Al attachear este componente busca el AlpacaMovement automaticamente
         alpacaMovement = GetComponent<AlpacaMovement>();
-        coz = GameObject.Find("Coz");
-    }
-
-    void Start()
-    {
-        //Capturar la coz y desactivarla
-        coz = GameObject.FindGameObjectWithTag("Coz");
-        coz.SetActive(false);
     }
 
     void Update()
     {
         if (!alpacaMovement.pause)
         {
-            //Debug.DrawLine(coz.transform.position, coz.transform.position + (-alpacaMovement.transform.forward * 1f));
-            // Mirar las acciones de la coz
             if (inputManager.GetButtonDown("Coz") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
                 || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo || alpacaMovement.arrastrando))
-            {
+            { // Si picas el boton de cozeo y no estas ni en el aire, ni coceando ya ni arrastrando, ponte en fase de cozeo
                 alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
             }
         }
     }
 
     public void ActivarColliderCoz()
-    {
-        //Debug.Log("A cozear");
-        //coz.SetActive(true);
-        if(Physics.BoxCast(coz.transform.position, new Vector3(1,1,0.1f),-alpacaMovement.transform.forward,out hitInfo,alpacaMovement.transform.rotation,1f, collideLayers, QueryTriggerInteraction.Ignore))
+    { // Animation event, lanza un raycast para ver si la coz da con algo
+        if(Physics.BoxCast(coz.position, new Vector3(1,1,0.1f),-alpacaMovement.transform.forward,out hitInfo,alpacaMovement.transform.rotation,1f, collideLayers, QueryTriggerInteraction.Ignore))
         {
-            //Debug.Log("Di con algo");
             if (hitInfo.collider.CompareTag("Caja"))
-            {
-               // Debug.Log("Di con la caja");
-                //Debug.Log(hitInfo.normal);
+            { // Si das con una caja, empujala segun la cara en la que le das
                 hitInfo.collider.GetComponent<CajaScript>().PushCaja(-hitInfo.normal);
             }
         }
     }
 
     public void TerminarCozeo() 
-    {
-        coz.SetActive(false);
+    { // Animation event, al acabar el coceo pasa a Idle
         alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
     }
 
     public void SetInputManager(CustomInputManager manager)
-    {
+    { // Set del input manager segun entrada, para actores externos
         inputManager = manager;
     }
 }

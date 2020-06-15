@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7306653345885605721}
   - component: {fileID: 5216623362248305876}
+  - component: {fileID: 4078419236761981003}
+  - component: {fileID: 8175787632446176582}
   m_Layer: 0
   m_Name: BotonPared
-  m_TagString: Untagged
+  m_TagString: BotonPared
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,26 +53,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!135 &3675372326596743025
+--- !u!135 &4078419236761981003
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8116055199541825609}
+  m_GameObject: {fileID: 7306653345885605722}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.26
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &801360741592728677
+--- !u!114 &8175787632446176582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8116055199541825609}
+  m_GameObject: {fileID: 7306653345885605722}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15dbf4a342fb02843964656262441450, type: 3}
@@ -145,12 +147,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a9b3603ae7a08bd47b3a591c1a3e9d39, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38d395c1732c6614c851a4eeac37be53, type: 3}
---- !u!1 &8116055199541825609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100004, guid: 38d395c1732c6614c851a4eeac37be53,
-    type: 3}
-  m_PrefabInstance: {fileID: 8116055199541794541}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8116055199541398633 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400004, guid: 38d395c1732c6614c851a4eeac37be53,

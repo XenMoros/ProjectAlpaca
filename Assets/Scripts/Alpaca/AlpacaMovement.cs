@@ -144,6 +144,12 @@ public class AlpacaMovement : MonoBehaviour
                         if (!arrastrando)
                         { //Si no arrastras, la direccion es hacia donde el input
                             direccionMovimiento = targetDirection;
+                            if (Input.GetKey(inputManager.walk))
+                            { // SI estas pulsando la tecla de andar, clampea el movimiento para conseguir dicho efecto
+                                float clampFactor = Mathf.Sqrt(2) * 3;
+                                direccionMovimiento /= clampFactor;
+                            }
+
                             if (direccionMovimiento.magnitude > 0.35f)
                             { // Si hay suficiente movimiento estas corriendo
                                 faseMovimiento = FaseMovimiento.Correr;

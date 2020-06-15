@@ -3,19 +3,19 @@ using System.Collections;
 
 public class CustomInputManager : MonoBehaviour
 {
-    KeyCode yell;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("yellKey", "LeftShift"));
-    KeyCode jump;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("jumpKey", "Space"));
-    KeyCode coz;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("cozKey", "Mouse1"));
-    KeyCode spit;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("spitKey", "Mouse0"));
-    KeyCode interact;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("interactKey", "E"));
-    KeyCode start;
-    KeyCode ret;
+    KeyCode yell;// LeftShift
+    KeyCode jump;// Space
+    KeyCode coz;// Mouse1
+    KeyCode spit;// Mouse0
+    KeyCode interact;// E
+    KeyCode start;// T
+    KeyCode ret;// Escape
 
-    KeyCode forward;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("forwardKey", "W"));
-    KeyCode backward;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backwardKey", "S"));
-    KeyCode left;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
-    KeyCode right;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
-    KeyCode control;
+    KeyCode forward;// W
+    KeyCode backward;// S
+    KeyCode left;// A
+    KeyCode right;// D
+    public KeyCode walk;// LeftControl
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class CustomInputManager : MonoBehaviour
         backward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backwardKey", "S"));
         left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
         right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
-        control = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("controlKey", "LeftControl"));
+        walk = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("controlKey", "LeftControl"));
     }
 
     public float GetAxis(string axis)
@@ -44,13 +44,11 @@ public class CustomInputManager : MonoBehaviour
                 valor = Input.GetAxis("LS_h");
                 if (Input.GetKey(right)) valor += 1f;
                 if (Input.GetKey(left)) valor -= 1f;
-                if (Input.GetKey(control)) valor /= 0.5f;
                 break;
             case "MovementVertical":
                 valor = Input.GetAxis("LS_v");
                 if (Input.GetKey(forward)) valor += 1f;
                 if (Input.GetKey(backward)) valor -= 1f;
-                if (Input.GetKey(control)) valor /= 0.5f;
                 break;
             /*case "CamaraHorizontal":
                 valor = Input.GetAxis("RS_h");
