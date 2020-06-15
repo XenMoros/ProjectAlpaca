@@ -63,19 +63,19 @@ public class Elevador : MonoBehaviour, IActivable
         }
         else if(other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<AlpacaMovement>().SetParent(transform, false);
+            other.transform.parent.gameObject.GetComponent<AlpacaMovement>().SetParent(transform, false);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Caja") && other.gameObject.transform.parent.Equals(transform))
+        if (other.gameObject.CompareTag("Caja") && other.transform.parent.Equals(transform))
         {
             other.gameObject.GetComponent<CajaScript>().SetParent();
         }
-        else if (other.gameObject.CompareTag("Player") && other.gameObject.transform.parent.Equals(transform))
+        else if (other.gameObject.CompareTag("Player") && other.transform.parent.parent.Equals(transform))
         {
-            other.gameObject.GetComponent<AlpacaMovement>().SetParent();
+            other.transform.parent.gameObject.GetComponent<AlpacaMovement>().SetParent();
         }
     }
 }
