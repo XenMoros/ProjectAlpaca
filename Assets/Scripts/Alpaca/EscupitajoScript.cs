@@ -4,19 +4,16 @@ public class EscupitajoScript : MonoBehaviour
 {
     // Variables publicas de control
     [Range(0,50)]public float speed = 25f; // Velocidad de las balas
-    public GameObject particulas;
-    public ParticleSystem hit;
+    public GameObject particulas; // Particulas del escupitajo
+    public ParticleSystem hit; // Sistema de particulas de choque
 
     // Flags de movimiento
-    private bool puedeMoverse;
-    bool recolocarsePetition;
-
-    // Variables internas de movimiento
-    //private Vector3 direccionMovimiento;
+    private bool puedeMoverse; // Booleano de si se puede mover o no 
+    bool recolocarsePetition; // Booleano para pedir que vuelva a racamara
 
     void Start()
     {
-        // Asignar todas las balas quietas de inicio
+        // Asignar todas las balas quietas de inicio, i con los sistemas de particulas desactivados
         puedeMoverse = false;
         particulas.SetActive(false);
         recolocarsePetition = false;
@@ -24,9 +21,8 @@ public class EscupitajoScript : MonoBehaviour
 
     void Update()
     {
-        if (puedeMoverse)
-        {
-            //transform.Translate(transform.forward * speed * Time.deltaTime);
+        if (puedeMoverse && !StaticManager.pause)
+        { // Si el escupitajo puede moverse que lo haga.
             transform.position += transform.forward * (speed * Time.deltaTime);
         }
     }
@@ -34,61 +30,44 @@ public class EscupitajoScript : MonoBehaviour
     private void LateUpdate()
     {
         if (recolocarsePetition)
-        {
+        { // Si se pide la recolocacion, volver a la recamara
             ReColocarse();
             recolocarsePetition = false;
         }
     }
 
-    // Colocar la bala y empezar movimiento
     public void Escupir(Vector3 direccion,Vector3 inicio)
-    {
-        particulas.SetActive(false);
-        transform.forward = direccion.normalized;        
-        transform.position = inicio;
-        puedeMoverse = true;
-        particulas.SetActive(true);
+    { // Al escupir
+        particulas.SetActive(false); // Desactiva las particulas
+        transform.forward = direccion.normalized; // Alinea el escupitajo con la direccion del disparo
+        transform.position = inicio; // Traslada el escupitajo al inicio
+        puedeMoverse = true; // Marca que se puede mover
+        particulas.SetActive(true); // Activa las particulas del escupitajo despues de ponerlo en su sitio
     }
 
-    // Reposicionar la bala en la recamara
     public void ReColocarse()
-    {
-        particulas.SetActive(false);
-        puedeMoverse = false;
-        transform.localPosition = Vector3.zero;       
+    {// Reposicionar la bala en la recamara
+        particulas.SetActive(false); // Desactivar las particulas
+        puedeMoverse = false; // Marca que NO se mueva
+        transform.localPosition = Vector3.zero; // Traslada el escupitajo a la recamara
     }
-
-    public void ChangeSpeed(float newVelocity)
-    {
-        speed = newVelocity;
-    }
-
-    public void ChangeDirection(Vector3 newDirection)
-    {
-        transform.forward = newDirection;
-    }
-
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Al chocar, parar el movimiento y reposicionar las balas
         if (!collision.gameObject.CompareTag("Player"))
-        {
-            hit.Play(true);
-            recolocarsePetition = true;
+        { // Al chocar con qualquier cosa salvo el jugador
+            hit.Play(true); // Activa el sistema de particulas del choque
+            recolocarsePetition = true; // activa la peticion de recolocar la bala
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Al interaccionar con un boton, parar el movimiento y recolocarse
         if (other.gameObject.CompareTag("BotonPared"))
-        {
-            hit.Play(true);
-            recolocarsePetition = true;
+        {// Al interaccionar con un boton
+            hit.Play(true); // Activa el sistema de particulas del choque
+            recolocarsePetition = true; // activa la peticion de recolocar la bala
         }       
     }
-
-
 
 }

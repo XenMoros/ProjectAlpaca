@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-
 
 public class Interactuable : MonoBehaviour
 {
-    public Animator interactAnimator;
-    public List<GameObject> activatedGO = new List<GameObject>();
-    internal List<IActivable> activatedObjScript = new List<IActivable>();
+    public Animator interactAnimator; // Animador del interactuable
+    public List<GameObject> activatedGO = new List<GameObject>(); // Lista de objetos a activar
+    internal List<IActivable> activatedObjScript = new List<IActivable>(); // Lista de scripts activables
 
-    // Use this for initialization
     public virtual void Start()
     {
         foreach (GameObject objeto in activatedGO)
-        {
+        { // Al empezar captura todos los scripts de los activables
             activatedObjScript.Add(objeto.GetComponent<IActivable>());
         }
 
@@ -22,7 +19,7 @@ public class Interactuable : MonoBehaviour
     public virtual void Activate()
     {
         foreach (IActivable activable in activatedObjScript)
-        {
+        { // Al activar envia la señal a todos los objetos
             activable.SetActivationState();
         }
     }
@@ -30,7 +27,7 @@ public class Interactuable : MonoBehaviour
     public virtual void Activate(bool state)
     {
         foreach (IActivable activable in activatedObjScript)
-        {
+        { // Al activar envia la señal a todos los objetos
             activable.SetActivationState(state);
         }
     }
@@ -38,7 +35,7 @@ public class Interactuable : MonoBehaviour
     public virtual void Activate(int activation)
     {
         foreach (IActivable activable in activatedObjScript)
-        {
+        { // Al activar envia la señal a todos los objetos
             activable.SetActivationState(activation);
         }
     }

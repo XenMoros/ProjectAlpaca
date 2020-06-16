@@ -1,17 +1,16 @@
 ﻿using Pathfinding;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class GuardiaMovement : Enemy
 {
     // Elementos precacheados desde inspector
     //public EntradaYSalidaGM gameManager; // Esto será en un futuro un EnemyManager
-    public Transform player; // Alpaca
-    public Transform cabeza;
-    public IAstarAI agent;
-    public Animator guardiaAnimator;
-    public WaypointManager waypointManager;
-    public AnimationEventGuardia AEGuardia;
+    public Transform player; // Posicion de la Alpaca
+    public Transform cabeza; // Posicion de la cabeza
+    public IAstarAI agent; // Agente de PathFinding
+    public Animator guardiaAnimator; // Animator del guardia
+    public WaypointManager waypointManager; // Puntos de ruta del guardia
+    public AnimationEventGuardia AEGuardia; // Eventos de animacion del guardia
 
 
     // Variables publicas de movimiento
@@ -24,88 +23,99 @@ public class GuardiaMovement : Enemy
     // Variables de movimiento
     private Vector3 objective; // Objetivo
     private Vector3 lastPosition; // Posicion inicial
-    private Quaternion lastRotation;
-    private Quaternion initialRotation; // Rotacion inicial
-    private float timerEnEstado;
+    private Quaternion lastRotation; // Ultima Rotacion antes de la persecucion
+    private float timerEnEstado; // Timer en el estado actual
     private float tiempoEnEstado; // Tiempo que el guardia esta cegado
-    public float correrSpeed, andarSpeed;
-    bool estabaPatrullando;
+    public float correrSpeed, andarSpeed; // Velocidades de movimiento
+    bool estabaPatrullando; // Flag de si estaba patrullando o no
 
+    /// <summary>
+    /// Enumerador de la maquina de estados. ESTRICA Y ORDENADA, los estados mayores (cuanto mas abajo en la lista) tienen mas prioridad
+    /// SinCambios: Estado ficticio que marca que la maquina de estados NO ha de realizar ningun cambio
+    /// Idle: Estado de parado
+    /// Patrullando: Estado de guardia en patrulla
+    /// Volviendo: Estado de guardia volviendo de investigar o buscar a su ultimo punto de idle/patrulla
+    /// Buscando: Estado en el que te ha perdido y intenta buscarte EN EL SITIO
+    /// Investigar: Estodo de guardia donde va a un punto a investigar un ruido o similares
+    /// Perseguir: Estado donde te esta persiguiendo el guardia
+    /// Aturdido: Guardia incapacitado temporalmente
+    /// </summary>
     internal enum Estado {SinCambios ,Idle, Patrullando, Volviendo, Buscando, Investigar, Perseguir, Aturdido};
 
-    internal Estado estado, estadoSiguiente;
+    internal Estado estado, estadoSiguiente; // Estados del guarda, el actual de la maquina de estados y el siguiente al que ha de transicionar
     
     private void Start()
-    {
-        estado = Estado.Idle;
-        estabaPatrullando = false;
-        agent = GetComponent<IAstarAI>();
+    { // Al incio
+        estado = Estado.Idle; // El estado inicial es Idle
+        estabaPatrullando = false; // No patrulla
+        agent = GetComponent<IAstarAI>(); // Set del agente de Pathfinding
     }
-    private void LateUpdate()
+
+    private void LateUpdate() // La actualizacion de estados se realiza en LateUpdate
     {
         if (!pausa && active)
-        {
+        {// Si no esta pausado y esta activo
             if (estadoSiguiente != estado && estadoSiguiente != Estado.SinCambios)
-            {
+            {// Si hay algun cambio de estado
                 if (estadoSiguiente == Estado.Aturdido || estadoSiguiente == Estado.Idle || estadoSiguiente == Estado.Buscando)
-                {
+                {// Si el estado siguiente es aturdido, Idle o Buscando, el agente no se mueve
                     agent.canMove = false;
                     agent.canSearch = false;
 
                     if (estadoSiguiente == Estado.Idle)
-                    {
+                    {// Si es Idle mira el tiempo que ha de estar segun el que informe el waypoint
                         tiempoEnEstado = waypointManager.RetornarWaypoint().RetornarTiempo();
                     }
                     else
-                    {
+                    {// Si no marca 5 segundos como tiempo maximo
                         tiempoEnEstado = 5f;
                     }
                 }
                 else if (estado == Estado.Aturdido || estado == Estado.Idle || estado == Estado.Buscando)
-                {
+                {// Si el estado en el que estabas era Aturdido, Idle o Buscando, vuelve a activar el movimiento
                     agent.canMove = true;
                     agent.canSearch = true;
                 }
 
                 if (estado == Estado.Idle || estado == Estado.Patrullando)
-                {
+                {// Si venias de un estado Idle o Patrulla
                     if (estado == Estado.Patrullando)
-                    {
+                    {// Si era patrulla mmarca que estabas en patrulla
                         estabaPatrullando = true;
                     }
                     else
-                    {
+                    {// Sino marca que NO estabas de patrulla
                         estabaPatrullando = false;
                     }
 
                     if (estadoSiguiente != Estado.Patrullando && estadoSiguiente != Estado.Idle)
-                    {
+                    {// SI el estado siguiento NO es ni idle ni patrulla, guarda la posicion y la rotacion que tienes
                         lastPosition = transform.position;
                         lastRotation = transform.rotation;
                     }
                 }
 
                 if (estadoSiguiente == Estado.Perseguir || estadoSiguiente == Estado.Investigar || estadoSiguiente == Estado.Patrullando || estadoSiguiente == Estado.Volviendo)
-                {
-                    SetObjective(objective);
+                {// Si el estado siguiente es Perseguir, Investigar, Patrulla o Volver
+                    SetObjective(objective); // Marca el objetivo del PathFinding
 
                     if (estadoSiguiente == Estado.Perseguir)
-                    {
+                    {// Si toca perseguir pon la velocidad del agente segun correr
                         agent.maxSpeed = correrSpeed;
                     }
                     else
-                    {
+                    {// Sino el agente ira andando
                         agent.maxSpeed = andarSpeed;
                     }
 
                 }
 
-                estado = estadoSiguiente;
-                estadoSiguiente = Estado.SinCambios;
+                estado = estadoSiguiente; // Marca el estado actual como ya cambiado
+                estadoSiguiente = Estado.SinCambios; // Marca el estado siguiente como SinCambios
 
-                ControlDeAnimaciones();
+                ControlDeAnimaciones(); // Gestiona el cambio de animaciones
 
-                timerEnEstado = 0f;
+                timerEnEstado = 0f; // Reinicia el tiempo en este estado
 
             }
         }
@@ -113,7 +123,6 @@ public class GuardiaMovement : Enemy
 
     private void Update()
     {
-
         if (!pausa && active)
         {
             timerEnEstado += Time.deltaTime;
@@ -221,7 +230,6 @@ public class GuardiaMovement : Enemy
         }
     }
 
-    // Marca la posicion position como objetivo del agente
     public void SetObjective(Vector3 position)
     {
         agent.destination = position;
@@ -264,24 +272,24 @@ public class GuardiaMovement : Enemy
     }
 
     void ControlDeAnimaciones()
-    {
+    {// Gestiona las animaciones
         switch(estado)
         {
-            case Estado.Aturdido:
+            case Estado.Aturdido: // Activa el trigger de Aturdido
                 guardiaAnimator.SetTrigger("Aturdido");
                 break;
-            case Estado.Perseguir:
+            case Estado.Perseguir: // Activa el trigger de Perseguir
                 guardiaAnimator.SetTrigger("Perseguir");
                 break;
             case Estado.Patrullando:
             case Estado.Investigar:
-            case Estado.Volviendo:
+            case Estado.Volviendo: // Para estas tres, activa el trigger de Caminar
                 guardiaAnimator.SetTrigger("Caminar");
                 break;
-            case Estado.Buscando:
+            case Estado.Buscando: // Activa el trigger de Buscando
                 guardiaAnimator.SetTrigger("Buscando");
                 break;
-            case Estado.Idle:
+            case Estado.Idle: // Activa el trigger de Idle
                 guardiaAnimator.SetTrigger("Idle");
                 break;
 
@@ -307,11 +315,6 @@ public class GuardiaMovement : Enemy
                     transform.forward = new Vector3(playerDirection.x,0,playerDirection.z);
                     return true; // Retorna como que SI ha encontrado a la alpaca
                 }
-                if (hitInfo.collider.CompareTag("Suelo"))
-                {
-                    Debug.Log("Illoquease");
-                }
-
             }
         }
         // En caso de que la alpaca no este en angulo de vision o tenga obstaculos, NO encuentra a la Alpaca
@@ -343,30 +346,30 @@ public class GuardiaMovement : Enemy
     }
 
     public override void SetPause()
-    {
+    { // Setea la pausa del guardia
         base.SetPause();
 
         HabilitarGuardia();
     }
 
     public override void SetActivationState(bool activateState)
-    {
+    { // Set de el estado de activacion
         base.SetActivationState(activateState);
 
         HabilitarGuardia();
     }
 
     void HabilitarGuardia()
-    {
+    { // Gestiona la valocidad de animaciones del guardia segun la velocidad
         if (!pausa && active)
         {
             agent.canMove = true;
-            guardiaAnimator.speed = 1;
+            guardiaAnimator.speed = 1; // Pon la velocidad de animaciones normal
         }
         else
         {
             agent.canMove = false;
-            guardiaAnimator.speed = 0;
+            guardiaAnimator.speed = 0; // Para las animaciones
         }
     }
 }

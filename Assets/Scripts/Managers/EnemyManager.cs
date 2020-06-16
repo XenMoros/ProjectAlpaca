@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
@@ -7,7 +6,6 @@ public class EnemyManager : MonoBehaviour
     LevelManager levelManager;
 
     public List<Enemy> enemies;
-
 
     internal void LoadEnemies()
     {

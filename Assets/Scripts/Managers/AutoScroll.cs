@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
 
 public class AutoScroll : MonoBehaviour
 {
@@ -45,8 +44,8 @@ public class AutoScroll : MonoBehaviour
         // Get the rect tranform for the selected game object.
         selectedRectTransform = selected.GetComponent<RectTransform>();
 
-        selectedRectTransform.GetWorldCorners(selectedWorldPosition);
-        scrollRectTransform.GetWorldCorners(viewWorldPosition);
+        selectedRectTransform.GetWorldCorners(selectedWorldPosition); 
+        scrollRectTransform.GetWorldCorners(viewWorldPosition); 
 
         if (selectedWorldPosition[3].y < viewWorldPosition[3].y)
         {

@@ -19,26 +19,26 @@ public class AudioManager : MonoBehaviour
 
     public void Initialize()
     {
-        source = Camera.main.GetComponent<AudioSource>();
+        source = Camera.main.GetComponent<AudioSource>(); // Engancha el AudioSource de la camara como default
     }
 
     public void PlaySound(int audio)
     {
-            source.PlayOneShot(audios[audio]);
+            source.PlayOneShot(audios[audio]); // Ejecuta el audio en OneShot
     }
 
     public void PlaySound(int audio,int mode)
     {
         switch (mode)
         {
-            case 0:
+            case 0: // Audio en normal
                 source.clip = audios[audio];
                 source.Play();
                 break;
-            case 1:
+            case 1: // Audio en OneShot
                 source.PlayOneShot(audios[audio]);
                 break;
-            default:
+            default: // Audio en OneShot
                 source.PlayOneShot(audios[audio]);
                 break;
         }
@@ -46,7 +46,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public void PlaySound(int audio, AudioSource source)
-    {
+    { // Audio en OneShot en la source provista
         source.PlayOneShot(audios[audio]);
     }
 
@@ -54,14 +54,14 @@ public class AudioManager : MonoBehaviour
     {
         switch (mode)
         {
-            case 0:
+            case 0: // Audio en normal en la source provista
                 source.clip = audios[audio];
                 source.Play();
                 break;
-            case 1:
+            case 1: // Audio en OneShot en la source provista
                 source.PlayOneShot(audios[audio]);
                 break;
-            default:
+            default: // Audio en OneShot en la source provista
                 source.PlayOneShot(audios[audio]);
                 break;
         }
