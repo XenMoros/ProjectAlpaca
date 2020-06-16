@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class DispensaCajas : MonoBehaviour, IActivable
 {
@@ -26,13 +25,14 @@ public class DispensaCajas : MonoBehaviour, IActivable
             caja = Instantiate(cajaPrefab, transform.position + transform.up * alturaDeSpawn, Quaternion.identity);
         }
     }
+
     public void SetActivationState()
-    {
+    { // Set el estado de activacion del dispensador
         SetActivationState(true);
     }
 
     public void SetActivationState(int activateState)
-    {
+    { // Set la activacion del dispensador segun un entero
         if (activateState > 0)
         {
             SetActivationState(true);

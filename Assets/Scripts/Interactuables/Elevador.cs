@@ -1,28 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+﻿using UnityEngine;
 
 public class Elevador : MonoBehaviour, IActivable
 {
-   
-    //public List<Transform> objetivos =  new List<Transform>();
-    public WaypointManager waypointManager;
-    //int objetivoActual= 0;
-    public bool activada = false;
-    public float speed;
+    public WaypointManager waypointManager; // Los puntos de ruta del elevador
+    public bool activada = false; // Si esta activado o no
+    public float speed; // La velocidad del elevador
     
 
     private void Update()
     {
         if (activada)
-        {
+        { // Si el elevador puede moverse
             if (Vector3.Distance(transform.position, waypointManager.RetornarWaypoint().RetornarPosition()) > 0.2f)
-            {
+            { // Si estas lejos aun, avanza el elevador
                 transform.Translate((waypointManager.RetornarWaypoint().RetornarPosition() - transform.position).normalized * speed * Time.deltaTime, Space.World);
             }
             else
-            {
+            { // si estas muy cerca colocate en el punto exacto y desactiva el movimiento
                 transform.position = waypointManager.RetornarWaypoint().RetornarPosition();
                 activada = false;
             }
@@ -30,7 +24,7 @@ public class Elevador : MonoBehaviour, IActivable
     }
 
     public void SetActivationState(bool activateState)
-    {
+    { // Si se activa con booleano, en caso de ser false retrocede, sino avanza el elevador
         if (activateState)
         {
             SetActivationState();
@@ -44,19 +38,19 @@ public class Elevador : MonoBehaviour, IActivable
     }
 
     public void SetActivationState()
-    {
+    { // Cuando se activa el elevador, avanza el waypoint i marca como movimiento activada
         waypointManager.AvanzarWaypoint();
         activada = true;
     }
 
     public void SetActivationState(int activateState)
-    {
+    { // Si se activa con un numero, el ascensor va directo a ese numero (de existir)
         if (!waypointManager.SetWaypoint(activateState)) Debug.Log("Conmutador '" + gameObject.name + "': Piso " + activateState + " no encontrado.");
         else activada = true;
     }
 
     private void OnTriggerStay(Collider other)
-    {
+    { // Si tienes una caja o player encima, esos pasan a ser tus hijos
         if (other.gameObject.CompareTag("Caja"))
         {
             other.gameObject.GetComponent<CajaScript>().SetParent(transform, false);
@@ -68,7 +62,7 @@ public class Elevador : MonoBehaviour, IActivable
     }
 
     private void OnTriggerExit(Collider other)
-    {
+    { // Al salir la caja o player de encima, desacoplatelos
         if (other.gameObject.CompareTag("Caja") && other.transform.parent.Equals(transform))
         {
             other.gameObject.GetComponent<CajaScript>().SetParent();
