@@ -311,7 +311,8 @@ public class AlpacaMovement : MonoBehaviour
             collision.collider.CompareTag("Escenario") ||
             collision.collider.CompareTag("Untagged") ||
             collision.collider.CompareTag("Elevador")) &&
-            faseMovimiento == FaseMovimiento.Caida)
+            faseMovimiento == FaseMovimiento.Caida &&
+            Vector3.Dot(collision.GetContact(0).normal,Vector3.up)>0.5f)
         {
             faseMovimiento = FaseMovimiento.Idle; // Setea la fase a Idle
             onAir = false; // Dejas de estar en el aire
