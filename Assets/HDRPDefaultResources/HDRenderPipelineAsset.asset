@@ -349,4 +349,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d69be3d3ebd4a994bb7efd4e05384af1, type: 2}
   beforeTransparentCustomPostProcesses: []
   beforePostProcessCustomPostProcesses: []
-  afterPostProcessCustomPostProcesses: []
+  afterPostProcessCustomPostProcesses:
+  - SobelOutline, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
