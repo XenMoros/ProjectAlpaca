@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4167879003686980880
+--- !u!114 &-5711675101454983390
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,10 +20,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New Material
+  m_Name: TechoBaseCS
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
-  m_ShaderKeywords: N_F_CA_ON N_F_NM_ON N_F_O_ON N_F_PAL_ON N_F_RELGI_ON N_F_SS_ON
-    _NORMALMAP_TANGENT_SPACE
+  m_ShaderKeywords: N_F_PAL_ON N_F_RELGI_ON _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -99,7 +98,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 88a84eb3eb9288247b032000e8f9c484, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9d7b3aab51575864cbd9da0b41b064be, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskGloss:
@@ -123,7 +122,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: d7d0f5388039cc5429804ec756c20b55, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
@@ -284,7 +283,7 @@ Material:
     - _MixMainTexToOutline: 0
     - _N_F_AL: 0
     - _N_F_ALSL: 0
-    - _N_F_CA: 1
+    - _N_F_CA: 0
     - _N_F_CLD: 0
     - _N_F_CO: 0
     - _N_F_CS: 0
@@ -296,8 +295,8 @@ Material:
     - _N_F_HPSAS: 0
     - _N_F_MC: 0
     - _N_F_NLASOBF: 0
-    - _N_F_NM: 1
-    - _N_F_O: 1
+    - _N_F_NM: 0
+    - _N_F_O: 0
     - _N_F_O_NM: 0
     - _N_F_PAL: 1
     - _N_F_PT: 0
@@ -306,19 +305,19 @@ Material:
     - _N_F_SCT: 0
     - _N_F_SL: 0
     - _N_F_SON: 0
-    - _N_F_SS: 1
+    - _N_F_SS: 0
     - _N_F_ST: 0
     - _N_F_STIAL: 0
     - _N_F_STIS: 0
     - _NoisyOutlineIntensity: 0
-    - _NormalMapIntensity: 0.51
+    - _NormalMapIntensity: 1
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _ONormMapInt: 1
     - _Opacity: 1
     - _Oper: 0
     - _OutlineExtrudeMethod: 0
-    - _OutlineWidth: 0.3
+    - _OutlineWidth: 0.5
     - _OutlineWidthAffectedByViewDistance: 0
     - _OutlineZPostionInCamera: 0
     - _OverallShadowColorPower: 1
@@ -347,7 +346,7 @@ Material:
     - _SPECMODE: 0
     - _SSRefractionProjectionModel: 0
     - _STIL: 0
-    - _Saturation: 1.259
+    - _Saturation: 1
     - _SelfLitHighContrast: 1
     - _SelfLitIntensity: 0
     - _SelfLitPower: 2
@@ -435,10 +434,10 @@ Material:
     - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 2, g: 2, b: 2, a: 1}
+    - _MainColor: {r: 3.1235802, g: 3.1235802, b: 3.1235802, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineOffset: {r: 0, g: 0, b: 0, a: 1}
-    - _OverallShadowColor: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
+    - _OverallShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _PTCol: {r: 0, g: 0, b: 0, a: 1}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _SelfLitColor: {r: 1, g: 1, b: 1, a: 1}
