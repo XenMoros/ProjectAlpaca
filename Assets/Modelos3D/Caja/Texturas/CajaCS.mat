@@ -10,7 +10,7 @@ Material:
   m_Name: CajaCS
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
   m_ShaderKeywords: N_F_NM_ON N_F_O_ON N_F_PAL_ON N_F_RELGI_ON N_F_SCT_ON N_F_SL_ON
-    _NORMALMAP_TANGENT_SPACE
+    N_F_SS_ON _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -293,7 +293,7 @@ Material:
     - _N_F_SCT: 1
     - _N_F_SL: 1
     - _N_F_SON: 0
-    - _N_F_SS: 0
+    - _N_F_SS: 1
     - _N_F_ST: 0
     - _N_F_STIAL: 0
     - _N_F_STIS: 0
@@ -335,9 +335,9 @@ Material:
     - _SSRefractionProjectionModel: 0
     - _STIL: 0
     - _Saturation: 1.1
-    - _SelfLitHighContrast: 1
-    - _SelfLitIntensity: 0.737
-    - _SelfLitPower: 2
+    - _SelfLitHighContrast: 0
+    - _SelfLitIntensity: 1
+    - _SelfLitPower: 13
     - _SelfShadowAffectedByLightShadowStrength: 0
     - _SelfShadowHardness: 1
     - _SelfShadowRealTimeShadowColorPower: 1
@@ -375,7 +375,7 @@ Material:
     - _SubsurfaceMask: 1
     - _SupportDecals: 1
     - _SurfaceType: 0
-    - _TEXMCOLINT: 1
+    - _TEXMCOLINT: 0.7
     - _TOAO: 1
     - _TRANSMODE: 0
     - _TexWorldScale: 1
@@ -422,13 +422,13 @@ Material:
     - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 9.849155, g: 9.849155, b: 9.849155, a: 1}
+    - _MainColor: {r: 1.3041189, g: 1.3041189, b: 1.3041189, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineOffset: {r: 0, g: 0, b: 0, a: 1}
-    - _OverallShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OverallShadowColor: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 1}
     - _PTCol: {r: 0, g: 0, b: 0, a: 1}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SelfLitColor: {r: 273.30908, g: 10.378827, b: 0, a: 1}
+    - _SelfLitColor: {r: 25.688938, g: 2.2580237, b: 0, a: 1}
     - _SelfShadowRealTimeShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowTColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
