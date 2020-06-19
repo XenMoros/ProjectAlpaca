@@ -9,6 +9,7 @@ public class ButtonScript : Interactuable
     public override void Start()
     {
         base.Start(); // Ejecuta el Start base
+        tipoInteractuable = Tipo.BotonPared;
     }
 
     private void Update()

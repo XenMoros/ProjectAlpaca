@@ -6,6 +6,10 @@ public class Interactuable : MonoBehaviour
     public Animator interactAnimator; // Animador del interactuable
     public List<GameObject> activatedGO = new List<GameObject>(); // Lista de objetos a activar
     internal List<IActivable> activatedObjScript = new List<IActivable>(); // Lista de scripts activables
+    public Transform interactPosition;
+
+    public enum Tipo { Palanca, Ascensor, BotonSuelo, BotonPared }
+    public Tipo tipoInteractuable;
 
     public virtual void Start()
     {

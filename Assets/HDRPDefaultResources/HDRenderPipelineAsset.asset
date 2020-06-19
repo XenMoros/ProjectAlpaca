@@ -195,7 +195,7 @@ MonoBehaviour:
     supportSubsurfaceScattering: 0
     increaseSssSampleCount: 0
     supportVolumetrics: 1
-    increaseResolutionOfVolumetrics: 0
+    increaseResolutionOfVolumetrics: 1
     supportLightLayers: 0
     lightLayerName0: Light Layer default
     lightLayerName1: Light Layer 1
@@ -212,11 +212,11 @@ MonoBehaviour:
     colorBufferFormat: 48
     supportCustomPass: 1
     customBufferFormat: 12
-    supportedLitShaderMode: 1
-    supportDecals: 0
+    supportedLitShaderMode: 3
+    supportDecals: 1
     msaaSampleCount: 8
     supportMotionVectors: 0
-    supportRuntimeDebugDisplay: 0
+    supportRuntimeDebugDisplay: 1
     supportDitheringCrossFade: 0
     supportTerrainHole: 0
     supportRayTracing: 0
