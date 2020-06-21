@@ -1,6 +1,6 @@
 ﻿public class Palanca : Interactuable
 {
-    bool palancaState = false; // El estado de activacion de la palanca
+    public bool palancaState = false; // El estado de activacion de la palanca
 
     public override void Start()
     {

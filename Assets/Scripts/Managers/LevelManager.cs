@@ -36,8 +36,6 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(LoadScene(nivel));
         escenaNivel = SceneManager.GetSceneByBuildIndex(nivel);
         return (escenaNivel);
-        //alpaca = GameObject.Find("Alpaca").GetComponent<AlpacaMovement>();
-        //enemyManager.LoadEnemies();
     }
 
     public IEnumerator LoadScene(int nivel)

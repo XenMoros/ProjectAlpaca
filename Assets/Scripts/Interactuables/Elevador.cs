@@ -51,11 +51,11 @@ public class Elevador : MonoBehaviour, IActivable
 
     private void OnTriggerStay(Collider other)
     { // Si tienes una caja o player encima, esos pasan a ser tus hijos
-        if (other.gameObject.CompareTag("Caja"))
+        if (other.gameObject.CompareTag("Caja") && !other.transform.parent.Equals(transform))
         {
             other.gameObject.GetComponent<CajaScript>().SetParent(transform, false);
         }
-        else if(other.gameObject.CompareTag("Player"))
+        else if(other.gameObject.CompareTag("Player") && !other.transform.parent.Equals(transform))
         {
             other.transform.parent.gameObject.GetComponent<AlpacaMovement>().SetParent(transform, false);
         }

@@ -48,11 +48,11 @@ public class AlpacaMovement : MonoBehaviour
     /// Correr: Corriendo
     /// IdleArrastre: Arrastrando sin movimiento
     /// Arrastrar: Arrastrando
-    /// Cozeo: Coceando
+    /// Stopped: Parada haciendo alguna animacion
     /// </summary>
     internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle; //Fase de movimiento actual i fase de movimiento del frame anterior
 
-    internal enum TipoStopped { Cozeo, Palanca, Ascensor };/// Enumerador con las fases
+    internal enum TipoStopped { Cozeo, Palanca, PalancaUp, Ascensor, Reposicion };/// Enumerador con las fases
     internal TipoStopped tipoStopped = TipoStopped.Cozeo; //Fase de movimiento actual i fase de movimiento del frame anterior
 
     internal float velocidadVertical; // Velocidad vertical que ha de tener la alpaca
@@ -390,23 +390,33 @@ public class AlpacaMovement : MonoBehaviour
     }
 
     // Gestor de los stats de animacion
-    public void GestorAnimacion()
+    public void GestorAnimacion(bool normal = true)
     {
-        if (faseMovimientoAnt != faseMovimiento)
-        {// Si la fase de movimiento ha cambiado, desactiva el flag de la fase anterior y activa la de la actual (teniendo la coz en cuenta)
+        if (normal)
+        {
+            if (faseMovimientoAnt != faseMovimiento)
+            {// Si la fase de movimiento ha cambiado, desactiva el flag de la fase anterior y activa la de la actual (teniendo la coz en cuenta)
+                if (faseMovimiento == FaseMovimiento.Stopped)
+                {
+                    alpacaAnimator.SetTrigger(tipoStopped.ToString());
+                    alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+                }
+                else if (faseMovimientoAnt != FaseMovimiento.Stopped)
+                {
+                    alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+                    alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+                }
+                else
+                {
+                    alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+                }
+            }
+        }
+        else
+        {
             if (faseMovimiento == FaseMovimiento.Stopped)
             {
                 alpacaAnimator.SetTrigger(tipoStopped.ToString());
-                alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
-            }
-            else if(faseMovimientoAnt != FaseMovimiento.Stopped)
-            {
-                alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
-                alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
-            }
-            else
-            {
-                alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
             }
         }
 
