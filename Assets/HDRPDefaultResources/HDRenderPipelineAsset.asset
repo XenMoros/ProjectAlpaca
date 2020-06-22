@@ -195,7 +195,7 @@ MonoBehaviour:
     supportSubsurfaceScattering: 0
     increaseSssSampleCount: 0
     supportVolumetrics: 1
-    increaseResolutionOfVolumetrics: 0
+    increaseResolutionOfVolumetrics: 1
     supportLightLayers: 0
     lightLayerName0: Light Layer default
     lightLayerName1: Light Layer 1
@@ -211,12 +211,12 @@ MonoBehaviour:
     supportTransparentDepthPostpass: 1
     colorBufferFormat: 48
     supportCustomPass: 1
-    customBufferFormat: 12
-    supportedLitShaderMode: 1
-    supportDecals: 0
+    customBufferFormat: 74
+    supportedLitShaderMode: 3
+    supportDecals: 1
     msaaSampleCount: 8
     supportMotionVectors: 0
-    supportRuntimeDebugDisplay: 0
+    supportRuntimeDebugDisplay: 1
     supportDitheringCrossFade: 0
     supportTerrainHole: 0
     supportRayTracing: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
     hdShadowInitParams:
       maxShadowRequests: 128
       directionalShadowsDepthBits: 32
-      shadowFilteringQuality: 1
+      shadowFilteringQuality: 2
       punctualLightShadowAtlas:
         shadowAtlasResolution: 4096
         shadowAtlasDepthBits: 32
@@ -316,7 +316,7 @@ MonoBehaviour:
       ChromaticAberrationMaxSamples: 03000000060000000c000000
     lightSettings:
       useContactShadow:
-        m_Values: 000000
+        m_Values: 000001
         m_SchemaId:
           m_Id: 
     maximumLODLevel:

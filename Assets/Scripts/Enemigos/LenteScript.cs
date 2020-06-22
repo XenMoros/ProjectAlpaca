@@ -12,12 +12,15 @@ public class LenteScript : Enemy
     public WaypointManager waypointManager; // Waypoints de la camara
     public float rotationSpeed = 20f, maxAnglePerSecond = 30; // Velocidades de rotacion maximas y normales
 
+    Color cameraLightColor;
+
     float timer = 0; // Tiempo que lleva la camara viendote
     public float tiempoMuerte = 8f; // Tiempo hasta reiniciar el nivel
 
     private void Start()
     {
         objective = waypointManager.RetornarWaypoint().RetornarPosition(); // Al empezar, el objetivo donde mirar es hacia el primer waypoint
+        cameraLightColor = cameraLight.GetComponent<Light>().color;
     }
 
     // Update is called once per frame
@@ -77,11 +80,11 @@ public class LenteScript : Enemy
         alpacaHit = hit;
         if (hit)
         { // Si te esta viendo la luz es roja
-            cameraLight.GetComponent<Light>().color = Color.red;
+            cameraLightColor = Color.red;
         }
         else
         { // Si no te ve la luz es blanca
-            cameraLight.GetComponent<Light>().color = Color.white;
+            cameraLightColor = Color.white;
         }
     }
 

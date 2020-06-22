@@ -30,7 +30,7 @@ public class AlpacaMovement : MonoBehaviour
     private float timerFasesSalto = 999f, timerBotonSalto = 999f;
 
     // Direcciones de movimiento
-    Vector3 direccionMovimiento = Vector3.zero; // Direccion hacia donde mover la alpaca
+    public Vector3 direccionMovimiento = Vector3.zero; // Direccion hacia donde mover la alpaca
     Vector2 direccionArrastre = Vector2.zero; // Direccion en la que se arrastran cosas
     private Vector3 planeNormal = Vector3.up; // Orientacion del plano en el que te mueves
     Vector3 lastVelocity = Vector3.zero; // Ultima velocidad de la alpaca (para pausa)
@@ -39,7 +39,7 @@ public class AlpacaMovement : MonoBehaviour
     private RaycastHit hitInfo; // Salida de los Physics Raycast
 
     // Fases de movimiento
-    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, IdleArrastre, Arrastrar, Cozeo };/// Enumerador con las fases
+    internal enum FaseMovimiento { Subida, Caida, Idle, Andar, Correr, IdleArrastre, Arrastrar, Stopped };/// Enumerador con las fases
     /// Enumerador de las posibles fases
     /// Subida: Estas saltando y subiendo
     /// Caida: En el aire i cayendo
@@ -48,9 +48,12 @@ public class AlpacaMovement : MonoBehaviour
     /// Correr: Corriendo
     /// IdleArrastre: Arrastrando sin movimiento
     /// Arrastrar: Arrastrando
-    /// Cozeo: Coceando
+    /// Stopped: Parada haciendo alguna animacion
     /// </summary>
     internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle; //Fase de movimiento actual i fase de movimiento del frame anterior
+
+    internal enum TipoStopped { Cozeo, Palanca, PalancaUp, Ascensor, Reposicion };/// Enumerador con las fases
+    internal TipoStopped tipoStopped = TipoStopped.Cozeo; //Fase de movimiento actual i fase de movimiento del frame anterior
 
     internal float velocidadVertical; // Velocidad vertical que ha de tener la alpaca
     private bool botonSoltado; // Si has soltado el boton de salto
@@ -81,7 +84,7 @@ public class AlpacaMovement : MonoBehaviour
         alpacaRB.drag = 10;
     }
 
-    void Update()
+    internal void Update()
     {
         if (!pause)
         {
@@ -103,7 +106,7 @@ public class AlpacaMovement : MonoBehaviour
             targetDirection = GetTargetDirection();
 
             // Si no estas stuneada por ningun motivo
-            if (faseMovimiento!= FaseMovimiento.Cozeo && timerStunCaida > salto.stunCaida)
+            if (faseMovimiento!= FaseMovimiento.Stopped && timerStunCaida > salto.stunCaida)
             {
                 
                 // Saltar al recibir input i no estar en el aire ni arrastrando
@@ -387,23 +390,33 @@ public class AlpacaMovement : MonoBehaviour
     }
 
     // Gestor de los stats de animacion
-    private void GestorAnimacion()
+    public void GestorAnimacion(bool normal = true)
     {
-        if (faseMovimientoAnt != faseMovimiento)
-        {// Si la fase de movimiento ha cambiado, desactiva el flag de la fase anterior y activa la de la actual (teniendo la coz en cuenta)
-            if (faseMovimiento == FaseMovimiento.Cozeo)
-            {
-                alpacaAnimator.SetTrigger(faseMovimiento.ToString());
-                alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+        if (normal)
+        {
+            if (faseMovimientoAnt != faseMovimiento)
+            {// Si la fase de movimiento ha cambiado, desactiva el flag de la fase anterior y activa la de la actual (teniendo la coz en cuenta)
+                if (faseMovimiento == FaseMovimiento.Stopped)
+                {
+                    alpacaAnimator.SetTrigger(tipoStopped.ToString());
+                    alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+                }
+                else if (faseMovimientoAnt != FaseMovimiento.Stopped)
+                {
+                    alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+                    alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
+                }
+                else
+                {
+                    alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+                }
             }
-            else if(faseMovimientoAnt != FaseMovimiento.Cozeo)
+        }
+        else
+        {
+            if (faseMovimiento == FaseMovimiento.Stopped)
             {
-                alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
-                alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
-            }
-            else
-            {
-                alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
+                alpacaAnimator.SetTrigger(tipoStopped.ToString());
             }
         }
 

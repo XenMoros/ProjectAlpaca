@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7306653345885605721}
-  - component: {fileID: 5216623362248305876}
   - component: {fileID: 4078419236761981003}
   - component: {fileID: 8175787632446176582}
+  - component: {fileID: 3178852464470373952}
   m_Layer: 0
   m_Name: BotonPared
   m_TagString: BotonPared
@@ -34,25 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!95 &5216623362248305876
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7306653345885605722}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ea64040c0dba70d49b6fe92e679ac809, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!135 &4078419236761981003
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -78,10 +59,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15dbf4a342fb02843964656262441450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactAnimator: {fileID: 5216623362248305876}
+  interactAnimator: {fileID: 0}
   activatedGO: []
   tiempoActivacion: 5
   timerActivacion: 7
+--- !u!95 &3178852464470373952
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306653345885605722}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ea64040c0dba70d49b6fe92e679ac809, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &8116055199541794541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92,6 +92,14 @@ PrefabInstance:
     - target: {fileID: 100004, guid: 38d395c1732c6614c851a4eeac37be53, type: 3}
       propertyPath: m_Name
       value: BotonPared
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 38d395c1732c6614c851a4eeac37be53, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000000021457671
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 38d395c1732c6614c851a4eeac37be53, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000031338037
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 38d395c1732c6614c851a4eeac37be53, type: 3}
       propertyPath: m_LocalPosition.x

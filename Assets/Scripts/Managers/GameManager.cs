@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void ContinueGame()
-    {
+    {// Continue Game button in main menu
         currentLevel = lastLevel;
         StartCoroutine(CargarEscena(currentLevel)); 
     }
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
 
         while (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name)
         {
-            Debug.Log("Descargandooo");
+
             yield return null;
         }
 
@@ -97,19 +97,20 @@ public class GameManager : MonoBehaviour
 
     }
     public void NewGame()
-    {
+    {// New Game button in main menu
         currentLevel = 1;
         StartCoroutine(CargarEscena(currentLevel));
     }
 
     public void Continue()
-    {
+    {// Continue button in pause menu
         StaticManager.pause = false;
+        StaticManager.ChangeSensibility(StaticManager.lastSensibility);
         levelManager.SetPause();
     }
 
     public void RestartCurrentLevel()
-    {
+    {// Restart level in pause menu
         StartCoroutine(CargarOtraEscena(currentLevel));
     }
 

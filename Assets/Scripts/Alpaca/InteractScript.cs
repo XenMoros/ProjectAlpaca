@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(AlpacaMovement))]
 public class InteractScript : MonoBehaviour
@@ -16,6 +18,8 @@ public class InteractScript : MonoBehaviour
     public bool hitInfoBool; // booleano de si ha hecho hit para uso de actores externos
     private bool canInteract;
 
+    Interactuable interactuable;
+
     public void Reset()
     {
         alpacaMovement = GetComponent<AlpacaMovement>(); // Al añadirse a la alpaca busca el script de movimiento automaticamente
@@ -30,7 +34,7 @@ public class InteractScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!alpacaMovement.pause)
+        if (!alpacaMovement.pause && alpacaMovement.faseMovimiento != AlpacaMovement.FaseMovimiento.Stopped)
         {
             // En caso de estar en influencia de una caja y no estar en el aire
             if (other.CompareTag("ArrastreCaja") && !alpacaMovement.onAir)
@@ -73,7 +77,6 @@ public class InteractScript : MonoBehaviour
                     DesacoplarCaja(other, true);
                 }
             }
-            
             else if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)
             {// En caso de pasar a estar cayendo mientras arrastras una caja, desacoplar la misma
                 DesacoplarCaja(other, false);
@@ -85,8 +88,20 @@ public class InteractScript : MonoBehaviour
 
                 if (inputManager.GetButton("Interact") && canInteract)
                 { // Si pulsas X activar el interactuable
-                    other.gameObject.GetComponent<Interactuable>().Activate();
-                    canInteract = false;
+                    interactuable = other.gameObject.GetComponent<Interactuable>();
+                    switch (interactuable.tipoInteractuable)
+                    {
+                        case Interactuable.Tipo.Palanca:
+                        case Interactuable.Tipo.Ascensor:
+                            alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Stopped;
+                            alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Reposicion;
+                            canInteract = false;
+                            StartCoroutine(PosicionarAlpaca(interactuable.interactPosition.position, interactuable.interactPosition.forward,
+                                HacerInteraccionLast,other));
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 if (!inputManager.GetButton("Interact") && !canInteract)
@@ -125,16 +140,56 @@ public class InteractScript : MonoBehaviour
        if(other.transform.parent.parent != this.transform)
         { // Solo acoplar cajas que no esten ya ligadas a la Alpaca
             interactReminder.SetArrastre(false); // Desactivar el reminder de interaccion
-            transform.forward = -hitInfo.normal; // Reposicion mirando directamente la cara de la caja
-            float projection = Vector3.Project(other.transform.position - transform.position, transform.forward).magnitude - 1.73f; // Calcula la distancia de la alpaca a la caja 
-            if (projection != 0)
-            { // Si la alpaca no esta justo al lado de la caja, muevela para que coincida donde toca
-                transform.Translate(transform.forward * projection,Space.World);
-            }
-            other.transform.parent.gameObject.GetComponent<CajaScript>().SetParent(this.transform, true); // Enlaza la caja como hija de la alpaca
-            alpacaMovement.SetArrastre(true); // Set el modo de movimiento de la alpaca a "arrastre"
+            Vector3 forward = -hitInfo.normal; // Reposicion mirando directamente la cara de la caja
+            Vector3 posicion = other.transform.position;
+            posicion.y = transform.position.y;
+            posicion += hitInfo.normal * 1.73f;
+            alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Stopped;
+            alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Reposicion;
+            StartCoroutine(PosicionarAlpaca(posicion, forward, AcoplarCajaLast, other));
         }
 
+    }
+
+    IEnumerator PosicionarAlpaca(Vector3 posicion, Vector3 forward, Action<Collider> Accion, Collider other)
+    {
+        while (Vector3.Distance(transform.position, posicion) > 0.1f || Vector3.Dot(transform.forward, forward) < 0.99f)
+        {
+            transform.forward = Vector3.Slerp(transform.forward, forward, 30f*Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position,posicion,10f*Time.deltaTime);
+            yield return null;
+        }
+
+        transform.forward = forward;
+        transform.position = posicion;
+
+        Accion(other);
+    }
+
+    public void AcoplarCajaLast(Collider other)
+    {
+        alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
+        other.transform.parent.gameObject.GetComponent<CajaScript>().SetParent(this.transform, true); // Enlaza la caja como hija de la alpaca
+        alpacaMovement.SetArrastre(true); // Set el modo de movimiento de la alpaca a "arrastre"
+    }
+
+    public void HacerInteraccionLast(Collider other)
+    {
+        switch (interactuable.tipoInteractuable)
+        {
+            case Interactuable.Tipo.Palanca:
+                if(other.GetComponent<Palanca>().palancaState) alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.PalancaUp;
+                else alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Palanca;
+                interactuable.Activate();
+                break;
+            case Interactuable.Tipo.Ascensor:
+                alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Ascensor;
+                interactuable.Activate();
+                break;
+            default:
+                break;
+        }
+        alpacaMovement.GestorAnimacion(false);
     }
 
     // Desacople de la caja en caso de estar llevandola, con puesta a cero de la caida segun bool

@@ -7,6 +7,7 @@ public class FloorButtonScript : Interactuable
     public override void Start()
     {
         base.Start(); // Base start
+        tipoInteractuable = Tipo.BotonSuelo;
     }
 
     private void OnTriggerExit(Collider other)

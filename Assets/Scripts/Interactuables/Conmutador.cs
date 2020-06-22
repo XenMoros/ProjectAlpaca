@@ -8,6 +8,7 @@ public class Conmutador : Interactuable
     public override void Start()
     {
         base.Start(); // Start del padre
+        tipoInteractuable = Tipo.Ascensor;
     }
 
     // En activar la palanca, empezar la animacion y activar el objeto asociado

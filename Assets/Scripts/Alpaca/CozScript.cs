@@ -20,9 +20,12 @@ public class CozScript : MonoBehaviour
         if (!alpacaMovement.pause)
         {
             if (inputManager.GetButtonDown("Coz") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
-                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo || alpacaMovement.arrastrando))
+                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped || alpacaMovement.arrastrando))
             { // Si picas el boton de cozeo y no estas ni en el aire, ni coceando ya ni arrastrando, ponte en fase de cozeo
-                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
+                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Stopped;
+                alpacaMovement.alpacaRB.velocity = Vector3.zero;
+                alpacaMovement.direccionMovimiento = Vector3.zero;
+                alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Cozeo;
             }
         }
     }
@@ -40,7 +43,41 @@ public class CozScript : MonoBehaviour
 
     public void TerminarCozeo() 
     { // Animation event, al acabar el coceo pasa a Idle
-        alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
+        
+        
+
+        float axisV = Mathf.Floor(+inputManager.GetAxis("MovementVertical") * 1000f) / 1000f;
+        float axisH = Mathf.Floor(+inputManager.GetAxis("MovementHorizontal") * 1000f) / 1000f;
+
+        if (Mathf.Abs(axisV) < 0.05)
+        {
+            axisV = 0;
+        }
+        if (Mathf.Abs(axisH) < 0.05)
+        {
+            axisH = 0;
+        }
+
+
+        if (axisV != 0 || axisH != 0)
+        {
+            Vector2 input = new Vector2(axisH, axisV);
+            if(input.magnitude > 0.35f)
+            {
+                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Correr;
+            }
+            else
+            {
+                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Andar;
+            }
+        }
+        else
+        {
+            alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
+        }
+
+        alpacaMovement.GestorAnimacion();
+
     }
 
     public void SetInputManager(CustomInputManager manager)

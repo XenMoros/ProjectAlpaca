@@ -3,7 +3,8 @@ using UnityEditor;
 
 public static class StaticManager
 {
-    [Range(-5,5)] public static sbyte brightness = 0;
+    [Range(-5,5)] public static float brightness = 0;
+    public static bool exposureChange = false;
     [Range(0.1f, 10)] public static float sensibility = 1;
     public static float lastSensibility = 0;
     public static bool axisV = false, axisH = false;
@@ -28,9 +29,10 @@ public static class StaticManager
         sensibility = sens;
         cameraOptionsChanged = true;
     }
-    public static void ChangeBrightness(int bright)
+    public static void ChangeBrightness(float bright)
     {
-        brightness = (sbyte) bright;
+        brightness = bright;
+        exposureChange = true;
     }
 
     public static void SetPause(bool newState)

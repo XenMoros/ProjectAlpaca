@@ -15,7 +15,7 @@ public class AlpacaSound : MonoBehaviour
         if (!alpacaMovement.pause)
         {
             if (inputManager.GetButtonDown("Yell") && !(alpacaMovement.arrastrando
-                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo
+                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped
                 || alpacaAnimator.GetCurrentAnimatorStateInfo(2).IsName("Escupitajo")
                 || alpacaAnimator.GetCurrentAnimatorStateInfo(1).IsName("Berreo")))
             { // Si pulsas el boton de berreo Y no estas ni arrastrando, ni coceando ni haciendo las animaciones de escupitajo o berreo
@@ -31,7 +31,7 @@ public class AlpacaSound : MonoBehaviour
                 }
             }
             
-            if (inputManager.GetButtonDown("Coz") && alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo)
+            if (inputManager.GetButtonDown("Coz") && alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped)
             {// Al Cocear, reproducimos el audio 1 desde nuestra source
                 audioControll.PlaySound(1, audioSource);
             }
