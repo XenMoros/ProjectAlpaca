@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Interactuable : MonoBehaviour
+public class Interactuable : MonoBehaviour, IActivable
 {
     public Animator interactAnimator; // Animador del interactuable
     public List<GameObject> activatedGO = new List<GameObject>(); // Lista de objetos a activar
     internal List<IActivable> activatedObjScript = new List<IActivable>(); // Lista de scripts activables
     public Transform interactPosition;
+    public bool active = true;
 
     public enum Tipo { Palanca, Ascensor, BotonSuelo, BotonPared }
     public Tipo tipoInteractuable;
@@ -44,4 +45,22 @@ public class Interactuable : MonoBehaviour
         }
     }
 
+    public void SetActivationState(bool activateState)
+    {
+        active = activateState;
+    }
+
+    public void SetActivationState()
+    {
+        active = true;
+    }
+
+    public void SetActivationState(int activateState)
+    {
+        if (activateState > 0)
+        {
+            active = true;
+        }
+        else active = false;
+    }
 }

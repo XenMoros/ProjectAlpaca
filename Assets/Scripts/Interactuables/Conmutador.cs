@@ -14,17 +14,19 @@ public class Conmutador : Interactuable
     // En activar la palanca, empezar la animacion y activar el objeto asociado
     public override void Activate()
     {
-        if (estatico)
-        { // Si es estatico activa siempre el mismo numero
-            base.Activate(numero);
-        }
-        else
-        { // Si no activa el siguiente
-            base.Activate();
-        }
+        if (active)
+        {
+            if (estatico)
+            { // Si es estatico activa siempre el mismo numero
+                base.Activate(numero);
+            }
+            else
+            { // Si no activa el siguiente
+                base.Activate();
+            }
 
-        interactAnimator.SetTrigger("Activado"); // Activa el trigger del conmutador
-
+            interactAnimator.SetTrigger("Activado"); // Activa el trigger del conmutador
+        }
     }
 
 }

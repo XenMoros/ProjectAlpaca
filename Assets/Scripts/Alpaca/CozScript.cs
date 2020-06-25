@@ -5,6 +5,7 @@ public class CozScript : MonoBehaviour
 {
     // Elementos precacheados en Inspector
     public AlpacaMovement alpacaMovement; //El movimiento de la Alaca
+    public AlpacaSound alpacaSound;
     public CustomInputManager inputManager; // Input manager (segun prod o debug)
     public LayerMask collideLayers; // Layers con las que colisionara la coz 
     RaycastHit hitInfo; // Informacion del hit del raycast
@@ -37,6 +38,7 @@ public class CozScript : MonoBehaviour
             if (hitInfo.collider.CompareTag("Caja"))
             { // Si das con una caja, empujala segun la cara en la que le das
                 hitInfo.collider.GetComponent<CajaScript>().PushCaja(-hitInfo.normal);
+                alpacaSound.playSound();
             }
         }
     }

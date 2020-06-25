@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     internal AudioManager audioManager;
     //ScoreManager scoreManager;
 
+    public LoadingSceneManager loadingSceneManager;
+
     public GameObject interfaceManagerPrefab,levelManagerPrefab,audioManagerPrefab;
 
     int currentLevel, lastLevel, maxLevel;
@@ -61,16 +63,21 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CargarEscena(int nivel)
     {
+        float tiempoCarga = 0f;
         UnityEngine.SceneManagement.Scene escena = levelManager.LoadLevel(nivel);
+        loadingSceneManager.LoadLoadingAnimation();
 
-        while (!escena.isLoaded)
+        while (!escena.isLoaded || tiempoCarga<5f)
         {
+            tiempoCarga += Time.deltaTime;
             yield return null;
         }
 
         StaticManager.pause = false;
         levelManager.SetPause();
         interfaceManager.LoadingGroup(false);
+        loadingSceneManager.UnloadLoadingAnimation();
+
     }
 
     IEnumerator DescargarEscenaActiva()

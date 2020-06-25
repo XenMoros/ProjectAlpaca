@@ -184,12 +184,16 @@ public class InteractScript : MonoBehaviour
                 break;
             case Interactuable.Tipo.Ascensor:
                 alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Ascensor;
-                interactuable.Activate();
                 break;
             default:
                 break;
         }
         alpacaMovement.GestorAnimacion(false);
+    }
+
+    public void ActivateInteractuable()
+    {
+        interactuable.Activate();
     }
 
     // Desacople de la caja en caso de estar llevandola, con puesta a cero de la caida segun bool

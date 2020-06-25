@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 4527928656394168224}
   - component: {fileID: 1329295856852088629}
   - component: {fileID: 3351621650378041968}
+  - component: {fileID: 3120163932470668228}
   m_Layer: 0
   m_Name: PalancaAscensor
   m_TagString: Interactuable
@@ -231,9 +232,26 @@ MonoBehaviour:
   interactAnimator: {fileID: 1329295856852088629}
   activatedGO: []
   interactPosition: {fileID: 6239079064162081422}
+  active: 1
   tipoInteractuable: 0
   estatico: 0
   numero: 0
+--- !u!114 &3120163932470668228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4527928656394168226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a282126f334824aa8c256f31b15690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactuable: {fileID: 3351621650378041968}
+  objectRenderer:
+  - {fileID: 8532997683781163977}
+  - {fileID: 8532997683781163979}
 --- !u!1 &8160862476460399422
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +401,18 @@ PrefabInstance:
 --- !u!4 &8532997683783457067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: fa6c48f7f658e9144823f369d6b74ed9,
+    type: 3}
+  m_PrefabInstance: {fileID: 8532997683783320489}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8532997683781163977 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: fa6c48f7f658e9144823f369d6b74ed9,
+    type: 3}
+  m_PrefabInstance: {fileID: 8532997683783320489}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8532997683781163979 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300002, guid: fa6c48f7f658e9144823f369d6b74ed9,
     type: 3}
   m_PrefabInstance: {fileID: 8532997683783320489}
   m_PrefabAsset: {fileID: 0}
