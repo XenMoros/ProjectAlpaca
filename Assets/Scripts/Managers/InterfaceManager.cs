@@ -28,6 +28,8 @@ public class InterfaceManager : MonoBehaviour
 
     public Selectable lastSelection;
 
+    public RenderTexture loadingTexture;
+
     public int grupoActual;
 
     private void Update()
@@ -63,6 +65,7 @@ public class InterfaceManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
     }
 
     public void StartMainMenu()

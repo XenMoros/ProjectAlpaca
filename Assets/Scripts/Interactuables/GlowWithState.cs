@@ -8,6 +8,8 @@ public class GlowWithState : MonoBehaviour
     public List<Renderer> objectRenderer;
     Material[] materials;
 
+    float glow = 1f;
+
     private void Start()
     {
         materials = new Material[objectRenderer.Count];
@@ -22,17 +24,17 @@ public class GlowWithState : MonoBehaviour
     {
         if(interactuable.active == true)
         {
-            foreach(Material mat in materials)
-            {
-                mat.SetFloat("_SelfLitIntensity", 1f);
-            }
+            glow = Mathf.Clamp(glow + Time.deltaTime, 0.1f, 1f);
+            
         }
         else
         {
-            foreach (Material mat in materials)
-            {
-                mat.SetFloat("_SelfLitIntensity", 0.1f);
-            }
+            glow = Mathf.Clamp(glow - Time.deltaTime, 0.1f, 1f);
+        }
+
+        foreach (Material mat in materials)
+        {
+            mat.SetFloat("_SelfLitIntensity", glow);
         }
     }
 }
