@@ -28,13 +28,17 @@ public class ButtonScript : Interactuable
 
     private void OnTriggerEnter(Collider other)
     {
-        // Si activas el boton con una coz o un escupitajo
-        if (other.gameObject.CompareTag("Coz") || other.gameObject.CompareTag("Escupitajo"))
+        if (active)
         {
-            // Iniciar la cuenta atras, activar la animacion del boton i activar el objeto asociado
-            timerActivacion = 0;
-            interactAnimator.SetTrigger("Pushed");
-            base.Activate(true);
+            // Si activas el boton con una coz o un escupitajo
+            if (other.gameObject.CompareTag("Coz") || other.gameObject.CompareTag("Escupitajo"))
+            {
+                // Iniciar la cuenta atras, activar la animacion del boton i activar el objeto asociado
+                timerActivacion = 0;
+                interactAnimator.SetTrigger("Pushed");
+                base.Activate(true);
+            }
         }
     }
+
 }

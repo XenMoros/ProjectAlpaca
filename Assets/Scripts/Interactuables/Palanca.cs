@@ -10,8 +10,11 @@
 
     public override void Activate()
     { // En activar la palanca, empezar la animacion y activar el objeto asociado
-        palancaState = !palancaState;
-        interactAnimator.SetBool("Activada", palancaState);
+        if (active)
+        {
+            palancaState = !palancaState;
+            interactAnimator.SetBool("Activada", palancaState);
+        }
     }
 
     public void ActivatePalanca()

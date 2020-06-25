@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.ComponentModel.Design;
+using UnityEngine;
 
 public class FloorButtonScript : Interactuable
 {
@@ -23,13 +24,17 @@ public class FloorButtonScript : Interactuable
     }
     private void OnTriggerStay(Collider other)
     {
-        // En caso de estar en el boton, activar los objetos asociados y revertir animacion
-        if (!activado && (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Guardia") || other.gameObject.CompareTag("Caja")))
+        if (active)
         {
-            activado = true;
-            interactAnimator.SetBool("Active", activado);
-            base.Activate(activado);
+            // En caso de estar en el boton, activar los objetos asociados y revertir animacion
+            if (!activado && (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Guardia") || other.gameObject.CompareTag("Caja")))
+            {
+                activado = true;
+                interactAnimator.SetBool("Active", activado);
+                base.Activate(activado);
+            }
         }
 
     }
+
 }

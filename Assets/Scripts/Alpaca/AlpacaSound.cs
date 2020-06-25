@@ -38,6 +38,11 @@ public class AlpacaSound : MonoBehaviour
         }
     }
 
+    public void playSound()
+    {
+        audioControll.PlaySound(2, audioSource);
+    }
+
     public void SetInputManager(CustomInputManager manager)
     { // Enlaza el input manager segun entrada (Para actores externos)
         inputManager = manager;
