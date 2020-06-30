@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2632174236974894487
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 2
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -20,10 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PuertaCS
+  m_Name: PuertaGrande
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
-  m_ShaderKeywords: N_F_CA_ON N_F_NM_ON N_F_O_ON N_F_PAL_ON N_F_RELGI_ON N_F_SL_ON
-    _NORMALMAP_TANGENT_SPACE
+  m_ShaderKeywords: N_F_NM_ON N_F_PAL_ON N_F_RELGI_ON N_F_SL_ON N_F_SS_ON _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -99,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e282b87f9d635a74eb40e65c35e63cd4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0aea4584fcfc76840a4795f8e4050c84, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskGloss:
@@ -115,7 +101,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskSelfLit:
-        m_Texture: {fileID: 2800000, guid: 3372ec565790b4944ae8fbdda3c728bb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 87325c0e9fc69a24694fc677cc8d1b36, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTransparency:
@@ -123,7 +109,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 176cef41e3bf5a347a8da3aaa6248824, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7563ac8a9730ecf4a9d4dd8769615fb6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
@@ -248,13 +234,13 @@ Material:
     - _GIFlatShade: 0
     - _GIShadeThreshold: 0
     - _GlossColorPower: 1
-    - _GlossIntensity: 0.41
+    - _GlossIntensity: 1
     - _GlossSoftness: 0
     - _GlossTextureFollowLight: 0
     - _GlossTextureFollowObjectRotation: 0
     - _GlossTextureRotate: 0
     - _GlossTextureSoftness: 0
-    - _Glossiness: 1
+    - _Glossiness: 0.6
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -284,7 +270,7 @@ Material:
     - _MixMainTexToOutline: 0
     - _N_F_AL: 0
     - _N_F_ALSL: 0
-    - _N_F_CA: 1
+    - _N_F_CA: 0
     - _N_F_CLD: 0
     - _N_F_CO: 0
     - _N_F_CS: 0
@@ -297,7 +283,7 @@ Material:
     - _N_F_MC: 0
     - _N_F_NLASOBF: 0
     - _N_F_NM: 1
-    - _N_F_O: 1
+    - _N_F_O: 0
     - _N_F_O_NM: 0
     - _N_F_PAL: 1
     - _N_F_PT: 0
@@ -306,12 +292,12 @@ Material:
     - _N_F_SCT: 0
     - _N_F_SL: 1
     - _N_F_SON: 0
-    - _N_F_SS: 0
+    - _N_F_SS: 1
     - _N_F_ST: 0
     - _N_F_STIAL: 0
     - _N_F_STIS: 0
     - _NoisyOutlineIntensity: 0
-    - _NormalMapIntensity: 1
+    - _NormalMapIntensity: 1.12
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _ONormMapInt: 1
@@ -347,16 +333,16 @@ Material:
     - _SPECMODE: 0
     - _SSRefractionProjectionModel: 0
     - _STIL: 0
-    - _Saturation: 1.296
-    - _SelfLitHighContrast: 0
+    - _Saturation: 1
+    - _SelfLitHighContrast: 1
     - _SelfLitIntensity: 1
     - _SelfLitPower: 13
     - _SelfShadowAffectedByLightShadowStrength: 0
-    - _SelfShadowHardness: 1
+    - _SelfShadowHardness: 0.867
     - _SelfShadowRealTimeShadowColorPower: 1
     - _SelfShadowRealtimeShadowIntensity: 1
     - _SelfShadowShadowTAtViewDirection: 0
-    - _SelfShadowThreshold: 0.93
+    - _SelfShadowThreshold: 0.842
     - _ShadowColorTexturePower: 0
     - _ShadowHardness: 0
     - _ShadowTColorPower: 1
@@ -388,7 +374,7 @@ Material:
     - _SubsurfaceMask: 1
     - _SupportDecals: 1
     - _SurfaceType: 0
-    - _TEXMCOLINT: 0.7
+    - _TEXMCOLINT: 0.75
     - _TOAO: 1
     - _TRANSMODE: 0
     - _TexWorldScale: 1
@@ -435,13 +421,13 @@ Material:
     - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
+    - _MainColor: {r: 0.7264151, g: 0.7229886, b: 0.7229886, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineOffset: {r: 0, g: 0, b: 0, a: 1}
-    - _OverallShadowColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+    - _OverallShadowColor: {r: 0.2831488, g: 0.2831488, b: 0.2831488, a: 1}
     - _PTCol: {r: 0, g: 0, b: 0, a: 1}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SelfLitColor: {r: 14.754423, g: 2.7809384, b: 1.2359726, a: 1}
+    - _SelfLitColor: {r: 333.8545, g: 57.945007, b: 0, a: 1}
     - _SelfShadowRealTimeShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowTColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
@@ -451,3 +437,16 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
     - _XYZPosition: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &4341035592689092276
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 2
