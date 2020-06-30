@@ -2,11 +2,13 @@
 
 public class Puerta : MonoBehaviour, IActivable
 {
+
     public BoxCollider puerta1; // Colliders de la puerta
     public BoxCollider puerta2;
     public BoxCollider puerta3;
 
     public Animator puertaAnimator; // Animador de la puerta
+
 
     // En caso de activacion, cambiar el estado de enable del renderizado y el collider de la puerta
     public void SetActivationState(bool activateState)
@@ -40,6 +42,16 @@ public class Puerta : MonoBehaviour, IActivable
         {
             SetActivationState(true);
         }
+        SetActivationState(false);
+    }
+
+    public void AbrirPuerta()
+    {
+        SetActivationState(true);
+    }
+
+    public void CerrarPuerta()
+    {
         SetActivationState(false);
     }
 }
