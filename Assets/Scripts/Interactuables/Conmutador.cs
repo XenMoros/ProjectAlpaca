@@ -25,7 +25,7 @@ public class Conmutador : Interactuable
                 base.Activate();
             }
 
-            interactAnimator.SetTrigger("Activado"); // Activa el trigger del conmutador
+            //interactAnimator.SetTrigger("Activado"); // Activa el trigger del conmutador
         }
     }
 

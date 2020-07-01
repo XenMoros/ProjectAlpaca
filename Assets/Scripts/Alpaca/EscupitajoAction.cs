@@ -64,7 +64,7 @@ public class EscupitajoAction : MonoBehaviour
         if (autoapuntado)
         { // Si el autoapuntado esta activado
             // Genera una lista de todos los objetos de tipo "Camara Lens, Guardia o BotonPared" que esten en el box de autoapuntado
-            colliderList = Physics.OverlapBox(transform.position + transform.forward * 15 + transform.up * 2, new Vector3(5, 2, 12), transform.rotation, LayerMask.GetMask("CameraLens", "BotonPared", "Guardia"), QueryTriggerInteraction.Collide);
+            colliderList = Physics.OverlapBox(transform.position + transform.forward * 15 + transform.up * 2, new Vector3(5, 2, 20), transform.rotation, LayerMask.GetMask("CameraLens", "BotonPared", "Guardia"), QueryTriggerInteraction.Collide);
 
             // Si la lista no esta vacia, apunta automatiacamente al primer elemento
             if (colliderList.Length > 0)
