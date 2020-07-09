@@ -22,7 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: CristalCS
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
-  m_ShaderKeywords: N_F_CA_ON N_F_PAL_ON N_F_RELGI_ON N_F_TRANS_ON _NORMALMAP_TANGENT_SPACE
+  m_ShaderKeywords: N_F_CA_ON N_F_PAL_ON N_F_RELGI_ON N_F_TRANS_ON N_F_USETLB_ON
+    _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -230,7 +231,7 @@ Material:
     - _DistortionVectorScale: 2
     - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 1
-    - _DoubleSidedOutline: 1
+    - _DoubleSidedOutline: 0
     - _DstBlend: 0
     - _DynamicNoisyOutline: 0
     - _EmissiveColorMode: 1
@@ -272,7 +273,7 @@ Material:
     - _LightAffectRimLightColor: 0
     - _LightAffectShadow: 0
     - _LightFalloffAffectShadowT: 0
-    - _LightFalloffSoftness: 1
+    - _LightFalloffSoftness: 0.88
     - _LightIntensity: 1
     - _LinkDetailsWithBase: 1
     - _MCIALO: 0
@@ -314,7 +315,7 @@ Material:
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _ONormMapInt: 1
-    - _Opacity: 0.218
+    - _Opacity: 0.148
     - _Oper: 0
     - _OutlineExtrudeMethod: 0
     - _OutlineWidth: 0.5
@@ -328,7 +329,7 @@ Material:
     - _PPDPrimitiveWidth: 1
     - _PSGLOTEX: 0
     - _PTexturePower: 1
-    - _PointSpotlightIntensity: 0
+    - _PointSpotlightIntensity: -0.24
     - _RELG: 1
     - _ReceivesSSR: 1
     - _ReduSha: 0
@@ -346,14 +347,14 @@ Material:
     - _SPECMODE: 0
     - _SSRefractionProjectionModel: 0
     - _STIL: 0
-    - _Saturation: 1.082
+    - _Saturation: 1.55
     - _SelfLitHighContrast: 1
     - _SelfLitIntensity: 0
     - _SelfLitPower: 2
     - _SelfShadowAffectedByLightShadowStrength: 0
     - _SelfShadowHardness: 1
     - _SelfShadowRealTimeShadowColorPower: 1
-    - _SelfShadowRealtimeShadowIntensity: 1
+    - _SelfShadowRealtimeShadowIntensity: 0.843
     - _SelfShadowShadowTAtViewDirection: 0
     - _SelfShadowThreshold: 0.93
     - _ShadowColorTexturePower: 0
@@ -409,7 +410,7 @@ Material:
     - _UseEmissiveIntensity: 0
     - _UseSecondaryCutout: 0
     - _UseShadowThreshold: 0
-    - _UseTLB: 0
+    - _UseTLB: 1
     - _VertexColorBlueAffectOutlineWitdh: 0
     - _VertexColorGreenControlSelfShadowThreshold: 0
     - _VertexColorRedControlSmoothObjectNormal: 0
@@ -434,7 +435,7 @@ Material:
     - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0.22917409, g: 0.4716981, b: 0.46722302, a: 1}
+    - _MainColor: {r: 0.01619794, g: 0.26415092, b: 0.26015168, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineOffset: {r: 0, g: 0, b: 0, a: 1}
     - _OverallShadowColor: {r: 0, g: 0, b: 0, a: 1}
