@@ -98,14 +98,15 @@ public class CinematicManager : MonoBehaviour
             if(direction != Vector3.zero)
             { // Si la direccion es diferente de cero, mira si la direccion de mirar ha de ser directa o al reves
               // y ademas criba la coordenada Y para mirar siempre en el plano XZ
-                if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = new Vector3(direction.x, 0, direction.z).normalized;
-                else targetDirection = -new Vector3(direction.x, 0, direction.z).normalized;
+                //if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = new Vector3(direction.x, 0, direction.z).normalized;
+                //else targetDirection = -new Vector3(direction.x, 0, direction.z).normalized;
             }
 
             finishMovement = animationTime - arrayAnimaciones[animationNumber].animationFinishMovement; // Marca el tiempo de acabar el movimiento segun entrada
         }
 
-
+        if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = waipoints.RetornarWaypoint().transform.forward;
+        else targetDirection = -waipoints.RetornarWaypoint().transform.forward;
     }
 
     private void GirarPersonaje()

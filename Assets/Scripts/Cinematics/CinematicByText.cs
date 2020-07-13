@@ -29,6 +29,7 @@ public class CinematicByText : CinematicManager
 
         for (int i = 0; i < fLines.Length; i++)
         {
+            Debug.Log(gameObject.name + "  " + i);
             string valueLine = fLines[i]; // Selecciona cada una de las lineas
             string[] values = Regex.Split(valueLine, ";"); // Separa las lineas por ;
 
