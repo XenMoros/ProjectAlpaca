@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Television : MonoBehaviour, IActivable
+public class Monitor : MonoBehaviour, IActivable
 {
     public MeshRenderer pantalla;
     public bool estado;
