@@ -17,6 +17,7 @@ public class ShootSystem: MonoBehaviour
 
     // Variables internas 
     private int nBala = 0; // Bala siguiente a ser lanzada
+    private float profundidadAutoapuntado;
 
     // Variables de autoapuntado
     private Collider[] colliderList; // Lista de colliders del autoapuntado
@@ -26,7 +27,8 @@ public class ShootSystem: MonoBehaviour
     internal virtual void Start()
     { // Al empezar genera los escupitajos de la pool en la recamara
         bullets = new List<BulletScript>();
-        for(int i = 0; i < numeroDisparos; i++)
+        profundidadAutoapuntado = distanciaAutoapuntado / 100;
+        for (int i = 0; i < numeroDisparos; i++)
         {
             bullets.Add(Instantiate(bulletPrefab, recamara.position,Quaternion.identity,recamara));
         }
@@ -36,7 +38,7 @@ public class ShootSystem: MonoBehaviour
     {
         if (debug)
         {
-            ExtDebug.DrawBoxCastBox(shootOrigin.position, new Vector3(amplitudAutoapuntado, alturaAutoapuntado, 0.5f), transform.rotation, transform.forward, distanciaAutoapuntado, Color.red);
+            ExtDebug.DrawBoxCastBox(shootOrigin.position, new Vector3(amplitudAutoapuntado, alturaAutoapuntado, profundidadAutoapuntado), transform.rotation, transform.forward, distanciaAutoapuntado, Color.red);
         }
     }
 
@@ -47,7 +49,7 @@ public class ShootSystem: MonoBehaviour
         { // Si el autoapuntado esta activado
 
             //Lanza un BoxCast, si choca con algo marca esa direccion, si no dispara hacia alante
-            if(Physics.BoxCast(shootOrigin.position, new Vector3(amplitudAutoapuntado, alturaAutoapuntado, 0.5f), transform.forward,out hitInfo, transform.rotation, distanciaAutoapuntado, LayerMask.GetMask("CameraLens", "BotonPared", "Guardia"), QueryTriggerInteraction.Collide))
+            if(Physics.BoxCast(shootOrigin.position, new Vector3(amplitudAutoapuntado, alturaAutoapuntado, profundidadAutoapuntado), transform.forward,out hitInfo, transform.rotation, distanciaAutoapuntado, LayerMask.GetMask("CameraLens", "BotonPared", "Guardia"), QueryTriggerInteraction.Collide))
             {
                 direccion = hitInfo.collider.transform.position - shootOrigin.position;
             }

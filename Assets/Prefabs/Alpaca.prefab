@@ -17,8 +17,6 @@ GameObject:
   - component: {fileID: 3482507977617567749}
   - component: {fileID: 9118975828518930266}
   - component: {fileID: 5606836245571042573}
-  - component: {fileID: 2514760864693314962}
-  - component: {fileID: 669156670940993347}
   m_Layer: 9
   m_Name: Alpaca
   m_TagString: Player
@@ -179,8 +177,11 @@ MonoBehaviour:
   shootOrigin: {fileID: 1925919380467172470}
   recamara: {fileID: 0}
   distanciaAutoapuntado: 15
+  amplitudAutoapuntado: 3
+  alturaAutoapuntado: 1.5
   numeroDisparos: 3
   autoapuntado: 1
+  debug: 0
   escupitajoParticleSystem: {fileID: 6698103691112999386}
   alpacaAnimator: {fileID: 545654448887606689}
   inputManager: {fileID: 0}
@@ -301,33 +302,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!136 &2514760864693314962
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545654448897121839}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.6186604
-  m_Height: 1.8131449
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.8957442, z: 0.14671582}
---- !u!65 &669156670940993347
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545654448897121839}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.55, y: 1.6997867, z: 1.2116737}
-  m_Center: {x: 0, y: 0.86048365, z: 0.12229198}
 --- !u!1 &907351019936946796
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,10 +311,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9162665083244263674}
-  - component: {fileID: 6554641098315566865}
-  - component: {fileID: 7658850771147108457}
-  - component: {fileID: 6769966895277732781}
-  - component: {fileID: 8985711405629093290}
   m_Layer: 12
   m_Name: Coz
   m_TagString: Coz
@@ -362,82 +332,6 @@ Transform:
   m_Father: {fileID: 545654448896623119}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6554641098315566865
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907351019936946796}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7658850771147108457
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907351019936946796}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 27b0234d3e507c0429cf96bb72f569db, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!65 &6769966895277732781
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907351019936946796}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &8985711405629093290
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907351019936946796}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1 &1925919380467537952
 GameObject:
   m_ObjectHideFlags: 0
