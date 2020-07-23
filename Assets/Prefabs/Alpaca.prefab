@@ -173,18 +173,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef6909b76e299e44a7bf44e069a2d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  escupitajoParticleSystem: {fileID: 6698103691112999386}
-  escupitajos: []
-  escupitajoPrefab: {fileID: 7762008238760403013, guid: 79397a392fa9ab04ea85b815422bb387,
+  bullets: []
+  bulletPrefab: {fileID: 7762008238760403013, guid: 79397a392fa9ab04ea85b815422bb387,
     type: 3}
-  cabeza: {fileID: 1925919380467172470}
+  shootOrigin: {fileID: 1925919380467172470}
   recamara: {fileID: 0}
+  distanciaAutoapuntado: 15
+  numeroDisparos: 3
+  autoapuntado: 1
+  escupitajoParticleSystem: {fileID: 6698103691112999386}
   alpacaAnimator: {fileID: 545654448887606689}
   inputManager: {fileID: 0}
   alpacaMovement: {fileID: 4825375854857885428}
   tiempoEntreDisparos: 1
-  numeroDisparos: 3
-  autoapuntado: 1
 --- !u!114 &9118975828518930266
 MonoBehaviour:
   m_ObjectHideFlags: 0
