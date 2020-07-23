@@ -3,23 +3,24 @@
 public class ButtonScript : Interactuable
 {
     // Valores de control del proceso
-    public float tiempoActivacion = 5f; // Tiempo que estara activo el boton
-    public float timerActivacion = 6f; // Tiempo de activacion del objeto enlazado
+    public float tiempoActividad = 5f; // Tiempo que estara activo el boton
+    private float timerActivacion; // Tiempo de activacion del objeto enlazado
 
     public override void Start()
     {
         base.Start(); // Ejecuta el Start base
         tipoInteractuable = Tipo.BotonPared;
+        timerActivacion = tiempoActividad + 1;
     }
 
     private void Update()
     {
-        if (timerActivacion <= tiempoActivacion)
+        if (timerActivacion <= tiempoActividad)
         { // Si aun no ha terminado el tiempo
             timerActivacion += Time.deltaTime; // Suma el tiempo que ha pasado
 
             // Si al sumar ha acabado el tiempo, desactiva los objetos asociados
-            if (timerActivacion > tiempoActivacion)
+            if (timerActivacion > tiempoActividad)
             {
                 base.Activate(false);
             }
