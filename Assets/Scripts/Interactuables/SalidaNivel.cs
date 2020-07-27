@@ -7,7 +7,7 @@ public class SalidaNivel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         { // Si el player llega a la salida da la señal de nivel completado
             levelManager.LevelComplete();
         }

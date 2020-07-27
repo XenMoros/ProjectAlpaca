@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Analytics;
 
 public class AlpacaMovement : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class AlpacaMovement : MonoBehaviour
     public Animator alpacaAnimator; // Animator de la alpaca
     public AlpacaSound sonidos; // Gestor de Sonidos de la alpaca
     public Rigidbody alpacaRB; // Rigidbody de la alpaca
+    public AlpacaCinematics cinematicas;
 
     // Variables publicas de movimiento
     public MovementVariables movimiento; // Serializable de variables respecto movimiento
@@ -52,13 +54,13 @@ public class AlpacaMovement : MonoBehaviour
     /// </summary>
     internal FaseMovimiento faseMovimiento = FaseMovimiento.Idle, faseMovimientoAnt = FaseMovimiento.Idle; //Fase de movimiento actual i fase de movimiento del frame anterior
 
-    internal enum TipoStopped { Cozeo, Palanca, PalancaUp, Ascensor, Reposicion };/// Enumerador con las fases
+    internal enum TipoStopped { Cozeo, Palanca, PalancaUp, Ascensor, Reposicion, Cinematica };/// Enumerador con las fases
     internal TipoStopped tipoStopped = TipoStopped.Cozeo; //Fase de movimiento actual i fase de movimiento del frame anterior
 
     internal float velocidadVertical; // Velocidad vertical que ha de tener la alpaca
     private bool botonSoltado; // Si has soltado el boton de salto
     public LayerMask layerReposicionarSuelo; // LayerMask con las layers en las que la alpaca puede andar por encima
-
+    public bool exitReached = false;
 
     // Bool de pause
     internal bool pause { get; set; } = true; // Bool de pausa
@@ -88,27 +90,27 @@ public class AlpacaMovement : MonoBehaviour
     {
         if (!pause)
         {
-            // GET AXIS INFO
-            axisV = Mathf.Floor(+inputManager.GetAxis("MovementVertical") * 1000f) / 1000f;
-            axisH = Mathf.Floor(+inputManager.GetAxis("MovementHorizontal") * 1000f) / 1000f;
-
-            // if input is low, consider it zero
-            if (Mathf.Abs(axisV) < 0.05)
-            {
-                axisV = 0;
-            }
-            if (Mathf.Abs(axisH) < 0.05)
-            {
-                axisH = 0;
-            }
-
-            // GET COORDINATES OF DESIRED MOVEMENT (targetDirection)
-            targetDirection = GetTargetDirection();
-
+            
             // Si no estas stuneada por ningun motivo
             if (faseMovimiento!= FaseMovimiento.Stopped && timerStunCaida > salto.stunCaida)
             {
-                
+                // GET AXIS INFO
+                axisV = Mathf.Floor(+inputManager.GetAxis("MovementVertical") * 1000f) / 1000f;
+                axisH = Mathf.Floor(+inputManager.GetAxis("MovementHorizontal") * 1000f) / 1000f;
+
+                // if input is low, consider it zero
+                if (Mathf.Abs(axisV) < 0.05)
+                {
+                    axisV = 0;
+                }
+                if (Mathf.Abs(axisH) < 0.05)
+                {
+                    axisH = 0;
+                }
+
+                // GET COORDINATES OF DESIRED MOVEMENT (targetDirection)
+                targetDirection = GetTargetDirection();
+
                 // Saltar al recibir input i no estar en el aire ni arrastrando
                 if (inputManager.GetButtonDown("Jump") && !onAir && !arrastrando)
                 {
@@ -304,6 +306,36 @@ public class AlpacaMovement : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         StopMovimientoVertical(collision); // Al chocar intenta parar el movimiento vertical (si es necesario)
+    }
+
+    public void EntradaNivel()
+    {
+        exitReached = false;
+        QuitarControl();
+        StartCoroutine(cinematicas.EntradaNivel(transform.position + transform.forward * 3));
+    }
+
+    public void SalidaNivel()
+    {
+        QuitarControl();
+        StartCoroutine(cinematicas.SalidaNivel(transform.position + transform.forward * 3));
+    }
+
+    void QuitarControl()
+    {
+        faseMovimiento = FaseMovimiento.Stopped;
+        faseMovimientoAnt = FaseMovimiento.Stopped;
+        tipoStopped = TipoStopped.Cinematica;
+    }
+
+    public void RetomarControl()
+    {
+        faseMovimiento = FaseMovimiento.Idle;
+    }
+
+    public void TerminarNivel()
+    {
+        exitReached = true;
     }
 
     private void StopMovimientoVertical(Collision collision)

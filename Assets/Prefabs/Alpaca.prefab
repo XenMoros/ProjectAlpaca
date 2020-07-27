@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3482507977617567749}
   - component: {fileID: 9118975828518930266}
   - component: {fileID: 5606836245571042573}
+  - component: {fileID: 7466183994366781073}
   m_Layer: 9
   m_Name: Alpaca
   m_TagString: Player
@@ -102,6 +103,7 @@ MonoBehaviour:
   alpacaAnimator: {fileID: 545654448887606689}
   sonidos: {fileID: 0}
   alpacaRB: {fileID: 2731804523480807688}
+  cinematicas: {fileID: 7466183994366781073}
   movimiento:
     speedMultiplier: 50
     slowArrastre: 4
@@ -124,6 +126,7 @@ MonoBehaviour:
   layerReposicionarSuelo:
     serializedVersion: 2
     m_Bits: 3409921
+  exitReached: 0
 --- !u!114 &5625052684589582271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +305,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7466183994366781073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545654448897121839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419f1dde998eaa34997dc379c85ad724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playingAnimationController: {fileID: 9100000, guid: 22bc99b9eaaef76448b18bdfd5af5202,
+    type: 2}
+  cinematicAnimationController: {fileID: 9100000, guid: 183136baece83ae48a1e80d05f70ada0,
+    type: 2}
+  cmCamara: {fileID: 0}
 --- !u!1 &907351019936946796
 GameObject:
   m_ObjectHideFlags: 0
