@@ -9,7 +9,8 @@ public class SalidaNivel : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         { // Si el player llega a la salida da la señal de nivel completado
-            levelManager.LevelComplete();
+            Debug.Log("Salida");
+            StartCoroutine(levelManager.LevelComplete());
         }
     }
 

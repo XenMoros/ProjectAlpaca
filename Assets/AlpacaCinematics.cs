@@ -13,13 +13,14 @@ public class AlpacaCinematics : MonoBehaviour
     Animator animator;
     AlpacaMovement alpaca;
 
-    public CinemachineFreeLook cmCamara;
+    CinemachineStoryboard storyboard;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         alpaca = GetComponent<AlpacaMovement>();
+        storyboard = GameObject.Find("CM Cam 1").GetComponent<CinemachineStoryboard>();
     }
 
     void CambiarController(int numero)
@@ -39,8 +40,9 @@ public class AlpacaCinematics : MonoBehaviour
     public IEnumerator EntradaNivel(Vector3 alpacaObjective)
     {
         bool done = false;
-
         float velocity = Vector3.Distance(transform.position, alpacaObjective) / tiempoCarga;
+
+        storyboard.m_Alpha = 1;
         CambiarController(1);
 
         transform.LookAt(new Vector3(alpacaObjective.x, transform.position.y, alpacaObjective.z));
@@ -51,6 +53,7 @@ public class AlpacaCinematics : MonoBehaviour
             if (Vector3.Distance(transform.position, alpacaObjective) > 0.1f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, alpacaObjective, velocity * Time.deltaTime);
+                storyboard.m_Alpha = Mathf.Clamp(storyboard.m_Alpha - 2 / tiempoCarga * Time.deltaTime, 0, 1);
             }
             else
             {
@@ -68,6 +71,8 @@ public class AlpacaCinematics : MonoBehaviour
     {
         bool done = false;
         float velocity = Vector3.Distance(transform.position, alpacaObjective) / tiempoCarga;
+
+        storyboard.m_Alpha = 0;
         CambiarController(1);
 
         animator.SetTrigger("Caminar");
@@ -76,6 +81,7 @@ public class AlpacaCinematics : MonoBehaviour
             if (Vector3.Distance(transform.position, alpacaObjective) > 0.1f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, alpacaObjective, velocity * Time.deltaTime);
+                storyboard.m_Alpha = Mathf.Clamp(storyboard.m_Alpha + 2 / tiempoCarga * Time.deltaTime, 0, 1);
             }
             else
             {

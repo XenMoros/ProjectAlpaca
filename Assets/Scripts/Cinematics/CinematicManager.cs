@@ -105,8 +105,15 @@ public class CinematicManager : MonoBehaviour
             finishMovement = animationTime - arrayAnimaciones[animationNumber].animationFinishMovement; // Marca el tiempo de acabar el movimiento segun entrada
         }
 
-        if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = waipoints.RetornarWaypoint().transform.forward;
-        else targetDirection = -waipoints.RetornarWaypoint().transform.forward;
+        if(waipoints != null)
+        {
+            if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = waipoints.RetornarWaypoint().transform.forward;
+            else targetDirection = -waipoints.RetornarWaypoint().transform.forward;
+        }
+        else
+        {
+            targetDirection = transform.forward;
+        }
     }
 
     private void GirarPersonaje()
