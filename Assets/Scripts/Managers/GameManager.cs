@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         }
 
         StaticManager.pause = false;
-        levelManager.SetPause();
+        levelManager.SetPause(true);
         interfaceManager.LoadingGroup(false);
         loadingSceneManager.UnloadLoadingAnimation();
 

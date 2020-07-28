@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     private AsyncOperation sceneAsync;
     private Scene escenaMenus,escenaNivel;
 
-
+    bool levelComplete = false;
 
     private void Start()
     {
@@ -23,11 +23,16 @@ public class LevelManager : MonoBehaviour
         enemyManager.SetLevelManager(this);
     }
 
-    public void SetPause()
+    public void SetPause(bool carga = false)
     {
 
         alpaca.SetPause();
         enemyManager.SetPause();
+
+        if (carga)
+        {
+            alpaca.EntradaNivel();
+        }
     }
 
     public Scene LoadLevel(int nivel)
@@ -35,6 +40,9 @@ public class LevelManager : MonoBehaviour
 
         StartCoroutine(LoadScene(nivel));
         escenaNivel = SceneManager.GetSceneByBuildIndex(nivel);
+
+        levelComplete = false;
+
         return (escenaNivel);
     }
 
@@ -122,8 +130,17 @@ public class LevelManager : MonoBehaviour
         gameManager.RestartCurrentLevel();
     }
 
-    public void LevelComplete()
+    public IEnumerator LevelComplete()
     {
+        alpaca.SalidaNivel();
+
+        while (!levelComplete)
+        {
+            levelComplete = alpaca.exitReached;
+            yield return null;
+        }
+
         gameManager.CargarSiguienteNivel();
     }
+
 }
