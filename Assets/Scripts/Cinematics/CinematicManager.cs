@@ -16,8 +16,13 @@ public class CinematicManager : MonoBehaviour
     float velocity; // Velocidad de movimiento
     float finishMovement; // Tienpo en el que finaliza el movimiento
     Vector3 targetDirection; // Direccion hacia donde ha de mirar el actor
-
+    bool siguienteCiclo;
     RuntimeAnimatorController ac; // Animator controler en runtime 
+
+    public enum TipoAnimacion { Propia, Dependiente, Principal};
+    public TipoAnimacion tipoAnimacion;
+
+    public CinematicManager cinematicaDependiente;
 
     internal virtual void Start()
     {
@@ -28,6 +33,7 @@ public class CinematicManager : MonoBehaviour
         animator.SetTrigger(arrayAnimaciones[animNumber].animationName); // Activa el trigger de animacion correspondiente
         animationTimer = 0; // Marca el inicio de la fase actual
         animacionAcabada = false; // Flag como false el final de la fase actual
+        siguienteCiclo = true;
     }
 
     // Update is called once per frame
@@ -52,7 +58,7 @@ public class CinematicManager : MonoBehaviour
 
     internal virtual void LateUpdate()
     {
-        if (animacionAcabada)
+        if (animacionAcabada && siguienteCiclo)
         { // Si ha terminado la fase actual
             animationTimer = 0; // Set el inicio de la fase siguiente
             animNumber += 1; // Avanza el numero de fase
@@ -60,6 +66,7 @@ public class CinematicManager : MonoBehaviour
             animator.SetTrigger(arrayAnimaciones[animNumber].animationName); // Activa el trigger de la animacion correspondiente
 
             animacionAcabada = false; // Desmarca como que ha acabado la fase
+
         }
     }
 
@@ -69,6 +76,10 @@ public class CinematicManager : MonoBehaviour
         if(animationNumber >= arrayAnimaciones.Length)
         { // Si el numero sobrepassa la array de fases, vuelve al principio
             animationNumber = 0;
+        }
+        else if(animationNumber == arrayAnimaciones.Length - 1 && tipoAnimacion == TipoAnimacion.Dependiente)
+        {
+            siguienteCiclo = false;
         }
 
         if(arrayAnimaciones[animationNumber].animationLength > 0)
@@ -142,6 +153,21 @@ public class CinematicManager : MonoBehaviour
     { // Rellena el array de fases de cinematica
         arrayAnimaciones = new AnimationGuide[1];
         arrayAnimaciones[0] = new AnimationGuide("Idle");
+    }
+    public void AvisarCinematicaDependiente()
+    {
+        if(tipoAnimacion == TipoAnimacion.Principal)
+        {
+            cinematicaDependiente.NextCicleSignal();
+        }
+    }
+
+    public void NextCicleSignal()
+    {
+        if(tipoAnimacion == TipoAnimacion.Dependiente)
+        {
+            siguienteCiclo = true;
+        }
     }
 }
 

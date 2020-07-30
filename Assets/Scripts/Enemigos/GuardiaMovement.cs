@@ -110,14 +110,20 @@ public class GuardiaMovement : Enemy
 
                 }
 
-                estado = estadoSiguiente; // Marca el estado actual como ya cambiado
-                estadoSiguiente = Estado.SinCambios; // Marca el estado siguiente como SinCambios
-
                 ControlDeAnimaciones(); // Gestiona el cambio de animaciones
+
+                estado = estadoSiguiente; // Marca el estado actual como ya cambiado
 
                 timerEnEstado = 0f; // Reinicia el tiempo en este estado
 
             }
+            else if (estadoSiguiente == Estado.Investigar)
+            {
+                SetObjective(objective);
+            }
+
+            estadoSiguiente = Estado.SinCambios; 
+
         }
     }
 
@@ -146,10 +152,9 @@ public class GuardiaMovement : Enemy
 
                     if (BuscarObjetivo())
                     {
-
                         CambiarEstado(Estado.Perseguir);
                     }
-                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    else if (FinalCamino())
                     {
                         if (waypointManager.RetornarWaypoint().RetornarTiempo() >= 0)
                         {
@@ -169,7 +174,7 @@ public class GuardiaMovement : Enemy
                     {
                         SetObjective(objective);
                     }
-                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    else if (FinalCamino())
                     {
                         CambiarEstado(Estado.Buscando);
                     }
@@ -183,7 +188,7 @@ public class GuardiaMovement : Enemy
                     {
                         CambiarEstado(Estado.Perseguir);
                     }
-                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    else if (FinalCamino())
                     {
                         if (estabaPatrullando)
                         {
@@ -211,7 +216,7 @@ public class GuardiaMovement : Enemy
                     {
                         CambiarEstado(Estado.Perseguir);
                     }
-                    else if (agent.reachedEndOfPath && !agent.pathPending)
+                    else if (FinalCamino())
                     {
                         CambiarEstado(Estado.Buscando);
                     }
@@ -230,13 +235,18 @@ public class GuardiaMovement : Enemy
         }
     }
 
+    bool FinalCamino()
+    {
+        return ((agent.reachedEndOfPath && !agent.pathPending));
+    }
+
     public void SetObjective(Vector3 position)
     {
         agent.destination = position;
-        /*if (!agent.pathPending)
+        if (!agent.pathPending)
         {
             agent.SearchPath();
-        }*/
+        }
     }
 
     public void FinalBuscar()
@@ -257,23 +267,27 @@ public class GuardiaMovement : Enemy
         }
     }
 
-    internal void CambiarEstado(Estado estadoPropuesto)
+    internal bool CambiarEstado(Estado estadoPropuesto)
     {
         if ((int)estadoPropuesto > (int)estadoSiguiente)
         {
             estadoSiguiente = estadoPropuesto;
+            return true;
         }
+        return false;
     }
 
     public void GuardiaEscucha (Vector3 origen)
     {
-        CambiarEstado(Estado.Investigar);
-        objective = origen;
+        if (CambiarEstado(Estado.Investigar))
+        {
+            objective = origen;
+        }
     }
 
     void ControlDeAnimaciones()
     {// Gestiona las animaciones
-        switch(estado)
+        switch(estadoSiguiente)
         {
             case Estado.Aturdido: // Activa el trigger de Aturdido
                 guardiaAnimator.SetTrigger("Aturdido");
@@ -283,16 +297,30 @@ public class GuardiaMovement : Enemy
                 break;
             case Estado.Patrullando:
             case Estado.Investigar:
-            case Estado.Volviendo: // Para estas tres, activa el trigger de Caminar
-                guardiaAnimator.SetTrigger("Caminar");
+            case Estado.Volviendo: // Para estas tres, activa el bool de Caminar
+                guardiaAnimator.SetBool("Caminar",true);
                 break;
-            case Estado.Buscando: // Activa el trigger de Buscando
-                guardiaAnimator.SetTrigger("Buscando");
+            case Estado.Buscando: // Activa el bool de Buscando
+                guardiaAnimator.SetBool("Buscando", true);
                 break;
-            case Estado.Idle: // Activa el trigger de Idle
-                guardiaAnimator.SetTrigger("Idle");
+            case Estado.Idle: // Activa el bool de Idle
+                guardiaAnimator.SetBool("Idle", true);
                 break;
+        }
 
+        switch (estado)
+        {
+            case Estado.Patrullando:
+            case Estado.Investigar:
+            case Estado.Volviendo: 
+                guardiaAnimator.SetBool("Caminar", false);
+                break;
+            case Estado.Buscando: 
+                guardiaAnimator.SetBool("Buscando", false);
+                break;
+            case Estado.Idle: 
+                guardiaAnimator.SetBool("Idle", false);
+                break;
         }
     }
 
