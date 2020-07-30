@@ -110,9 +110,9 @@ public class GuardiaMovement : Enemy
 
                 }
 
-                estado = estadoSiguiente; // Marca el estado actual como ya cambiado
-
                 ControlDeAnimaciones(); // Gestiona el cambio de animaciones
+
+                estado = estadoSiguiente; // Marca el estado actual como ya cambiado
 
                 timerEnEstado = 0f; // Reinicia el tiempo en este estado
 
@@ -287,7 +287,7 @@ public class GuardiaMovement : Enemy
 
     void ControlDeAnimaciones()
     {// Gestiona las animaciones
-        switch(estado)
+        switch(estadoSiguiente)
         {
             case Estado.Aturdido: // Activa el trigger de Aturdido
                 guardiaAnimator.SetTrigger("Aturdido");
@@ -297,16 +297,30 @@ public class GuardiaMovement : Enemy
                 break;
             case Estado.Patrullando:
             case Estado.Investigar:
-            case Estado.Volviendo: // Para estas tres, activa el trigger de Caminar
-                guardiaAnimator.SetTrigger("Caminar");
+            case Estado.Volviendo: // Para estas tres, activa el bool de Caminar
+                guardiaAnimator.SetBool("Caminar",true);
                 break;
-            case Estado.Buscando: // Activa el trigger de Buscando
-                guardiaAnimator.SetTrigger("Buscando");
+            case Estado.Buscando: // Activa el bool de Buscando
+                guardiaAnimator.SetBool("Buscando", true);
                 break;
-            case Estado.Idle: // Activa el trigger de Idle
-                guardiaAnimator.SetTrigger("Idle");
+            case Estado.Idle: // Activa el bool de Idle
+                guardiaAnimator.SetBool("Idle", true);
                 break;
+        }
 
+        switch (estado)
+        {
+            case Estado.Patrullando:
+            case Estado.Investigar:
+            case Estado.Volviendo: 
+                guardiaAnimator.SetBool("Caminar", false);
+                break;
+            case Estado.Buscando: 
+                guardiaAnimator.SetBool("Buscando", false);
+                break;
+            case Estado.Idle: 
+                guardiaAnimator.SetBool("Idle", false);
+                break;
         }
     }
 
