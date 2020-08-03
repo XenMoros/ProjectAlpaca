@@ -12,9 +12,9 @@ public class EnemyManager : MonoBehaviour
         Object[] encontrarEnemigos = FindObjectsOfType(typeof(Enemy));
         enemies = new List<Enemy>();
 
-        foreach (Object enemigo in encontrarEnemigos)
+        foreach (Enemy enemigo in encontrarEnemigos)
         {
-            enemies.Add((Enemy)enemigo);
+            enemies.Add(enemigo);
         }
 
         foreach(Enemy enemigo in enemies)
@@ -39,5 +39,17 @@ public class EnemyManager : MonoBehaviour
     public void ReloadLevel()
     {
         levelManager.RestartLevel();
+    }
+
+    public void AlertarGuardias(Vector3 position)
+    {
+        foreach (Enemy enemigo in enemies)
+        {
+            if(enemigo.tipoEnemigo  == Enemy.TipoEnemigo.Guardia)
+            {
+                enemigo.AlertarEnemigo(position);
+            }
+            
+        }
     }
 }
