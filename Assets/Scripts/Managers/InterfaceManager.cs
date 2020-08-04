@@ -6,9 +6,9 @@ using System.Collections.Generic;
 public class InterfaceManager : MonoBehaviour
 {
 
-    GameManager gameManager;
+    internal GameManager gameManager;
 
-    CanvasGroup[] grupos = new CanvasGroup[4];
+    internal CanvasGroup[] grupos;
     public CanvasGroup mainManuGroup;
     public CanvasGroup pauseManuGroup;
     public CanvasGroup optionsManuGroup;
@@ -16,9 +16,8 @@ public class InterfaceManager : MonoBehaviour
 
     public CanvasGroup loadingGroup;
 
-    public Selectable[] selectDefecto = new Selectable[4];
+    public Selectable[] selectDefecto;
     public Selectable mainManuDefSelect;
-    public Selectable mainManuDefSelect2;
     public Selectable pauseManuDefSelect;
     public Selectable optionsManuDefSelect;
     public Selectable levelSelectManuDefSelect;
@@ -46,15 +45,17 @@ public class InterfaceManager : MonoBehaviour
             selectDefecto[grupoActual].Select();
         }
     }
-    public void Initialize()
+    public virtual void Initialize()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
+        grupos = new CanvasGroup[4];
         grupos[0] = mainManuGroup;
         grupos[1] = pauseManuGroup;
         grupos[2] = optionsManuGroup;
         grupos[3] = levelSelectManuGroup;
 
+        selectDefecto = new Selectable[4];
         selectDefecto[0] = mainManuDefSelect;
         selectDefecto[1] = pauseManuDefSelect;
         selectDefecto[2] = optionsManuDefSelect;

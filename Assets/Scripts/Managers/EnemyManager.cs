@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
-    LevelManager levelManager;
+    internal LevelManager levelManager;
 
     public List<Enemy> enemies;
 
-    internal void LoadEnemies()
+    internal virtual void LoadEnemies()
     {
         Object[] encontrarEnemigos = FindObjectsOfType(typeof(Enemy));
         enemies = new List<Enemy>();
