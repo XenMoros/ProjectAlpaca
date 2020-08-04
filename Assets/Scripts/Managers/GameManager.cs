@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    InterfaceManager interfaceManager;
+    internal InterfaceManager interfaceManager;
     internal LevelManager levelManager;
     internal CustomInputManager inputManager;
     internal AudioManager audioManager;
@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
         interfaceManager = Instantiate(interfaceManagerPrefab).GetComponent<InterfaceManager>();
         levelManager = Instantiate(levelManagerPrefab).GetComponent<LevelManager>();
         audioManager = Instantiate(audioManagerPrefab).GetComponent<AudioManager>();
+        inputManager = GetComponent<CustomInputManager>();
         interfaceManager.Initialize();
         audioManager.Initialize();
         lastLevel = 1;
         currentLevel = 1;
-        maxLevel = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
-        inputManager = GetComponent<CustomInputManager>();
+        maxLevel = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1; 
     }
 
     private void Update()
