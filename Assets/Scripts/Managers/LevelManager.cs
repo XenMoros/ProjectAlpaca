@@ -86,11 +86,10 @@ public class LevelManager : MonoBehaviour
             {
                 if(objeto.name == "Alpaca")
                 {
-                    Debug.Log("Encontre la Alpaca");
                     alpaca = objeto.GetComponent<AlpacaMovement>();
                     alpaca.SetInputManager(gameManager.inputManager);
                     objeto.GetComponent<AlpacaSound>().SetInputManager(gameManager.inputManager);
-                    objeto.GetComponent<AlpacaSound>().SetAudioManager(gameManager.audioManager);
+                    objeto.GetComponent<AlpacaSound>().SetManagers(gameManager.audioManager,this);
                     objeto.GetComponent<CozScript>().SetInputManager(gameManager.inputManager);
                     objeto.GetComponent<EscupitajoAction>().SetInputManager(gameManager.inputManager);
                     objeto.GetComponent<InteractScript>().SetInputManager(gameManager.inputManager);
@@ -103,6 +102,11 @@ public class LevelManager : MonoBehaviour
             }
             enemyManager.LoadEnemies();
         }
+    }
+
+    public void AlertarGuardias(Vector3 position)
+    {
+        enemyManager.AlertarGuardias(position);
     }
 
     public Scene UnloadLevel()

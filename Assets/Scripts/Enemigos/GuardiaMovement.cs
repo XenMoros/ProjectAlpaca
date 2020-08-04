@@ -16,6 +16,8 @@ public class GuardiaMovement : Enemy
     // Variables publicas de movimiento
     public float fieldOfView; // Campo de vision del guardia
     public float distanciaVolverPosicion; // Distancia minima para considerar volver al inicio
+    [Range(0f,100f)] public float distanciaAlerta = 10; // Distancia desde la que el guardia escucha a la alpaca
+    public bool debug = false;
 
     // Informacion de casteo de Rayos
     private RaycastHit hitInfo;
@@ -43,7 +45,18 @@ public class GuardiaMovement : Enemy
     internal enum Estado {SinCambios ,Idle, Patrullando, Volviendo, Buscando, Investigar, Perseguir, Aturdido};
 
     internal Estado estado, estadoSiguiente; // Estados del guarda, el actual de la maquina de estados y el siguiente al que ha de transicionar
-    
+
+   /* private void OnDrawGizmos()
+    {
+        if (debug)
+        {
+            UnityEditor.Handles.color = Color.red;
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, distanciaAlerta);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.left, distanciaAlerta);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, distanciaAlerta);
+        }
+    }*/
+
     private void Start()
     { // Al incio
         estado = Estado.Idle; // El estado inicial es Idle
@@ -370,6 +383,14 @@ public class GuardiaMovement : Enemy
         if (collision.gameObject.CompareTag("Escupitajo") && estado != Estado.Aturdido)
         {
             CambiarEstado(Estado.Aturdido);
+        }
+    }
+
+    public override void AlertarEnemigo(Vector3 position)
+    {
+        if (Vector3.Distance(position, transform.position) < distanciaAlerta)
+        {
+            GuardiaEscucha(position);
         }
     }
 

@@ -8,6 +8,7 @@ public class AlpacaSound : MonoBehaviour
     public AudioSource audioSource; // AudioSource de la Alpaca
     public CustomInputManager inputManager; // Input manager (prod o Debug)
     public Animator alpacaAnimator; // Animator de la alpaca
+    LevelManager levelManager; // El level manager
     [Range(0f,20f)] public float hearDistance = 10; // Distancia a la que te oyen los enemigos
 
     void Update()
@@ -24,14 +25,16 @@ public class AlpacaSound : MonoBehaviour
                 audioControll.PlaySound(0, audioSource); // Reproduce el sonido 0 desde la alpaca
 
                 //Ademas alertamos a todos los guardias de donde se ha berreado segun la distancia de berreo
-                Collider[] possibleEnemiesWhoHeardMe = Physics.OverlapSphere(transform.position, hearDistance, LayerMask.GetMask("Guardia"));
+                /*Collider[] possibleEnemiesWhoHeardMe = Physics.OverlapSphere(transform.position, hearDistance, LayerMask.GetMask("Guardia"));
                 foreach (Collider enemy in possibleEnemiesWhoHeardMe)
                 {
                     enemy.GetComponent<GuardiaMovement>().GuardiaEscucha(transform.position); // Alerta a cada guardia
-                }
+                }*/
+                levelManager.AlertarGuardias(transform.position);
             }
             
-            if (inputManager.GetButtonDown("Coz") && alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped)
+            if (inputManager.GetButtonDown("Coz") && alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped
+                && alpacaMovement.tipoStopped == AlpacaMovement.TipoStopped.Cozeo)
             {// Al Cocear, reproducimos el audio 1 desde nuestra source
                 audioControll.PlaySound(1, audioSource);
             }
@@ -48,8 +51,9 @@ public class AlpacaSound : MonoBehaviour
         inputManager = manager;
     }
 
-    public void SetAudioManager(AudioManager manager)
+    public void SetManagers(AudioManager audioManager, LevelManager levelManageer)
     { // Enlaza el AudioManager (para actores externos)
-        audioControll = manager;
+        audioControll = audioManager;
+        levelManager = levelManageer;
     }
 }

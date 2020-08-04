@@ -4,6 +4,9 @@ public class Enemy : MonoBehaviour, IActivable
 { // Clase padre de todos los enemigos
     public bool pausa = true, active = true; // Los enemigos pueden pausarse o estar desactivados
     public EnemyManager enemyManager; // El manager de enemigos
+    
+    public enum TipoEnemigo { Guardia, Camara};
+    public TipoEnemigo tipoEnemigo;
 
     public virtual void SetPause()
     { // Funcion para poner la pausa segun la clase estatica
@@ -34,4 +37,8 @@ public class Enemy : MonoBehaviour, IActivable
         enemyManager = manager;
     }
 
+    public virtual void AlertarEnemigo(Vector3 position)
+    {
+
+    }
 }
