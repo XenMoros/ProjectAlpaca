@@ -46,7 +46,7 @@ public class GuardiaMovement : Enemy
 
     internal Estado estado, estadoSiguiente; // Estados del guarda, el actual de la maquina de estados y el siguiente al que ha de transicionar
 
-    private void OnDrawGizmos()
+   /* private void OnDrawGizmos()
     {
         if (debug)
         {
@@ -55,7 +55,7 @@ public class GuardiaMovement : Enemy
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.left, distanciaAlerta);
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, distanciaAlerta);
         }
-    }
+    }*/
 
     private void Start()
     { // Al incio
