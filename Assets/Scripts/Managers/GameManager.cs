@@ -64,8 +64,10 @@ public class GameManager : MonoBehaviour
     IEnumerator CargarEscena(int nivel)
     {
         float tiempoCarga = 0f;
-        UnityEngine.SceneManagement.Scene escena = levelManager.LoadLevel(nivel);
+
         loadingSceneManager.LoadLoadingAnimation();
+        UnityEngine.SceneManagement.Scene escena = levelManager.LoadLevel(nivel);
+        
 
         while (!escena.isLoaded || tiempoCarga<5f)
         {

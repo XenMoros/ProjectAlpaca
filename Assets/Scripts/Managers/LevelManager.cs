@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
         enemyManager = Instantiate(enemyManagerPrefab).GetComponent<EnemyManager>();
         escenaMenus = SceneManager.GetActiveScene();
         enemyManager.SetLevelManager(this);
+        Application.backgroundLoadingPriority = ThreadPriority.Low;
     }
 
     public void SetPause(bool carga = false)
@@ -52,11 +53,11 @@ public class LevelManager : MonoBehaviour
         scene.allowSceneActivation = false;
         sceneAsync = scene;
 
-        while (scene.progress < 0.9f)
+        do
         {
             Debug.Log("Loading scene " + " [][] Progress: " + scene.progress);
             yield return null;
-        }
+        } while (scene.progress < 0.9f);
 
         OnFinishedLoadingAllScene(nivel);
     }
@@ -87,17 +88,24 @@ public class LevelManager : MonoBehaviour
                 if(objeto.name == "Alpaca")
                 {
                     alpaca = objeto.GetComponent<AlpacaMovement>();
+                    yield return null;
                     alpaca.SetInputManager(gameManager.inputManager);
                     objeto.GetComponent<AlpacaSound>().SetInputManager(gameManager.inputManager);
+                    yield return null;
                     objeto.GetComponent<AlpacaSound>().SetManagers(gameManager.audioManager,this);
+                    yield return null;
                     objeto.GetComponent<CozScript>().SetInputManager(gameManager.inputManager);
+                    yield return null;
                     objeto.GetComponent<EscupitajoAction>().SetInputManager(gameManager.inputManager);
+                    yield return null;
                     objeto.GetComponent<InteractScript>().SetInputManager(gameManager.inputManager);
+                    yield return null;
                 }
                 
                 if(objeto.name == "Entorno")
                 {
                     objeto.GetComponentInChildren<SalidaNivel>().SetLevelManager(this);
+                    yield return null;
                 }
             }
             enemyManager.LoadEnemies();

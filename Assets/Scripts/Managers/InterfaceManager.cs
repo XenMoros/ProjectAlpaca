@@ -161,12 +161,10 @@ public class InterfaceManager : MonoBehaviour
             OpenGroup(grupoActual);
             if (historialBotones.Count != 0)
             {
-                Debug.Log("Boton" + historialBotones.Peek().name);
                 historialBotones.Pop().Select();
             }
             else
             {
-                Debug.Log("Sin botones??");
             }
         }
         /*else if(grupoActual == 1)

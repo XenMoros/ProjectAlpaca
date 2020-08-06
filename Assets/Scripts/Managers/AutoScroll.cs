@@ -23,7 +23,6 @@ public class AutoScroll : MonoBehaviour
         // Get the currently selected UI element from the event system.
         GameObject selected = EventSystem.current.currentSelectedGameObject;
         
-        //Debug.Log(scrollRectTransform.rect.height);
         // Return if there are none.
         if (selected == null)
         {

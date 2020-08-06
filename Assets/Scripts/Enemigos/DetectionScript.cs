@@ -20,7 +20,6 @@ public class DetectionScript : MonoBehaviour
         {
             hit = new RaycastHit(); // Renueva la estructura de Hit
             direction = (player.position - generalCamera.position).normalized; // Calcula en que direccion esta la alpaca
-            //Debug.DrawLine(generalCamera.position, generalCamera.position + direction * distanceView);
             if (Physics.Raycast(generalCamera.position, direction, out hit, distanceView))
             { // Si el RayCast choca con algo
                 if (hit.collider.name == "Alpaca")

@@ -20,7 +20,6 @@ public class ShootSystem: MonoBehaviour
     private float profundidadAutoapuntado;
 
     // Variables de autoapuntado
-    private Collider[] colliderList; // Lista de colliders del autoapuntado
     private Vector3 direccion; // Direccion en la que disparar con autoapuntado
     private RaycastHit hitInfo;
 
