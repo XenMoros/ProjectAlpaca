@@ -17,7 +17,6 @@ public class ExposureControll : MonoBehaviour
         
         if(exposicion == null)
         {
-            Debug.Log("ERRRROR");
         }
     }
 

@@ -321,7 +321,7 @@ MonoBehaviour:
     type: 2}
   cinematicAnimationController: {fileID: 9100000, guid: 183136baece83ae48a1e80d05f70ada0,
     type: 2}
-  cmCamara: {fileID: 0}
+  tiempoCarga: 3
 --- !u!1 &907351019936946796
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +689,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 4300018, guid: 7893758fe7a50ac4f9787c75a31853c4, type: 3}
 --- !u!1 &1925919380467537968
 GameObject:
