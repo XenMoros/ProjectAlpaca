@@ -5,21 +5,27 @@ using System.Collections.Generic;
 
 public class InterfaceManager : MonoBehaviour
 {
+    private const int MAIN = 1;
+    private const int PAUSE = 2;
+    private const int SETTINGS = 3;
+    private const int LEVELSELECT = 4;
 
     internal GameManager gameManager;
 
-    internal CanvasGroup[] grupos;
-    public CanvasGroup mainManuGroup;
-    public CanvasGroup pauseManuGroup;
-    public CanvasGroup optionsManuGroup;
-    public CanvasGroup levelSelectManuGroup;
+    internal Animator[] grupos;
+    public Animator backgroundGroup;
+    public Animator mainManuGroup;
+    public Animator pauseManuGroup;
+    public Animator settingsManuGroup;
+    public Animator levelSelectManuGroup;
 
-    public CanvasGroup loadingGroup;
+    public Animator loadingGroup;
 
     public Selectable[] selectDefecto;
+    public Selectable backgroundDefSelect;
     public Selectable mainManuDefSelect;
     public Selectable pauseManuDefSelect;
-    public Selectable optionsManuDefSelect;
+    public Selectable settingsManuDefSelect;
     public Selectable levelSelectManuDefSelect;
 
     public Stack<int> historialGrupos = new Stack<int>();
@@ -30,6 +36,8 @@ public class InterfaceManager : MonoBehaviour
     public RenderTexture loadingTexture;
 
     public int grupoActual;
+
+    
 
     private void Update()
     {
@@ -49,17 +57,21 @@ public class InterfaceManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        grupos = new CanvasGroup[4];
-        grupos[0] = mainManuGroup;
-        grupos[1] = pauseManuGroup;
-        grupos[2] = optionsManuGroup;
-        grupos[3] = levelSelectManuGroup;
+        grupos = new Animator[5];
 
-        selectDefecto = new Selectable[4];
-        selectDefecto[0] = mainManuDefSelect;
-        selectDefecto[1] = pauseManuDefSelect;
-        selectDefecto[2] = optionsManuDefSelect;
-        selectDefecto[3] = levelSelectManuDefSelect;
+        grupos[0] = backgroundGroup;
+        grupos[1] = mainManuGroup;
+        grupos[2] = pauseManuGroup;
+        grupos[3] = settingsManuGroup;
+        grupos[4] = levelSelectManuGroup;
+
+        selectDefecto = new Selectable[5];
+
+        selectDefecto[0] = backgroundDefSelect;
+        selectDefecto[1] = mainManuDefSelect;
+        selectDefecto[2] = pauseManuDefSelect;
+        selectDefecto[3] = settingsManuDefSelect;
+        selectDefecto[4] = levelSelectManuDefSelect;
 
         StartMainMenu();
         historialGrupos.Push(-1);
@@ -71,28 +83,31 @@ public class InterfaceManager : MonoBehaviour
 
     public void StartMainMenu()
     {
-        grupoActual = 0;
+        grupoActual = MAIN;
         CloseAllGroups();
+        OpenGroup(0);
         OpenGroup(grupoActual);
         LoadingGroup(false);
     }
 
     public void OpenPauseMenu()
     {
-        grupoActual = 1;
+        OpenGroup(0);
+        grupoActual = PAUSE;
         OpenGroup(grupoActual);
     }
 
     public void ClosePauseMenu()
     {
         CloseGroup(grupoActual);
+        CloseGroup(0);
     }
 
     public void OpenGroup(int indice)
     {
-        grupos[indice].alpha = 1;
-        grupos[indice].interactable = true;
-        selectDefecto[grupoActual].Select();
+        Debug.Log("Opening " + indice + " group");
+        if (indice != 0) selectDefecto[grupoActual].Select();
+        grupos[indice].SetBool("Active", true);
     }
 
     public void CloseAllGroups()
@@ -108,9 +123,9 @@ public class InterfaceManager : MonoBehaviour
 
     public void CloseGroup(int indice)
     {
-        grupos[indice].alpha = 0;
-        grupos[indice].interactable = false;
+        Debug.Log("Closing  " + indice + " group");
         EventSystem.current.SetSelectedGameObject(null);
+        grupos[indice].SetBool("Active", false);
     }
 
     public void LevelSelectButton()
@@ -118,16 +133,18 @@ public class InterfaceManager : MonoBehaviour
         historialGrupos.Push(grupoActual);
         ButtonSelect();
 
-        grupoActual = 3;
+        CloseGroup(grupoActual);
+        grupoActual = LEVELSELECT;
         OpenGroup(grupoActual);
     }
 
-    public void OptionsButton()
+    public void SettingsButton()
     {
         historialGrupos.Push(grupoActual);
         ButtonSelect();
 
-        grupoActual = 2;
+        CloseGroup(grupoActual);
+        grupoActual = SETTINGS;
         OpenGroup(grupoActual);
 
     }
@@ -177,11 +194,11 @@ public class InterfaceManager : MonoBehaviour
     {
         if (state)
         {
-            loadingGroup.alpha = 1;
+            loadingGroup.SetBool("Active", true);
         }
         else
         {
-            loadingGroup.alpha = 0;
+            loadingGroup.SetBool("Active", false);
         }
     }
 
