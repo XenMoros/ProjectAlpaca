@@ -18,7 +18,7 @@ public class CozScript : MonoBehaviour
 
     void Update()
     {
-        if (!alpacaMovement.pause)
+        if (!alpacaMovement.Pause)
         {
             if (inputManager.GetButtonDown("Coz") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
                 || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped || alpacaMovement.arrastrando))

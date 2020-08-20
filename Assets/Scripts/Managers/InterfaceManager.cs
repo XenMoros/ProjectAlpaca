@@ -105,7 +105,6 @@ public class InterfaceManager : MonoBehaviour
 
     public void OpenGroup(int indice)
     {
-        Debug.Log("Opening " + indice + " group");
         if (indice != 0) selectDefecto[grupoActual].Select();
         grupos[indice].SetBool("Active", true);
     }
@@ -123,7 +122,6 @@ public class InterfaceManager : MonoBehaviour
 
     public void CloseGroup(int indice)
     {
-        Debug.Log("Closing  " + indice + " group");
         EventSystem.current.SetSelectedGameObject(null);
         grupos[indice].SetBool("Active", false);
     }

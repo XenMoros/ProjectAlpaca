@@ -22,7 +22,7 @@ public class EscupitajoAction : ShootSystem
 
     void Update()
     {
-        if (!alpacaMovement.pause && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped || alpacaMovement.arrastrando 
+        if (!alpacaMovement.Pause && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped || alpacaMovement.arrastrando 
             || alpacaAnimator.GetCurrentAnimatorStateInfo(1).IsName("Berreo") || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || 
             alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida))
         {  // Si no esta en pausa, no estas ni coceando, ni arrastrando, ni enla animacion de berreo ni en el aire mira si puedes escupir

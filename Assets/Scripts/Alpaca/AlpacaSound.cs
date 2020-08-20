@@ -13,7 +13,7 @@ public class AlpacaSound : MonoBehaviour
 
     void Update()
     {
-        if (!alpacaMovement.pause)
+        if (!alpacaMovement.Pause)
         {
             if (inputManager.GetButtonDown("Yell") && !(alpacaMovement.arrastrando
                 || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped
