@@ -35,7 +35,7 @@ public class LoadingSceneManager : MonoBehaviour
     public void LoadAlpaca()
     {
         alpacaMenuAnimator.SetBool("Active",true);
-        alpacaChanging = StartCoroutine(AnimateAlpaca())
+        alpacaChanging = StartCoroutine(AnimateAlpaca());
     }
 
     public void UnloadAlpaca()
@@ -46,15 +46,17 @@ public class LoadingSceneManager : MonoBehaviour
 
     IEnumerator AnimateAlpaca()
     {
-        nextChangeAlpaca = 5;
+        nextChangeAlpaca = 6;
         timerChangeAlpaca = 0;
+        
         while (true)
         {
             if(nextChangeAlpaca < timerChangeAlpaca)
             {
                 timerChangeAlpaca = 0;
-                alpacaMenuAnimator.SetInteger("NextAnimation", Random.Range(1, 10));
+                alpacaMenuAnimator.SetInteger("NextAnimation", Random.Range(1, 7));
                 alpacaMenuAnimator.SetTrigger("ChangeAnimation");
+                nextChangeAlpaca = Random.Range(8, 15);
             }
 
             timerChangeAlpaca += Time.deltaTime;
