@@ -84,12 +84,21 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DescargarEscenaActiva()
     {
+        float tiempoCarga = 0f;
+
+        loadingSceneManager.LoadLoadingAnimation();
         UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
 
-        while(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name)
+        while(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name || tiempoCarga < 5f)
         {
+            tiempoCarga += Time.deltaTime;
             yield return null;
+            
         }
+
+        interfaceManager.LoadingGroup(false);
+        loadingSceneManager.UnloadLoadingAnimation();
+        interfaceManager.StartMainMenu();
     }
 
     IEnumerator CargarOtraEscena(int nivel)

@@ -223,8 +223,8 @@ public class InterfaceManager : MonoBehaviour
 
     public void ReturnToMainButton()
     {
+        LoadingGroup(true);
         gameManager.ReturnToMain();
-        StartMainMenu();
     }
 
     public void ButtonSelect()

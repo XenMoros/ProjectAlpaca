@@ -15,7 +15,7 @@ public class LoadingSceneManager : MonoBehaviour
             UnloadLoadingAnimation();
         }
 
-        currentLoadingAnimation = Instantiate(loadingAnimationsPrefabs[i]);
+        currentLoadingAnimation = Instantiate(loadingAnimationsPrefabs[i],this.transform);
     }
 
     public void UnloadLoadingAnimation()
