@@ -1,11 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEditorInternal;
 
 public class LoadingSceneManager : MonoBehaviour
 {
 
     public List<GameObject> loadingAnimationsPrefabs;
     public GameObject currentLoadingAnimation;
+
+    public Animator alpacaMenuAnimator;
+
+    private float nextChangeAlpaca;
+    private float timerChangeAlpaca;
+
+    Coroutine alpacaChanging;
 
     public void LoadLoadingAnimation()
     {
@@ -21,5 +30,35 @@ public class LoadingSceneManager : MonoBehaviour
     public void UnloadLoadingAnimation()
     {
         Destroy(currentLoadingAnimation);
+    }
+
+    public void LoadAlpaca()
+    {
+        alpacaMenuAnimator.SetBool("Active",true);
+        alpacaChanging = StartCoroutine(AnimateAlpaca())
+    }
+
+    public void UnloadAlpaca()
+    {
+        alpacaMenuAnimator.SetBool("Active", false);
+        StopCoroutine(alpacaChanging);
+    }
+
+    IEnumerator AnimateAlpaca()
+    {
+        nextChangeAlpaca = 5;
+        timerChangeAlpaca = 0;
+        while (true)
+        {
+            if(nextChangeAlpaca < timerChangeAlpaca)
+            {
+                timerChangeAlpaca = 0;
+                alpacaMenuAnimator.SetInteger("NextAnimation", Random.Range(1, 10));
+                alpacaMenuAnimator.SetTrigger("ChangeAnimation");
+            }
+
+            timerChangeAlpaca += Time.deltaTime;
+            yield return null;
+        }
     }
 }

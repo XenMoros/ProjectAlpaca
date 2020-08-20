@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class BrightnessChange : MonoBehaviour
+public class BrightnessChange : SliderChanger
 {
-    public Slider slider;
 
-    public void OnSliderChange()
+    public override void OnSliderChange()
     {
         StaticManager.ChangeBrightness(slider.value);
     }

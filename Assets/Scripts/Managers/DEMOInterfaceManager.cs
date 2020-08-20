@@ -8,19 +8,21 @@ public class DEMOInterfaceManager : InterfaceManager
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        grupos = new Animator[4];
+        grupos = new Animator[NUMGROUPS-1];
 
-        grupos[0] = backgroundGroup;
-        grupos[1] = mainManuGroup;
-        grupos[2] = pauseManuGroup;
-        grupos[3] = settingsManuGroup;
+        grupos[BACK] = backgroundGroup;
+        grupos[PBACK] = pauseBlurGroup;
+        grupos[MAIN] = mainManuGroup;
+        grupos[PAUSE] = pauseManuGroup;
+        grupos[SETTINGS] = settingsManuGroup;
 
-        selectDefecto = new Selectable[4];
+        selectDefecto = new Selectable[NUMGROUPS - 1];
 
-        selectDefecto[0] = backgroundDefSelect;
-        selectDefecto[1] = mainManuDefSelect;
-        selectDefecto[2] = pauseManuDefSelect;
-        selectDefecto[3] = settingsManuDefSelect;
+        selectDefecto[BACK] = backgroundDefSelect;
+        selectDefecto[PBACK] = pauseBlurDefSelect;
+        selectDefecto[MAIN] = mainManuDefSelect;
+        selectDefecto[PAUSE] = pauseManuDefSelect;
+        selectDefecto[SETTINGS] = settingsManuDefSelect;
 
         StartMainMenu();
         historialGrupos.Push(-1);
