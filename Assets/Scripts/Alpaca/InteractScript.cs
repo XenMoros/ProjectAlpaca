@@ -34,7 +34,7 @@ public class InteractScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!alpacaMovement.pause && alpacaMovement.faseMovimiento != AlpacaMovement.FaseMovimiento.Stopped)
+        if (!alpacaMovement.Pause && alpacaMovement.faseMovimiento != AlpacaMovement.FaseMovimiento.Stopped)
         {
             // En caso de estar en influencia de una caja y no estar en el aire
             if (other.CompareTag("ArrastreCaja") && !alpacaMovement.onAir)
@@ -114,7 +114,7 @@ public class InteractScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!alpacaMovement.pause)
+        if (!alpacaMovement.Pause)
         {
             
             if (other.CompareTag("ArrastreCaja") && alpacaMovement.arrastrando)

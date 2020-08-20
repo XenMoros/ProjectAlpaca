@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class SensibilityChanger : MonoBehaviour
+public class SensibilityChanger : SliderChanger
 {
-    public Slider slider;
 
-    public void OnSliderChange()
+    public override void OnSliderChange()
     {
-        StaticManager.ChangeSensibility(slider.value);
+        StaticManager.ChangeSensibility(slider.value,true);
     }
 }

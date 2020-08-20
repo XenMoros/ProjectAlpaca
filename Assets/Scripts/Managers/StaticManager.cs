@@ -5,8 +5,8 @@ public static class StaticManager
 {
     [Range(-5,5)] public static float brightness = 0;
     public static bool exposureChange = false;
-    [Range(0.1f, 10)] public static float sensibility = 1;
-    public static float lastSensibility = 0;
+    [Range(0.1f, 10)] public static float sensibility = 5;
+    public static float lastSensibility = 5;
     public static bool axisV = false, axisH = false;
     public static bool pause = true;
     public static bool cameraOptionsChanged = false;
@@ -23,12 +23,20 @@ public static class StaticManager
         cameraOptionsChanged = true;
     }
 
-    public static void ChangeSensibility(float sens)
+    public static void ChangeSensibility(float sens, bool slider = false)
     {
-        lastSensibility = sensibility;
-        sensibility = sens;
-        cameraOptionsChanged = true;
+        if (slider)
+        {
+            lastSensibility = sens;
+        }
+        else
+        {
+            if (sens == 0 && sensibility != 0) lastSensibility = sensibility;
+            sensibility = sens;
+            cameraOptionsChanged = true;
+        }
     }
+
     public static void ChangeBrightness(float bright)
     {
         brightness = bright;

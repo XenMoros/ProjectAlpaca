@@ -63,7 +63,7 @@ public class AlpacaMovement : MonoBehaviour
     public bool exitReached = false;
 
     // Bool de pause
-    internal bool pause { get; set; } = true; // Bool de pausa
+    internal bool Pause { get; set; } = true; // Bool de pausa
     bool cambioPausa = false; // Control para cambio de pausa diferido
 
     // Draw gizmos a descomentar para debug purposes
@@ -88,7 +88,7 @@ public class AlpacaMovement : MonoBehaviour
 
     internal void Update()
     {
-        if (!pause)
+        if (!Pause)
         {
             
             // Si no estas stuneada por ningun motivo
@@ -281,9 +281,9 @@ public class AlpacaMovement : MonoBehaviour
         if (cambioPausa)     // La pausa se gestiona a LateUpdate para no hacer acciones al salir del menu de pausa en ese frame
         {
             cambioPausa = false;
-            pause = !pause;
+            Pause = !Pause;
 
-            if (pause)
+            if (Pause)
             { // Si entras a la pausa guarda la velocidad que tenias y frena el movimiento
                 lastVelocity = alpacaRB.velocity;
                 alpacaRB.velocity = Vector3.zero;
@@ -538,7 +538,7 @@ public class AlpacaMovement : MonoBehaviour
 
     public void SetPause()
     {// Compureba si ha de activar la pausa del personaje
-        if (StaticManager.pause != pause)
+        if (StaticManager.pause != Pause)
         {
             cambioPausa = true;
         }
