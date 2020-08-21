@@ -3,24 +3,25 @@ using UnityEditor;
 
 public static class StaticManager
 {
+    public delegate void StaticCanghesEvent();
+    public static event StaticCanghesEvent OnCameraChange, OnBrightnessChange, OnPauseChange1;
+
     [Range(-5,5)] public static float brightness = 0;
-    public static bool exposureChange = false;
     [Range(0.1f, 10)] public static float sensibility = 5;
     public static float lastSensibility = 5;
     public static bool axisV = false, axisH = false;
     public static bool pause = true;
-    public static bool cameraOptionsChanged = false;
     
     public static void ChangeAxisV()
     {
         axisV = !axisV;
-        cameraOptionsChanged = true;
+        OnCameraChange?.Invoke();
     }
 
     public static void ChangeAxisH()
     {
         axisH = !axisH;
-        cameraOptionsChanged = true;
+        OnCameraChange?.Invoke();
     }
 
     public static void ChangeSensibility(float sens, bool slider = false)
@@ -33,14 +34,14 @@ public static class StaticManager
         {
             if (sens == 0 && sensibility != 0) lastSensibility = sensibility;
             sensibility = sens;
-            cameraOptionsChanged = true;
+            OnCameraChange?.Invoke();
         }
     }
 
     public static void ChangeBrightness(float bright)
     {
         brightness = bright;
-        exposureChange = true;
+        OnBrightnessChange?.Invoke();
     }
 
     public static void SetPause(bool newState)
@@ -48,6 +49,7 @@ public static class StaticManager
         if(newState != pause)
         {
             pause = newState;
+            OnPauseChange1?.Invoke();
         }
 
     }

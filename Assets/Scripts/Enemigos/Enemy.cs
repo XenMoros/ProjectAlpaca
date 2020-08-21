@@ -8,6 +8,16 @@ public class Enemy : MonoBehaviour, IActivable
     public enum TipoEnemigo { Guardia, Camara};
     public TipoEnemigo tipoEnemigo;
 
+    private void OnEnable()
+    {
+        StaticManager.OnPauseChange1 += SetPause;
+    }
+
+    private void OnDisable()
+    {
+        StaticManager.OnPauseChange1 -= SetPause;
+    }
+
     public virtual void SetPause()
     { // Funcion para poner la pausa segun la clase estatica
         pausa = StaticManager.pause;

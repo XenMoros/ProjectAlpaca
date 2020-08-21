@@ -20,12 +20,18 @@ public class ExposureControll : MonoBehaviour
         }
     }
 
-    void Update()
+    private void OnEnable()
     {
-        if (StaticManager.exposureChange)
-        {
-            exposicion.compensation = new FloatParameter(StaticManager.brightness);
-            StaticManager.exposureChange = false;
-        }
+        StaticManager.OnBrightnessChange += ExposureChanged;
+    }
+
+    private void OnDisable()
+    {
+        StaticManager.OnBrightnessChange -= ExposureChanged;
+    }
+
+    void ExposureChanged()
+    {
+        exposicion.compensation = new FloatParameter(StaticManager.brightness);
     }
 }

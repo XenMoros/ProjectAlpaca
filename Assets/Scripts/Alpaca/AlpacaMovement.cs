@@ -79,6 +79,16 @@ public class AlpacaMovement : MonoBehaviour
         //Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward * (alpacaBoxCollider.size.z / 2f + direccionMovimientoAnt.magnitude * Time.deltaTime * movimiento.speedMultiplier), alpacaBoxCollider.size * 0.9f - Vector3.forward * alpacaBoxCollider.size.z * 0.85f);
     }
 
+    private void OnEnable()
+    {
+        StaticManager.OnPauseChange1 += SetPause;
+    }
+
+    private void OnDisable()
+    {
+        StaticManager.OnPauseChange1 -= SetPause;
+    }
+
     // Al iniciar capturar la main camera y set el drag del Rigidbody a 10
     void Start()
     {

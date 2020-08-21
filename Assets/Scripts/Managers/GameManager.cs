@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
         {
             if (inputManager.GetButtonDown("Start"))
             {
-                StaticManager.pause = !StaticManager.pause;
-                levelManager.SetPause();
+                StaticManager.SetPause(!StaticManager.pause);
+                //levelManager.SetPause();
                 if (StaticManager.pause)
                 {
                     interfaceManager.OpenPauseMenu();
@@ -77,8 +77,8 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        StaticManager.pause = false;
-        levelManager.SetPause(true);
+        StaticManager.SetPause(false);
+        levelManager.SetCagga();
         interfaceManager.LoadingGroup(false);
         loadingSceneManager.UnloadLoadingAnimation();
 
@@ -125,9 +125,9 @@ public class GameManager : MonoBehaviour
 
     public void Continue()
     {// Continue button in pause menu
-        StaticManager.pause = false;
+        StaticManager.SetPause(false);
         StaticManager.ChangeSensibility(StaticManager.lastSensibility);
-        levelManager.SetPause();
+        //levelManager.SetCagga();
     }
 
     public void RestartCurrentLevel()
