@@ -26,12 +26,12 @@ public class DebugSetter : MonoBehaviour
         if (debugMode)
         { // Si el debugMode esta activado, quita la pausa
             StaticManager.SetPause(false);
-            alpaca.SetPause();
+            //alpaca.SetPause();
         }
         else
         { // Si no esta activado pausa todo
             StaticManager.SetPause(true);
-            alpaca.SetPause();
+            //alpaca.SetPause();
         }
     }
 

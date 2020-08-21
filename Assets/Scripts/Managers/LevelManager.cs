@@ -24,16 +24,16 @@ public class LevelManager : MonoBehaviour
         Application.backgroundLoadingPriority = ThreadPriority.Low;
     }
 
-    public void SetPause(bool carga = false)
+    public void SetCagga()
     {
 
-        alpaca.SetPause();
-        enemyManager.SetPause();
+       // alpaca.SetPause();
+       // enemyManager.SetPause();
 
-        if (carga)
-        {
+        //if (carga)
+       // {
             alpaca.EntradaNivel();
-        }
+       // }
     }
 
     public Scene LoadLevel(int nivel)

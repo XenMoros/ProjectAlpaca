@@ -28,13 +28,14 @@ public class EnemyManager : MonoBehaviour
         this.levelManager = levelManager;
     }
 
+    /*
     public void SetPause()
     {
         foreach(Enemy enemy in enemies)
         {
             enemy.SetPause();
         }
-    }
+    }*/
 
     public void ReloadLevel()
     {

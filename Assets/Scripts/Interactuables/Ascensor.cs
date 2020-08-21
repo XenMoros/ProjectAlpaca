@@ -3,6 +3,7 @@ using UnityEditor;
 
 public class Ascensor : Elevador
 {
+   
 
     public event ReachLeaveAction OnReachDown, OnReachUp;
 
