@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EscritorioCS
+  m_Name: EscritorioCS 1
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
   m_ShaderKeywords: N_F_NM_ON N_F_O_ON N_F_PAL_ON N_F_RELGI_ON N_F_SL_ON N_F_SS_ON
     _NORMALMAP_TANGENT_SPACE
@@ -99,7 +99,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3a096ad61be856e4a870624ecb10ffd3, type: 3}
+        m_Texture: {fileID: 2800000, guid: a05cc7fa71f851e4ea826a530357915c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskGloss:
@@ -115,7 +115,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskSelfLit:
-        m_Texture: {fileID: 2800000, guid: 3d6ac4f8de9578f48a7a4a48dd929f32, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3ac1d4fd7a463b24eb957b2042c66fbf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTransparency:
@@ -123,7 +123,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 9f255ea47e9ae05408c9b254dd4bb489, type: 3}
+        m_Texture: {fileID: 2800000, guid: f32ed1b3413e4bf4e8ede335dd79f608, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
@@ -349,14 +349,14 @@ Material:
     - _STIL: 0
     - _Saturation: 1
     - _SelfLitHighContrast: 1
-    - _SelfLitIntensity: 0.479
-    - _SelfLitPower: 13
+    - _SelfLitIntensity: 1
+    - _SelfLitPower: 75
     - _SelfShadowAffectedByLightShadowStrength: 0
     - _SelfShadowHardness: 1
     - _SelfShadowRealTimeShadowColorPower: 1
-    - _SelfShadowRealtimeShadowIntensity: 1
+    - _SelfShadowRealtimeShadowIntensity: 0.398
     - _SelfShadowShadowTAtViewDirection: 0
-    - _SelfShadowThreshold: 0.868
+    - _SelfShadowThreshold: 0.845
     - _ShadowColorTexturePower: 0
     - _ShadowHardness: 0
     - _ShadowTColorPower: 1
