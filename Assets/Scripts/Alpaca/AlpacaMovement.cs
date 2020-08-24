@@ -81,12 +81,12 @@ public class AlpacaMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        StaticManager.OnPauseChange1 += SetPause;
+        StaticManager.OnPauseChange += SetPause;
     }
 
     private void OnDisable()
     {
-        StaticManager.OnPauseChange1 -= SetPause;
+        StaticManager.OnPauseChange -= SetPause;
     }
 
     // Al iniciar capturar la main camera y set el drag del Rigidbody a 10

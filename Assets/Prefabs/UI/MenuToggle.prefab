@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 8912233891284429990}
   - component: {fileID: 4021105953795908458}
   - component: {fileID: 7668700008587436683}
+  - component: {fileID: -6298234359811920928}
   m_Layer: 5
   m_Name: MenuToggle
   m_TagString: Untagged
@@ -264,6 +265,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-6298234359811920928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912233891284429989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbcc552315ee0bc4dae1059274c0d335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8912233891554824912
 GameObject:
   m_ObjectHideFlags: 0

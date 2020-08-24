@@ -14,7 +14,8 @@ public class DEMOInterfaceManager : InterfaceManager
         grupos[PBACK] = pauseBlurGroup;
         grupos[MAIN] = mainManuGroup;
         grupos[PAUSE] = pauseManuGroup;
-        grupos[SETTINGS] = settingsManuGroup;
+        grupos[GSETTINGS] = gameSettingsGroup;
+        grupos[ASETTINGS] = audioSettingsGroup;
 
         selectDefecto = new Selectable[NUMGROUPS - 1];
 
@@ -22,13 +23,13 @@ public class DEMOInterfaceManager : InterfaceManager
         selectDefecto[PBACK] = pauseBlurDefSelect;
         selectDefecto[MAIN] = mainManuDefSelect;
         selectDefecto[PAUSE] = pauseManuDefSelect;
-        selectDefecto[SETTINGS] = settingsManuDefSelect;
+        selectDefecto[GSETTINGS] = gameSettingsManuDefSelect;
+        selectDefecto[ASETTINGS] = audioSettingsManuDefSelect;
 
         StartMainMenu();
         historialGrupos.Push(-1);
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        LockCursor(false);
 
     }
 
