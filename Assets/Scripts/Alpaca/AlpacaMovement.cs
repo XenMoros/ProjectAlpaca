@@ -333,6 +333,7 @@ public class AlpacaMovement : MonoBehaviour
 
     void QuitarControl()
     {
+        StaticManager.SetPause(true);
         faseMovimiento = FaseMovimiento.Stopped;
         faseMovimientoAnt = FaseMovimiento.Stopped;
         tipoStopped = TipoStopped.Cinematica;
@@ -341,6 +342,7 @@ public class AlpacaMovement : MonoBehaviour
     public void RetomarControl()
     {
         faseMovimiento = FaseMovimiento.Idle;
+        StaticManager.SetPause(false);
     }
 
     public void TerminarNivel()

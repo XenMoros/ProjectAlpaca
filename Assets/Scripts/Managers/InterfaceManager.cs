@@ -56,20 +56,7 @@ public class InterfaceManager : MonoBehaviour
         {
             ReturnButton();
         }
-
-        if(Input.GetMouseButtonDown(0) ||
-            Input.GetMouseButtonDown(1) ||
-            Input.GetMouseButtonDown(2))
-        {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray,out hit))
-            {
-                Debug.Log(hit.collider.gameObject.name);
-                if (hit.collider.gameObject.GetComponent<Selectable>() != null) Debug.Log("Miau");
-                else if (grupoActual != VOID) selectDefecto[grupoActual].Select();
-            }
-            else if(grupoActual != VOID) selectDefecto[grupoActual].Select();
-        }
+       
     }
     public virtual void Initialize()
     {

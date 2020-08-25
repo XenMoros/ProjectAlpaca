@@ -7,12 +7,12 @@ public class GameManager : MonoBehaviour
     internal LevelManager levelManager;
     internal CustomInputManager inputManager;
     internal AudioManager audioManager;
-    //ScoreManager scoreManager;
 
     public LoadingSceneManager loadingSceneManager;
 
     public GameObject interfaceManagerPrefab,levelManagerPrefab,audioManagerPrefab;
 
+    bool canPause = false;
     int currentLevel, lastLevel, maxLevel;
 
     internal void ExitGame()
@@ -36,21 +36,23 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1)
+        if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1 && canPause)
         {
-            if (inputManager.GetButtonDown("Start"))
+            if (inputManager.GetButtonDown("Start") &&
+                !(levelManager.alpaca.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped &&
+                levelManager.alpaca.tipoStopped == AlpacaMovement.TipoStopped.Cinematica))
             {
                 StaticManager.SetPause(!StaticManager.pause);
                 //levelManager.SetPause();
                 if (StaticManager.pause)
                 {
                     interfaceManager.OpenPauseMenu();
-                    StaticManager.ChangeSensibility(0);
+                    //StaticManager.ChangeSensibility(0);
                 }
                 else
                 {
                     interfaceManager.CloseAllGroups();
-                    StaticManager.ChangeSensibility(StaticManager.lastSensibility);
+                   // StaticManager.ChangeSensibility(StaticManager.lastSensibility);
                 }
             }
         }
@@ -65,11 +67,12 @@ public class GameManager : MonoBehaviour
     IEnumerator CargarEscena(int nivel)
     {
         float tiempoCarga = 0f;
+        canPause = false;
+        StaticManager.SetPause(true);
 
         loadingSceneManager.LoadLoadingAnimation();
         loadingSceneManager.UnloadAlpaca();
         UnityEngine.SceneManagement.Scene escena = levelManager.LoadLevel(nivel);
-        
 
         while (!escena.isLoaded || tiempoCarga<5f)
         {
@@ -77,8 +80,8 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        StaticManager.SetPause(false);
-        levelManager.SetCagga();
+        levelManager.SetCarga();
+        canPause = true;
         interfaceManager.LoadingGroup(false);
         loadingSceneManager.UnloadLoadingAnimation();
 
@@ -87,7 +90,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DescargarEscenaActiva()
     {
         float tiempoCarga = 0f;
-
+        canPause = false;
         loadingSceneManager.LoadLoadingAnimation();
         UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
 
@@ -106,8 +109,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CargarOtraEscena(int nivel)
     {
+        canPause = false;
         UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
-
+        
         while (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name)
         {
 
@@ -126,7 +130,7 @@ public class GameManager : MonoBehaviour
     public void Continue()
     {// Continue button in pause menu
         StaticManager.SetPause(false);
-        StaticManager.ChangeSensibility(StaticManager.lastSensibility);
+        //StaticManager.ChangeSensibility(StaticManager.lastSensibility);
         //levelManager.SetCagga();
     }
 

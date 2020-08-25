@@ -11,7 +11,7 @@ public class SliderChanger : MonoBehaviour, IMoveHandler, IEndDragHandler
     public float step = 0.1f;
     private float previousSliderValue;
 
-    public enum SliderType { Sensibility, Brightness, VolumeMaster, VolumeMusic, VolumeEffects};
+    public enum SliderType { Sensibility, Brightness, VolumeMaster, VolumeMusic, VolumeEffects, VolumeMenu};
     public SliderType sliderType;
 
     private void Awake()
@@ -19,13 +19,28 @@ public class SliderChanger : MonoBehaviour, IMoveHandler, IEndDragHandler
         switch (sliderType)
         {
             case SliderType.Brightness:
+                slider.value = StaticManager.brightness;
+                sliderValueText.text = StaticManager.brightness.ToString("0.0");
+                break;
             case SliderType.Sensibility:
-                sliderValueText.text = slider.value.ToString("0.0");
+                slider.value = StaticManager.sensibility;
+                sliderValueText.text = StaticManager.sensibility.ToString("0.0");
                 break;
             case SliderType.VolumeMaster:
+                slider.value = StaticManager.masterVolume;
+                sliderValueText.text = Mathf.Round(StaticManager.masterVolume * 100).ToString();
+                break;
             case SliderType.VolumeMusic:
+                slider.value = StaticManager.musicVolume;
+                sliderValueText.text = Mathf.Round(StaticManager.musicVolume * 100).ToString();
+                break;
             case SliderType.VolumeEffects:
-                sliderValueText.text = Mathf.Round(slider.value * 100).ToString();
+                slider.value = StaticManager.effectsVolume;
+                sliderValueText.text = Mathf.Round(StaticManager.effectsVolume * 100).ToString();
+                break;
+            case SliderType.VolumeMenu:
+                slider.value = StaticManager.menuVolume;
+                sliderValueText.text = Mathf.Round(StaticManager.menuVolume * 100).ToString();
                 break;
             default:
                 break;
@@ -40,15 +55,16 @@ public class SliderChanger : MonoBehaviour, IMoveHandler, IEndDragHandler
         {
             case SliderType.Brightness:
                 StaticManager.ChangeBrightness(slider.value);
-                sliderValueText.text = slider.value.ToString("0.0");
+                sliderValueText.text = StaticManager.brightness.ToString("0.0");
                 break;
             case SliderType.Sensibility:
-                StaticManager.ChangeSensibility(slider.value,true);
-                sliderValueText.text = slider.value.ToString("0.0");
+                StaticManager.ChangeSensibility(slider.value);
+                sliderValueText.text = StaticManager.sensibility.ToString("0.0");
                 break;
             case SliderType.VolumeMaster:
             case SliderType.VolumeMusic:
             case SliderType.VolumeEffects:
+            case SliderType.VolumeMenu:
                 StaticManager.ChangeVolume(slider.value, sliderType);
                 sliderValueText.text = Mathf.Round(slider.value * 100).ToString();
                 break;
