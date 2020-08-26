@@ -12,7 +12,7 @@ public static class StaticManager
     public static float effectsVolume = 1;
     public static float menuVolume = 1;
 
-    public static bool axisV = false, axisH = false;
+    public static bool axisV = true, axisH = false;
 
     public static bool pause = true;
 

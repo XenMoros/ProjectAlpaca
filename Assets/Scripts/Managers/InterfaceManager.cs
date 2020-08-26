@@ -47,9 +47,6 @@ public class InterfaceManager : MonoBehaviour
 
     public int grupoActual;
 
-    private Ray ray;
-    private RaycastHit hit;
-
     private void Update()
     {
         if (gameManager.inputManager.GetButtonDown("Return"))
