@@ -85,6 +85,9 @@ public class AudioController : MonoBehaviour
             case AudioType.Effects:
                 audioSource.volume = !StaticManager.pause ? StaticManager.masterVolume * typeFactor * specificFactor : 0;
                 break;
+            case AudioType.Music:
+                audioSource.volume = StaticManager.pause ? 0.5f * StaticManager.masterVolume * typeFactor * specificFactor : 0;
+                break;
             default:
                 break;
         }

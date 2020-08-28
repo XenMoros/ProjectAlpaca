@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Managers;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EscupitajoAction : ShootSystem
@@ -7,6 +8,7 @@ public class EscupitajoAction : ShootSystem
     public ParticleSystem escupitajoParticleSystem; // El sistema de particulas del chorro de escupitajo
     public Animator alpacaAnimator; // Animator de la alpaca
     public CustomInputManager inputManager; // Input manager 
+    public AlpacaAudioManager alpacaSound;
     public AlpacaMovement alpacaMovement; // Movimiento de la Alpaca
 
     // Variables publicas de control
@@ -43,7 +45,7 @@ public class EscupitajoAction : ShootSystem
     public override void Disparar()
     { // Animation event, escupe un proyectil
         ParticulasEscupitajo(); // Activa las particulas de salida del escupitajo
-
+        alpacaSound.EscupitajoAudio();
         base.Disparar(); // Dispara el proyectil como en la clase base
     }
 

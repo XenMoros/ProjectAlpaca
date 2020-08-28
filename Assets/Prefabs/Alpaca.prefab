@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 2731804523480807688}
   - component: {fileID: 545654448887606689}
   - component: {fileID: 4825375854857885428}
-  - component: {fileID: 5625052684589582271}
   - component: {fileID: 5200323232761240194}
   - component: {fileID: 3482507977617567749}
   - component: {fileID: 9118975828518930266}
-  - component: {fileID: 5606836245571042573}
   - component: {fileID: 7466183994366781073}
+  - component: {fileID: 8161332370614669947}
+  - component: {fileID: 5606836245571042573}
   m_Layer: 9
   m_Name: Alpaca
   m_TagString: Player
@@ -101,7 +101,7 @@ MonoBehaviour:
   inputManager: {fileID: 0}
   camara: {fileID: 0}
   alpacaAnimator: {fileID: 545654448887606689}
-  sonidos: {fileID: 0}
+  sonidos: {fileID: 8161332370614669947}
   alpacaRB: {fileID: 2731804523480807688}
   cinematicas: {fileID: 7466183994366781073}
   movimiento:
@@ -127,24 +127,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3409921
   exitReached: 0
---- !u!114 &5625052684589582271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545654448897121839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d4f7e55074e1104cab7f082d79f25c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  alpacaMovement: {fileID: 4825375854857885428}
-  audioControll: {fileID: 0}
-  audioSource: {fileID: 5606836245571042573}
-  inputManager: {fileID: 0}
-  alpacaAnimator: {fileID: 545654448887606689}
-  hearDistance: 10
 --- !u!114 &5200323232761240194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +170,7 @@ MonoBehaviour:
   escupitajoParticleSystem: {fileID: 6698103691112999386}
   alpacaAnimator: {fileID: 545654448887606689}
   inputManager: {fileID: 0}
+  alpacaSound: {fileID: 8161332370614669947}
   alpacaMovement: {fileID: 4825375854857885428}
   tiempoEntreDisparos: 1
 --- !u!114 &9118975828518930266
@@ -203,12 +186,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alpacaMovement: {fileID: 4825375854857885428}
-  alpacaSound: {fileID: 0}
+  alpacaSound: {fileID: 8161332370614669947}
   inputManager: {fileID: 0}
   collideLayers:
     serializedVersion: 2
     m_Bits: 2048
   coz: {fileID: 9162665083244263674}
+--- !u!114 &7466183994366781073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545654448897121839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419f1dde998eaa34997dc379c85ad724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playingAnimationController: {fileID: 9100000, guid: 22bc99b9eaaef76448b18bdfd5af5202,
+    type: 2}
+  cinematicAnimationController: {fileID: 9100000, guid: 183136baece83ae48a1e80d05f70ada0,
+    type: 2}
+  tiempoCarga: 3
+--- !u!114 &8161332370614669947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545654448897121839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbbafccd911d8a44999c459182698ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioType: 1
+  specificFactor: 1
+  alpacaAudios:
+  - {fileID: 8300000, guid: bf6c95d2173bd2c4980365ec7bbdd310, type: 3}
+  - {fileID: 8300000, guid: 941c425f511d03a498dbc0a45fb5015d, type: 3}
+  - {fileID: 8300000, guid: c4cd8e91c81755c44a593da14d7d87f2, type: 3}
+  - {fileID: 8300000, guid: 1744813e6d13edb4eb9b9774c7db633c, type: 3}
+  - {fileID: 8300000, guid: 49e393e959e017949928df1585a3ca83, type: 3}
+  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
+  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
+  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
+  alpacaMovement: {fileID: 4825375854857885428}
+  inputManager: {fileID: 0}
+  alpacaAnimator: {fileID: 545654448887606689}
 --- !u!82 &5606836245571042573
 AudioSource:
   m_ObjectHideFlags: 0
@@ -220,10 +246,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -305,23 +331,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7466183994366781073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545654448897121839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 419f1dde998eaa34997dc379c85ad724, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playingAnimationController: {fileID: 9100000, guid: 22bc99b9eaaef76448b18bdfd5af5202,
-    type: 2}
-  cinematicAnimationController: {fileID: 9100000, guid: 183136baece83ae48a1e80d05f70ada0,
-    type: 2}
-  tiempoCarga: 3
 --- !u!1 &907351019936946796
 GameObject:
   m_ObjectHideFlags: 0

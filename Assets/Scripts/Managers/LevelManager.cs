@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Assets.Scripts.Managers;
 
 public class LevelManager : MonoBehaviour
 {
@@ -84,9 +85,8 @@ public class LevelManager : MonoBehaviour
                     alpaca = objeto.GetComponent<AlpacaMovement>();
                     yield return null;
                     alpaca.SetInputManager(gameManager.inputManager);
-                    objeto.GetComponent<AlpacaSound>().SetInputManager(gameManager.inputManager);
                     yield return null;
-                    objeto.GetComponent<AlpacaSound>().SetManagers(gameManager.audioManager,this);
+                    objeto.GetComponent<AlpacaAudioManager>().SetManagers(gameManager.inputManager, this);
                     yield return null;
                     objeto.GetComponent<CozScript>().SetInputManager(gameManager.inputManager);
                     yield return null;

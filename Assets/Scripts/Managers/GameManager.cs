@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     internal InterfaceManager interfaceManager;
     internal LevelManager levelManager;
     internal CustomInputManager inputManager;
-    internal AudioManager audioManager;
+    internal MusicManager audioManager;
 
     public LoadingSceneManager loadingSceneManager;
 
@@ -24,11 +24,11 @@ public class GameManager : MonoBehaviour
     {
         interfaceManager = Instantiate(interfaceManagerPrefab).GetComponent<InterfaceManager>();
         levelManager = Instantiate(levelManagerPrefab).GetComponent<LevelManager>();
-        audioManager = Instantiate(audioManagerPrefab).GetComponent<AudioManager>();
+        audioManager = Instantiate(audioManagerPrefab).GetComponent<MusicManager>();
         inputManager = GetComponent<CustomInputManager>();
         interfaceManager.Initialize();
         loadingSceneManager.LoadAlpaca();
-        audioManager.Initialize();
+        audioManager.MenuAudio();
         lastLevel = 1;
         currentLevel = 1;
         maxLevel = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1; 
@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CargarEscena(int nivel)
     {
+        audioManager.AudioStop();
         float tiempoCarga = 0f;
         canPause = false;
         StaticManager.SetPause(true);
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour
         canPause = true;
         interfaceManager.LoadingGroup(false);
         loadingSceneManager.UnloadLoadingAnimation();
+        audioManager.GameAudio();
 
     }
 
@@ -105,6 +107,7 @@ public class GameManager : MonoBehaviour
         loadingSceneManager.UnloadLoadingAnimation();
         interfaceManager.StartMainMenu();
         loadingSceneManager.LoadAlpaca();
+        audioManager.MenuAudio();
     }
 
     IEnumerator CargarOtraEscena(int nivel)

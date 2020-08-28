@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InterfaceAudioController : AudioController
+public class InterfaceAudioManager : AudioController
 {
 
     public AudioClip[] interfaceAudios = new AudioClip[5];

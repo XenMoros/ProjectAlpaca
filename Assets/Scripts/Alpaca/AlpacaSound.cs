@@ -1,15 +1,14 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Managers;
+using UnityEngine;
 
 public class AlpacaSound : MonoBehaviour
 {
     // Elementos precacheados en Inspector
     public AlpacaMovement alpacaMovement; // Movimiento de la alpaca
-    public AudioManager audioControll; // Controlador de Audio
-    public AudioSource audioSource; // AudioSource de la Alpaca
+    public AlpacaAudioManager audioControll; // Controlador de Audio
     public CustomInputManager inputManager; // Input manager (prod o Debug)
     public Animator alpacaAnimator; // Animator de la alpaca
     LevelManager levelManager; // El level manager
-    [Range(0f,20f)] public float hearDistance = 10; // Distancia a la que te oyen los enemigos
 
     void Update()
     {
@@ -22,7 +21,7 @@ public class AlpacaSound : MonoBehaviour
             { // Si pulsas el boton de berreo Y no estas ni arrastrando, ni coceando ni haciendo las animaciones de escupitajo o berreo
 
                 alpacaAnimator.SetTrigger("Berreo"); // Activa la animacion de berreo
-                audioControll.PlaySound(0, audioSource); // Reproduce el sonido 0 desde la alpaca
+                audioControll.YellAudio(); // Reproduce el sonido 0 desde la alpaca
 
                 //Ademas alertamos a todos los guardias de donde se ha berreado segun la distancia de berreo
                 /*Collider[] possibleEnemiesWhoHeardMe = Physics.OverlapSphere(transform.position, hearDistance, LayerMask.GetMask("Guardia"));
@@ -36,24 +35,14 @@ public class AlpacaSound : MonoBehaviour
             if (inputManager.GetButtonDown("Coz") && alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped
                 && alpacaMovement.tipoStopped == AlpacaMovement.TipoStopped.Cozeo)
             {// Al Cocear, reproducimos el audio 1 desde nuestra source
-                audioControll.PlaySound(1, audioSource);
+                audioControll.CozAudio();
             }
         }
     }
 
-    public void playSound()
-    {
-        audioControll.PlaySound(2, audioSource);
-    }
-
-    public void SetInputManager(CustomInputManager manager)
-    { // Enlaza el input manager segun entrada (Para actores externos)
-        inputManager = manager;
-    }
-
-    public void SetManagers(AudioManager audioManager, LevelManager levelManageer)
+    public void SetManagers(CustomInputManager manager, LevelManager levelManageer)
     { // Enlaza el AudioManager (para actores externos)
-        audioControll = audioManager;
+        inputManager = manager;
         levelManager = levelManageer;
     }
 }
