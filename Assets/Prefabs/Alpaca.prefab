@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 3482507977617567749}
   - component: {fileID: 9118975828518930266}
   - component: {fileID: 7466183994366781073}
-  - component: {fileID: 8161332370614669947}
   - component: {fileID: 5606836245571042573}
+  - component: {fileID: 8541965529541433878}
   m_Layer: 9
   m_Name: Alpaca
   m_TagString: Player
@@ -101,7 +101,7 @@ MonoBehaviour:
   inputManager: {fileID: 0}
   camara: {fileID: 0}
   alpacaAnimator: {fileID: 545654448887606689}
-  sonidos: {fileID: 8161332370614669947}
+  sonidos: {fileID: 8541965529541433878}
   alpacaRB: {fileID: 2731804523480807688}
   cinematicas: {fileID: 7466183994366781073}
   movimiento:
@@ -170,7 +170,7 @@ MonoBehaviour:
   escupitajoParticleSystem: {fileID: 6698103691112999386}
   alpacaAnimator: {fileID: 545654448887606689}
   inputManager: {fileID: 0}
-  alpacaSound: {fileID: 8161332370614669947}
+  alpacaSound: {fileID: 8541965529541433878}
   alpacaMovement: {fileID: 4825375854857885428}
   tiempoEntreDisparos: 1
 --- !u!114 &9118975828518930266
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alpacaMovement: {fileID: 4825375854857885428}
-  alpacaSound: {fileID: 8161332370614669947}
+  alpacaSound: {fileID: 8541965529541433878}
   inputManager: {fileID: 0}
   collideLayers:
     serializedVersion: 2
@@ -209,32 +209,6 @@ MonoBehaviour:
   cinematicAnimationController: {fileID: 9100000, guid: 183136baece83ae48a1e80d05f70ada0,
     type: 2}
   tiempoCarga: 3
---- !u!114 &8161332370614669947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545654448897121839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bbbafccd911d8a44999c459182698ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioType: 1
-  specificFactor: 1
-  alpacaAudios:
-  - {fileID: 8300000, guid: bf6c95d2173bd2c4980365ec7bbdd310, type: 3}
-  - {fileID: 8300000, guid: 941c425f511d03a498dbc0a45fb5015d, type: 3}
-  - {fileID: 8300000, guid: c4cd8e91c81755c44a593da14d7d87f2, type: 3}
-  - {fileID: 8300000, guid: 1744813e6d13edb4eb9b9774c7db633c, type: 3}
-  - {fileID: 8300000, guid: 49e393e959e017949928df1585a3ca83, type: 3}
-  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
-  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
-  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
-  alpacaMovement: {fileID: 4825375854857885428}
-  inputManager: {fileID: 0}
-  alpacaAnimator: {fileID: 545654448887606689}
 --- !u!82 &5606836245571042573
 AudioSource:
   m_ObjectHideFlags: 0
@@ -256,7 +230,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -291,7 +265,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -331,6 +305,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8541965529541433878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545654448897121839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81560ad8ab8a3c74f9e5ef5970371afa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioType: 0
+  specificFactor: 1
+  alpacaAudios:
+  - {fileID: 8300000, guid: 78535fb6f4a7d684e98fa1c7dac13a4b, type: 3}
+  - {fileID: 8300000, guid: 78535fb6f4a7d684e98fa1c7dac13a4b, type: 3}
+  - {fileID: 8300000, guid: 1744813e6d13edb4eb9b9774c7db633c, type: 3}
+  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
+  - {fileID: 8300000, guid: 597516bd69c66074ab043f04421c1b8e, type: 3}
+  - {fileID: 8300000, guid: c4cd8e91c81755c44a593da14d7d87f2, type: 3}
+  - {fileID: 8300000, guid: c4cd8e91c81755c44a593da14d7d87f2, type: 3}
+  - {fileID: 8300000, guid: 49e393e959e017949928df1585a3ca83, type: 3}
+  alpacaMovement: {fileID: 4825375854857885428}
+  inputManager: {fileID: 0}
+  alpacaAnimator: {fileID: 545654448887606689}
 --- !u!1 &907351019936946796
 GameObject:
   m_ObjectHideFlags: 0
