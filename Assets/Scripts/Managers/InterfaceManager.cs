@@ -10,10 +10,11 @@ public class InterfaceManager : MonoBehaviour
     internal const int PBACK = 1;
     internal const int MAIN = 2;
     internal const int PAUSE = 3;
-    internal const int SETTINGS = 4;
-    internal const int LEVELSELECT = 5;
+    internal const int GSETTINGS = 4;
+    internal const int ASETTINGS = 5;
+    internal const int LEVELSELECT = 6;
 
-    internal const int NUMGROUPS = 6;
+    internal const int NUMGROUPS = 7;
 
     internal GameManager gameManager;
 
@@ -22,7 +23,8 @@ public class InterfaceManager : MonoBehaviour
     public Animator pauseBlurGroup;
     public Animator mainManuGroup;
     public Animator pauseManuGroup;
-    public Animator settingsManuGroup;
+    public Animator gameSettingsGroup;
+    public Animator audioSettingsGroup;
     public Animator levelSelectManuGroup;
 
     public Animator loadingGroup;
@@ -32,7 +34,8 @@ public class InterfaceManager : MonoBehaviour
     public Selectable pauseBlurDefSelect;
     public Selectable mainManuDefSelect;
     public Selectable pauseManuDefSelect;
-    public Selectable settingsManuDefSelect;
+    public Selectable gameSettingsManuDefSelect;
+    public Selectable audioSettingsManuDefSelect;
     public Selectable levelSelectManuDefSelect;
 
     public Stack<int> historialGrupos = new Stack<int>();
@@ -44,21 +47,13 @@ public class InterfaceManager : MonoBehaviour
 
     public int grupoActual;
 
-    
-
     private void Update()
     {
         if (gameManager.inputManager.GetButtonDown("Return"))
         {
             ReturnButton();
         }
-
-        if(Input.GetMouseButtonDown(0) ||
-            Input.GetMouseButtonDown(1) ||
-            Input.GetMouseButtonDown(2))
-        {
-            if(grupoActual != VOID) selectDefecto[grupoActual].Select();
-        }
+       
     }
     public virtual void Initialize()
     {
@@ -70,7 +65,8 @@ public class InterfaceManager : MonoBehaviour
         grupos[PBACK] = pauseBlurGroup;
         grupos[MAIN] = mainManuGroup;
         grupos[PAUSE] = pauseManuGroup;
-        grupos[SETTINGS] = settingsManuGroup;
+        grupos[GSETTINGS] = gameSettingsGroup;
+        grupos[ASETTINGS] = audioSettingsGroup;
         grupos[LEVELSELECT] = levelSelectManuGroup;
 
         selectDefecto = new Selectable[NUMGROUPS];
@@ -79,15 +75,12 @@ public class InterfaceManager : MonoBehaviour
         selectDefecto[PBACK] = pauseBlurDefSelect;
         selectDefecto[MAIN] = mainManuDefSelect;
         selectDefecto[PAUSE] = pauseManuDefSelect;
-        selectDefecto[SETTINGS] = settingsManuDefSelect;
+        selectDefecto[GSETTINGS] = gameSettingsManuDefSelect;
+        selectDefecto[ASETTINGS] = audioSettingsManuDefSelect;
         selectDefecto[LEVELSELECT] = levelSelectManuDefSelect;
 
         StartMainMenu();
         historialGrupos.Push(-1);
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
     }
 
     public void StartMainMenu()
@@ -97,6 +90,9 @@ public class InterfaceManager : MonoBehaviour
         OpenGroup(BACK);
         OpenGroup(grupoActual);
         LoadingGroup(false);
+
+        LockCursor(false);
+
     }
 
     public void OpenPauseMenu()
@@ -104,6 +100,9 @@ public class InterfaceManager : MonoBehaviour
         OpenGroup(PBACK);
         grupoActual = PAUSE;
         OpenGroup(grupoActual);
+
+        LockCursor(false);
+
     }
 
     public void ClosePauseMenu()
@@ -111,6 +110,9 @@ public class InterfaceManager : MonoBehaviour
         CloseGroup(grupoActual);
         grupoActual = VOID;
         CloseGroup(PBACK);
+
+        LockCursor(true);
+
     }
 
     public void OpenGroup(int indice)
@@ -153,15 +155,24 @@ public class InterfaceManager : MonoBehaviour
         OpenGroup(grupoActual);
     }
 
-    public void SettingsButton()
+    public void GameSettingsButton()
     {
         historialGrupos.Push(grupoActual);
         ButtonSelect();
 
         CloseGroup(grupoActual);
-        grupoActual = SETTINGS;
+        grupoActual = GSETTINGS;
         OpenGroup(grupoActual);
+    }
 
+    public void AudioSettingsButton()
+    {
+        historialGrupos.Push(grupoActual);
+        ButtonSelect();
+
+        CloseGroup(grupoActual);
+        grupoActual = ASETTINGS;
+        OpenGroup(grupoActual);
     }
 
     public void NewGameButton()
@@ -169,6 +180,9 @@ public class InterfaceManager : MonoBehaviour
         CloseAllGroups();
         LoadingGroup(true);
         gameManager.NewGame();
+
+        LockCursor(true);
+
     }
 
     public void ContinueGameButton()
@@ -176,6 +190,9 @@ public class InterfaceManager : MonoBehaviour
         CloseAllGroups();
         LoadingGroup(true);
         gameManager.ContinueGame();
+
+        LockCursor(true);
+
     }
 
     public void ContinueButton()
@@ -222,6 +239,9 @@ public class InterfaceManager : MonoBehaviour
         CloseAllGroups();
         LoadingGroup(true);
         gameManager.LoadLevel(level);
+
+        LockCursor(true);
+
     }
 
     public void RestartButton()
@@ -229,6 +249,15 @@ public class InterfaceManager : MonoBehaviour
         CloseAllGroups();
         LoadingGroup(true);
         gameManager.RestartCurrentLevel();
+
+        LockCursor(true);
+
+    }
+
+    internal void LockCursor(bool lockState)
+    {
+        Cursor.lockState = lockState? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !lockState;
     }
 
     public void ExitButton()
@@ -240,6 +269,9 @@ public class InterfaceManager : MonoBehaviour
     {
         LoadingGroup(true);
         gameManager.ReturnToMain();
+
+        LockCursor(true);
+
     }
 
     public void ButtonSelect()

@@ -10,12 +10,12 @@ public class Enemy : MonoBehaviour, IActivable
 
     private void OnEnable()
     {
-        StaticManager.OnPauseChange1 += SetPause;
+        StaticManager.OnPauseChange += SetPause;
     }
 
     private void OnDisable()
     {
-        StaticManager.OnPauseChange1 -= SetPause;
+        StaticManager.OnPauseChange -= SetPause;
     }
 
     public virtual void SetPause()

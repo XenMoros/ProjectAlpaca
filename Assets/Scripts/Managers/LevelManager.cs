@@ -24,16 +24,10 @@ public class LevelManager : MonoBehaviour
         Application.backgroundLoadingPriority = ThreadPriority.Low;
     }
 
-    public void SetCagga()
+    public void SetCarga()
     {
 
-       // alpaca.SetPause();
-       // enemyManager.SetPause();
-
-        //if (carga)
-       // {
             alpaca.EntradaNivel();
-       // }
     }
 
     public Scene LoadLevel(int nivel)
@@ -90,9 +84,8 @@ public class LevelManager : MonoBehaviour
                     alpaca = objeto.GetComponent<AlpacaMovement>();
                     yield return null;
                     alpaca.SetInputManager(gameManager.inputManager);
-                    objeto.GetComponent<AlpacaSound>().SetInputManager(gameManager.inputManager);
                     yield return null;
-                    objeto.GetComponent<AlpacaSound>().SetManagers(gameManager.audioManager,this);
+                    objeto.GetComponent<AlpacaAudioManager>().SetManagers(gameManager.inputManager, this);
                     yield return null;
                     objeto.GetComponent<CozScript>().SetInputManager(gameManager.inputManager);
                     yield return null;

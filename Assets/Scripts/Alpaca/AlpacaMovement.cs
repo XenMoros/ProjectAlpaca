@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Analytics;
+﻿using Assets.Scripts.Managers;
+using UnityEngine;
 
 public class AlpacaMovement : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class AlpacaMovement : MonoBehaviour
     // Referencias cacheadas a otros Elementos en escena
     public Transform camara; // La camara activa
     public Animator alpacaAnimator; // Animator de la alpaca
-    public AlpacaSound sonidos; // Gestor de Sonidos de la alpaca
+    public AlpacaAudioManager sonidos; // Gestor de Sonidos de la alpaca
     public Rigidbody alpacaRB; // Rigidbody de la alpaca
     public AlpacaCinematics cinematicas;
 
@@ -81,12 +81,12 @@ public class AlpacaMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        StaticManager.OnPauseChange1 += SetPause;
+        StaticManager.OnPauseChange += SetPause;
     }
 
     private void OnDisable()
     {
-        StaticManager.OnPauseChange1 -= SetPause;
+        StaticManager.OnPauseChange -= SetPause;
     }
 
     // Al iniciar capturar la main camera y set el drag del Rigidbody a 10
@@ -333,6 +333,7 @@ public class AlpacaMovement : MonoBehaviour
 
     void QuitarControl()
     {
+        StaticManager.SetPause(true);
         faseMovimiento = FaseMovimiento.Stopped;
         faseMovimientoAnt = FaseMovimiento.Stopped;
         tipoStopped = TipoStopped.Cinematica;
@@ -341,6 +342,7 @@ public class AlpacaMovement : MonoBehaviour
     public void RetomarControl()
     {
         faseMovimiento = FaseMovimiento.Idle;
+        StaticManager.SetPause(false);
     }
 
     public void TerminarNivel()
@@ -367,6 +369,7 @@ public class AlpacaMovement : MonoBehaviour
                 timerStunCaida = 0;
             }
             timerFasesSalto = 0; // Resetea el timer de salto
+            sonidos.FallHitAudio();
         }
     }
 
@@ -440,6 +443,7 @@ public class AlpacaMovement : MonoBehaviour
             {// Si la fase de movimiento ha cambiado, desactiva el flag de la fase anterior y activa la de la actual (teniendo la coz en cuenta)
                 if (faseMovimiento == FaseMovimiento.Stopped)
                 {
+                    sonidos.IdleAudio();
                     alpacaAnimator.SetTrigger(tipoStopped.ToString());
                     alpacaAnimator.SetBool(faseMovimientoAnt.ToString(), false);
                 }
@@ -452,12 +456,19 @@ public class AlpacaMovement : MonoBehaviour
                 {
                     alpacaAnimator.SetBool(faseMovimiento.ToString(), true);
                 }
+
+                if (faseMovimiento == FaseMovimiento.Andar) sonidos.WalkAudio();
+                else if (faseMovimiento == FaseMovimiento.Arrastrar) sonidos.ArrastreAudio();
+                else if (faseMovimiento == FaseMovimiento.Correr) sonidos.RunAudio();
+                else if (faseMovimiento == FaseMovimiento.Subida) sonidos.JumpAudio();
+                else if (faseMovimiento == FaseMovimiento.Idle || faseMovimiento == FaseMovimiento.IdleArrastre) sonidos.IdleAudio();
             }
         }
         else
         {
             if (faseMovimiento == FaseMovimiento.Stopped)
             {
+                sonidos.IdleAudio();
                 alpacaAnimator.SetTrigger(tipoStopped.ToString());
             }
         }

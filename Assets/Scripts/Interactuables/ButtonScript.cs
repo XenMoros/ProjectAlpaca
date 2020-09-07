@@ -5,6 +5,7 @@ public class ButtonScript : Interactuable
     // Valores de control del proceso
     public float tiempoActividad = 5f; // Tiempo que estara activo el boton
     private float timerActivacion; // Tiempo de activacion del objeto enlazado
+    public BotonParedAudioManager botonAudioManager;
 
     public override void Start()
     {
@@ -23,6 +24,7 @@ public class ButtonScript : Interactuable
             if (timerActivacion > tiempoActividad)
             {
                 base.Activate(false);
+                botonAudioManager.StopTicTacAudio();
             }
         }
     }
@@ -38,6 +40,7 @@ public class ButtonScript : Interactuable
                 timerActivacion = 0;
                 interactAnimator.SetTrigger("Pushed");
                 base.Activate(true);
+                botonAudioManager.StartTicTacAudio();
             }
         }
     }
