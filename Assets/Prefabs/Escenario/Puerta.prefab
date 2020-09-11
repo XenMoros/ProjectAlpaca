@@ -284,6 +284,7 @@ MonoBehaviour:
   puerta2: {fileID: 6849376663734435414}
   puerta3: {fileID: 539168978899303770}
   puertaAnimator: {fileID: 5458592881334777211}
+  puertaAudioManager: {fileID: 878703155805563559}
 --- !u!114 &878703155805563559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,8 +298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorAudios:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 9c50e12d5e95e134a9f808e19fa2f067, type: 3}
+  - {fileID: 8300000, guid: 93b69f1ba5f5fc84493a6f540bfd8463, type: 3}
   doorAudioSource: {fileID: 9156071712885438256}
 --- !u!1 &7393009326616726258
 GameObject:

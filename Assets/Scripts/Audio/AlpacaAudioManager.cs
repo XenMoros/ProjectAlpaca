@@ -2,7 +2,9 @@
 
 public class AlpacaAudioManager : MonoBehaviour
 {
-    public AudioClip[] alpacaAudios = new AudioClip[8];
+    public AudioClip[] alpacaAudiosBoca = new AudioClip[2];
+    public AudioClip[] alpacaAudiosSuelo = new AudioClip[5];
+    public AudioClip[] alpacaAudiosDetras = new AudioClip[2];
 
     public AudioSource boca, suelo, detras;
 
@@ -49,54 +51,55 @@ public class AlpacaAudioManager : MonoBehaviour
     public void WalkAudio()
     {
         if (suelo.isPlaying) suelo.Stop();
-        suelo.clip = alpacaAudios[0];
+        suelo.clip = alpacaAudiosSuelo[0];
         suelo.Play();
     }
 
     public void RunAudio()
     {
         if (suelo.isPlaying) suelo.Stop();
-        suelo.clip = alpacaAudios[1];
+        suelo.clip = alpacaAudiosSuelo[1];
         suelo.Play();
-    }
-
-
-    public void CozAudio()
-    {
-        detras.PlayOneShot(alpacaAudios[2]);
-    }
-
-    public void CozHitAudio()
-    {
-        detras.PlayOneShot(alpacaAudios[3]);
-    }
-
-    public void YellAudio()
-    {
-        boca.PlayOneShot(alpacaAudios[4]);
-    }
-
-    public void JumpAudio()
-    {
-        if (suelo.isPlaying) suelo.Stop();
-        suelo.PlayOneShot(alpacaAudios[5]);
-    }
-
-    public void FallHitAudio()
-    {
-        suelo.PlayOneShot(alpacaAudios[6]);
-    }
-
-    public void EscupitajoAudio()
-    {
-        boca.PlayOneShot(alpacaAudios[7]);
     }
 
     public void ArrastreAudio()
     {
         if (suelo.isPlaying) suelo.Stop();
-        suelo.clip = alpacaAudios[0];
+        suelo.clip = alpacaAudiosSuelo[2];
         suelo.Play();
     }
+
+    public void JumpAudio()
+    {
+        if (suelo.isPlaying) suelo.Stop();
+        suelo.PlayOneShot(alpacaAudiosSuelo[3]);
+    }
+
+    public void FallHitAudio()
+    {
+        suelo.PlayOneShot(alpacaAudiosSuelo[4]);
+    }
+
+    public void CozAudio()
+    {
+        detras.PlayOneShot(alpacaAudiosDetras[0]);
+    }
+
+    public void CozHitAudio()
+    {
+        detras.PlayOneShot(alpacaAudiosDetras[1]);
+    }
+
+    public void YellAudio()
+    {
+        boca.PlayOneShot(alpacaAudiosBoca[0]);
+    }
+
+    public void EscupitajoAudio()
+    {
+        boca.PlayOneShot(alpacaAudiosBoca[1]);
+    }
+
+    
 
 }

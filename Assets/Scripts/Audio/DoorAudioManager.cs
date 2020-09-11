@@ -7,7 +7,6 @@ public class DoorAudioManager : MonoBehaviour
 
     public AudioSource doorAudioSource;
 
-
     public void AbrirPuertaAudio()
     {
         doorAudioSource.PlayOneShot(doorAudios[0]);

@@ -30,6 +30,7 @@ MonoBehaviour:
   activatedGO: []
   interactPosition: {fileID: 0}
   active: 1
+  interactuableAudioManager: {fileID: 1642418205358487529}
   tipoInteractuable: 2
 --- !u!95 &7200807160275067900
 Animator:
@@ -223,8 +224,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactuableAudios:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: b21f277a0ad0ac447abc95d27e9e46aa, type: 3}
+  - {fileID: 8300000, guid: 07b292e3aa07c684aaef85a90d413326, type: 3}
   interactuable: {fileID: 4555795806006392722}
 --- !u!1001 &3643354075848080380
 PrefabInstance:

@@ -73,6 +73,7 @@ MonoBehaviour:
   puerta2: {fileID: 2786243944101512253}
   puerta3: {fileID: 8919000542633931888}
   puertaAnimator: {fileID: 1032362437731344319}
+  puertaAudioManager: {fileID: 5799457989370696893}
   ascensor: {fileID: 0}
   indicador: {fileID: 6542129092921137294}
   posicionArriba: 0
@@ -91,8 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorAudios:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 9c50e12d5e95e134a9f808e19fa2f067, type: 3}
+  - {fileID: 8300000, guid: 93b69f1ba5f5fc84493a6f540bfd8463, type: 3}
   doorAudioSource: {fileID: 2127617066515650882}
 --- !u!1 &3388330555174109939
 GameObject:

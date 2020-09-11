@@ -362,6 +362,7 @@ MonoBehaviour:
   activatedGO: []
   interactPosition: {fileID: 6239079064162081422}
   active: 1
+  interactuableAudioManager: {fileID: 1564623879416247979}
   tipoInteractuable: 1
   estatico: 0
   numero: 0
@@ -394,8 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactuableAudios:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: b21f277a0ad0ac447abc95d27e9e46aa, type: 3}
+  - {fileID: 8300000, guid: 07b292e3aa07c684aaef85a90d413326, type: 3}
   interactuable: {fileID: 3319349368600784686}
 --- !u!1 &8160862476460399422
 GameObject:

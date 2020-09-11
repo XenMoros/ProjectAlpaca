@@ -3,7 +3,7 @@
 public class InterfaceAudioManager : MonoBehaviour
 {
 
-    public AudioClip[] interfaceAudios = new AudioClip[5];
+    public AudioClip[] interfaceAudios = new AudioClip[4];
 
     public AudioSource menuAudioSource;
 
@@ -16,6 +16,12 @@ public class InterfaceAudioManager : MonoBehaviour
     {
         menuAudioSource.PlayOneShot(interfaceAudios[0]);
     }
+
+    public void ElementSelectAudio()
+    {
+        menuAudioSource.PlayOneShot(interfaceAudios[0]);
+    }
+
     public void SliderChangeAudio()
     {
         menuAudioSource.PlayOneShot(interfaceAudios[1]);
@@ -25,15 +31,11 @@ public class InterfaceAudioManager : MonoBehaviour
     {
         menuAudioSource.PlayOneShot(interfaceAudios[2]);
     }
-    public void ElementSelectAudio()
+   
+    public void StartGameAudio()
     {
         menuAudioSource.PlayOneShot(interfaceAudios[3]);
     }
 
-    public void StartGameAudio()
-    {
-        menuAudioSource.PlayOneShot(interfaceAudios[4]);
-    }
-    
 
 }

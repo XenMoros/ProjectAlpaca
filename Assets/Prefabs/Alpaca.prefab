@@ -215,20 +215,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545654448897121839}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81560ad8ab8a3c74f9e5ef5970371afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alpacaAudios:
-  - {fileID: 8300000, guid: 78535fb6f4a7d684e98fa1c7dac13a4b, type: 3}
-  - {fileID: 8300000, guid: 78535fb6f4a7d684e98fa1c7dac13a4b, type: 3}
-  - {fileID: 8300000, guid: 1744813e6d13edb4eb9b9774c7db633c, type: 3}
-  - {fileID: 8300000, guid: 5fdf024389914e949952b188ff141033, type: 3}
-  - {fileID: 8300000, guid: 597516bd69c66074ab043f04421c1b8e, type: 3}
-  - {fileID: 8300000, guid: c4cd8e91c81755c44a593da14d7d87f2, type: 3}
-  - {fileID: 8300000, guid: c4cd8e91c81755c44a593da14d7d87f2, type: 3}
-  - {fileID: 8300000, guid: 49e393e959e017949928df1585a3ca83, type: 3}
+  alpacaAudiosBoca:
+  - {fileID: 8300000, guid: 5a224c56d1bc38b4c922344113b5fdd2, type: 3}
+  - {fileID: 8300000, guid: db0f5e965ad2e6347a37e5eb4d543d25, type: 3}
+  alpacaAudiosSuelo:
+  - {fileID: 8300000, guid: 46c18a9158bee8549a336a2268a24171, type: 3}
+  - {fileID: 8300000, guid: f413aa7ccf02b8e41beb6b7f4f8987d8, type: 3}
+  - {fileID: 8300000, guid: aae13730850858741a86c87454c8e174, type: 3}
+  - {fileID: 8300000, guid: 522fa27621915ed4a8c63d9d54a9be30, type: 3}
+  - {fileID: 8300000, guid: a06bbc1acf168e04fadc2f5692ceb7ae, type: 3}
+  alpacaAudiosDetras:
+  - {fileID: 8300000, guid: 125d9a3d1fbefd14da6676a33d8cc40f, type: 3}
+  - {fileID: 8300000, guid: 1a5e858c6b6a1204d92fe62c1cc882cd, type: 3}
   boca: {fileID: 8974165981493075131}
   suelo: {fileID: 1234626497897311972}
   detras: {fileID: 1553201492319192393}
@@ -3084,7 +3087,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 35ab4a18fad29a14f88ea3ad931a2249, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

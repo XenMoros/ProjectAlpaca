@@ -3222,12 +3222,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e5df8da081be64ebd43aa5811454ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guardiaAudios:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  guardiaAudiosSuelo:
+  - {fileID: 8300000, guid: b8585793e3993b34e88d913f287a9ca8, type: 3}
+  - {fileID: 8300000, guid: 65629a4d3ac72b24a80922171f9a9f6f, type: 3}
+  guardiaAudiosBoca:
+  - {fileID: 8300000, guid: 9e32974d3ab85684196f5ffeba1f5855, type: 3}
+  - {fileID: 8300000, guid: 36b13759468eb3d41874275c653f44e8, type: 3}
+  - {fileID: 8300000, guid: 545fca7a274e1c44cb4e122c3d5068e8, type: 3}
+  - {fileID: 8300000, guid: c0fd18f5bd613934c9b601f141018325, type: 3}
+  - {fileID: 8300000, guid: 60e631c211cb7be4fad652dbfb866300, type: 3}
   boca: {fileID: 4999423514422446098}
   suelo: {fileID: 3770104107542966666}
 --- !u!1 &8405030289176501864

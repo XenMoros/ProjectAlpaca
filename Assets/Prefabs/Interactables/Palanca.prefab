@@ -224,6 +224,7 @@ MonoBehaviour:
   activatedGO: []
   interactPosition: {fileID: 7522349893394265265}
   active: 1
+  interactuableAudioManager: {fileID: 2446178007352428693}
   tipoInteractuable: 0
   palancaState: 0
 --- !u!114 &2446178007352428693
@@ -239,8 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactuableAudios:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: b21f277a0ad0ac447abc95d27e9e46aa, type: 3}
+  - {fileID: 8300000, guid: 07b292e3aa07c684aaef85a90d413326, type: 3}
   interactuable: {fileID: 7066638389349467869}
 --- !u!1 &5349701709696756879
 GameObject:
