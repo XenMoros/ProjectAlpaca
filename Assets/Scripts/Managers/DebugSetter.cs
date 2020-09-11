@@ -6,7 +6,7 @@ public class DebugSetter : MonoBehaviour
     public bool debugMode; // Flag de si activar el debugMode
     AlpacaMovement alpaca; // Referencia a la alpaca
     public CustomInputManager inputManager; // Referencia al InputManager de debug
-    public MusicManager audioManager; // Referencia al AudioManager de Debug
+    public AudioMixerManager audioManager; // Referencia al AudioManager de Debug
 
     private void Start()
     { // Setea todas las interrelaciones entre scripts necesarias por no existir los managers

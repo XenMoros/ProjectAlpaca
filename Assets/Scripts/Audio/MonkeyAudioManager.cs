@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 
-
-[RequireComponent(typeof(AudioSource))]
-public class MonkeyAudioManager : AudioController
+public class MonkeyAudioManager : MonoBehaviour
 {
-    public AudioClip[] monkeyAudios = new AudioClip[1];
+    public AudioClip[] monkeyAudios = new AudioClip[2];
 
-    internal override void Awake()
+    public AudioSource boca;
+
+    public void YellAudio()
     {
-        audioSource = GetComponent<AudioSource>();
-        base.Awake();
+        boca.PlayOneShot(monkeyAudios[0]);
     }
 
-    public void Yell()
+    public void FrustationAudio()
     {
-        audioSource.PlayOneShot(monkeyAudios[0]);
+        boca.PlayOneShot(monkeyAudios[1]);
     }
 }

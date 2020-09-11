@@ -1,38 +1,41 @@
 ﻿using UnityEngine;
 
-public class InterfaceAudioManager : AudioController
+public class InterfaceAudioManager : MonoBehaviour
 {
 
-    public AudioClip[] interfaceAudios = new AudioClip[5];
+    public AudioClip[] interfaceAudios = new AudioClip[4];
 
-    internal override void Awake()
+    public AudioSource menuAudioSource;
+
+    internal void Awake()
     {
-        audioSource = Camera.main.GetComponent<AudioSource>();
-        base.Awake();
+        menuAudioSource = Camera.main.GetComponent<AudioSource>();
     }
 
     public void ButtonClickAudio()
     {
-        audioSource.PlayOneShot(interfaceAudios[0]);
+        menuAudioSource.PlayOneShot(interfaceAudios[0]);
     }
+
+    public void ElementSelectAudio()
+    {
+        menuAudioSource.PlayOneShot(interfaceAudios[0]);
+    }
+
     public void SliderChangeAudio()
     {
-        audioSource.PlayOneShot(interfaceAudios[1]);
+        menuAudioSource.PlayOneShot(interfaceAudios[1]);
     }
 
     public void ToggleChangeAudio()
     {
-        audioSource.PlayOneShot(interfaceAudios[2]);
+        menuAudioSource.PlayOneShot(interfaceAudios[2]);
     }
-    public void ElementSelectAudio()
-    {
-        audioSource.PlayOneShot(interfaceAudios[3]);
-    }
-
+   
     public void StartGameAudio()
     {
-        audioSource.PlayOneShot(interfaceAudios[4]);
+        menuAudioSource.PlayOneShot(interfaceAudios[3]);
     }
-    
+
 
 }

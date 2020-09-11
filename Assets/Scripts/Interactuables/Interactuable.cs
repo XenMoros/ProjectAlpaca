@@ -8,6 +8,7 @@ public class Interactuable : MonoBehaviour, IActivable
     internal List<IActivable> activatedObjScript = new List<IActivable>(); // Lista de scripts activables
     public Transform interactPosition;
     public bool active = true;
+    public InteractuableAudioManager interactuableAudioManager;
 
     public enum Tipo { Palanca, Ascensor, BotonSuelo, BotonPared }
     public Tipo tipoInteractuable;
@@ -23,6 +24,8 @@ public class Interactuable : MonoBehaviour, IActivable
 
     public virtual void Activate()
     {
+        interactuableAudioManager.ActivateAudio();
+
         foreach (IActivable activable in activatedObjScript)
         { // Al activar envia la señal a todos los objetos
             activable.SetActivationState();
@@ -31,6 +34,9 @@ public class Interactuable : MonoBehaviour, IActivable
 
     public virtual void Activate(bool state)
     {
+        if(state) interactuableAudioManager.ActivateAudio();
+        else interactuableAudioManager.DeactivateAudio();
+
         foreach (IActivable activable in activatedObjScript)
         { // Al activar envia la señal a todos los objetos
             activable.SetActivationState(state);
@@ -39,6 +45,8 @@ public class Interactuable : MonoBehaviour, IActivable
 
     public virtual void Activate(int activation)
     {
+        interactuableAudioManager.ActivateAudio();
+
         foreach (IActivable activable in activatedObjScript)
         { // Al activar envia la señal a todos los objetos
             activable.SetActivationState(activation);

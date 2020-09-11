@@ -1,26 +1,18 @@
 ﻿using UnityEngine;
 
-
-[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(ButtonScript))]
-public class BotonParedAudioManager : AudioController
+public class BotonParedAudioManager : InteractuableAudioManager
 {
-    public AudioClip[] botonParedAudios = new AudioClip[1];
 
-    internal override void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-        audioSource.clip = botonParedAudios[0];
-        base.Awake();
-    }
+    public AudioSource tickTackSource;
 
     public void StartTicTacAudio()
     {
-        audioSource.Play();
+        tickTackSource.Play();
     }
 
     public void StopTicTacAudio()
     {
-        audioSource.Stop();
+        tickTackSource.Stop();
     }
 }
