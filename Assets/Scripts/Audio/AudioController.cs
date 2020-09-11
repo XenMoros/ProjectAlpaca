@@ -12,6 +12,7 @@ public class AudioController : MonoBehaviour
 
     internal virtual void Awake()
     {
+        /*
         StaticManager.OnMasterVolumeChange += ChangeVolume;
 
         switch (audioType)
@@ -30,11 +31,12 @@ public class AudioController : MonoBehaviour
             default:
                 break;
         }
-        
+        */
     }
 
     internal virtual void OnDisable()
     {
+        /*
         StaticManager.OnMasterVolumeChange -= ChangeVolume;
 
         switch (audioType)
@@ -53,6 +55,7 @@ public class AudioController : MonoBehaviour
             default:
                 break;
         }
+        */
     }
 
     private void ChangeVolume()

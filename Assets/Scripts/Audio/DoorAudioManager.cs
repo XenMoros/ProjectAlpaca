@@ -1,24 +1,20 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Puerta))]
-public class DoorAudioManager : AudioController
+public class DoorAudioManager : MonoBehaviour
 {
-    public AudioClip[] doorAudios = new AudioClip[1];
+    public AudioClip[] doorAudios = new AudioClip[2];
 
-    internal override void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-        base.Awake();
-    }
+    public AudioSource doorAudioSource;
+
 
     public void AbrirPuertaAudio()
     {
-        audioSource.PlayOneShot(doorAudios[0]);
+        doorAudioSource.PlayOneShot(doorAudios[0]);
     }
 
     public void CerrarPuertaAudio()
     {
-        audioSource.PlayOneShot(doorAudios[0]);
+        doorAudioSource.PlayOneShot(doorAudios[1]);
     }
 }

@@ -1,21 +1,15 @@
 ﻿using UnityEngine;
 
-
-[RequireComponent(typeof(AudioSource))]
-public class AlpacaAudioManager : AudioController
+public class AlpacaAudioManager : MonoBehaviour
 {
     public AudioClip[] alpacaAudios = new AudioClip[8];
+
+    public AudioSource boca, suelo, detras;
 
     public AlpacaMovement alpacaMovement; // Movimiento de la alpaca
     public CustomInputManager inputManager; // Input manager (prod o Debug)
     public Animator alpacaAnimator; // Animator de la alpaca
     LevelManager levelManager; // El level manager
-
-    internal override void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-        base.Awake();
-    }
 
     void Update()
     {
@@ -49,59 +43,60 @@ public class AlpacaAudioManager : AudioController
 
     public void IdleAudio()
     {
-        if (audioSource.isPlaying) audioSource.Stop();
+        if (suelo.isPlaying) suelo.Stop();
     }
 
     public void WalkAudio()
     {
-        if (audioSource.isPlaying) audioSource.Stop();
-        audioSource.clip = alpacaAudios[0];
-        audioSource.Play();
+        if (suelo.isPlaying) suelo.Stop();
+        suelo.clip = alpacaAudios[0];
+        suelo.Play();
     }
 
     public void RunAudio()
     {
-        if (audioSource.isPlaying) audioSource.Stop();
-        audioSource.clip = alpacaAudios[1];
-        audioSource.Play();
+        if (suelo.isPlaying) suelo.Stop();
+        suelo.clip = alpacaAudios[1];
+        suelo.Play();
     }
 
 
     public void CozAudio()
     {
-        audioSource.PlayOneShot(alpacaAudios[2]);
+        detras.PlayOneShot(alpacaAudios[2]);
     }
 
     public void CozHitAudio()
     {
-        audioSource.PlayOneShot(alpacaAudios[3]);
+        detras.PlayOneShot(alpacaAudios[3]);
     }
 
     public void YellAudio()
     {
-        audioSource.PlayOneShot(alpacaAudios[4]);
+        boca.PlayOneShot(alpacaAudios[4]);
     }
 
     public void JumpAudio()
     {
-        audioSource.PlayOneShot(alpacaAudios[5]);
+        if (suelo.isPlaying) suelo.Stop();
+        suelo.PlayOneShot(alpacaAudios[5]);
     }
 
     public void FallHitAudio()
     {
-        audioSource.PlayOneShot(alpacaAudios[6]);
+        suelo.PlayOneShot(alpacaAudios[6]);
     }
 
     public void EscupitajoAudio()
     {
-        audioSource.PlayOneShot(alpacaAudios[7]);
+        boca.PlayOneShot(alpacaAudios[7]);
     }
 
     public void ArrastreAudio()
     {
-        if (audioSource.isPlaying) audioSource.Stop();
-        audioSource.clip = alpacaAudios[0];
-        audioSource.Play();
+        if (suelo.isPlaying) suelo.Stop();
+        suelo.clip = alpacaAudios[0];
+        suelo.Play();
     }
 
 }
