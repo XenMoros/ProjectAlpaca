@@ -2,6 +2,7 @@
 
 public class DetectionScript : MonoBehaviour
 {
+    public LayerMask layers;
     public LenteScript lenteScript; // El script de la lente
     public Transform generalCamera; // La posicion de la camara
     public Transform player; // Pa posicion de la alpaca
@@ -20,9 +21,9 @@ public class DetectionScript : MonoBehaviour
         {
             hit = new RaycastHit(); // Renueva la estructura de Hit
             direction = (player.position - generalCamera.position).normalized; // Calcula en que direccion esta la alpaca
-            if (Physics.Raycast(generalCamera.position, direction, out hit, distanceView))
+            if (Physics.Raycast(generalCamera.position, direction, out hit, distanceView, layers))
             { // Si el RayCast choca con algo
-                if (hit.collider.name == "Alpaca")
+                if (hit.collider.CompareTag("Player"))
                 {// Si es la alpaca, informa que le has dado
                     lenteScript.SetAlpacaHit(true);
                 }
