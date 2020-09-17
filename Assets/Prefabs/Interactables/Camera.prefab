@@ -171,6 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646ba5c3d4dca984dad2f29932281e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layers:
+    serializedVersion: 2
+    m_Bits: 0
   lenteScript: {fileID: 4046606456643699376}
   generalCamera: {fileID: 749823243485099740}
   player: {fileID: 0}
@@ -481,6 +484,7 @@ MonoBehaviour:
   pausa: 1
   active: 1
   enemyManager: {fileID: 0}
+  tipoEnemigo: 0
   alerta: 0
   cameraLight: {fileID: 4046606455174111632}
   generalCamera: {fileID: 749823243485099740}
@@ -488,7 +492,7 @@ MonoBehaviour:
   waypointManager: {fileID: 0}
   rotationSpeed: 20
   maxAnglePerSecond: 30
-  tiempoMuerte: 8
+  tiempoMuerte: 3
 --- !u!1001 &749823243485228120
 PrefabInstance:
   m_ObjectHideFlags: 0
