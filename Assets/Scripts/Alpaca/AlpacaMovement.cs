@@ -424,6 +424,7 @@ public class AlpacaMovement : MonoBehaviour
                     onAir = true;
                     timerFasesSalto = 0;
                     planeNormal = Vector3.up;
+                    sonidos.IdleAudio();
                 }
                 else
                 {// Si si que estas sobre algo

@@ -32,7 +32,7 @@ public class AlpacaAudioManager : MonoBehaviour
             if (inputManager.GetButtonDown("Coz") && alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped
                 && alpacaMovement.tipoStopped == AlpacaMovement.TipoStopped.Cozeo)
             {// Al Cocear, reproducimos el audio 1 desde nuestra source
-                CozAudio();
+               // CozAudio();
             }
         }
     }
@@ -77,7 +77,8 @@ public class AlpacaAudioManager : MonoBehaviour
 
     public void FallHitAudio()
     {
-        suelo.PlayOneShot(alpacaAudiosSuelo[4]);
+        if (detras.isPlaying) detras.Stop();
+        detras.PlayOneShot(alpacaAudiosSuelo[4]);
     }
 
     public void CozAudio()
