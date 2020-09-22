@@ -50,7 +50,16 @@ public class ShootSystem: MonoBehaviour
             //Lanza un BoxCast, si choca con algo marca esa direccion, si no dispara hacia alante
             if(Physics.BoxCast(shootOrigin.position, new Vector3(amplitudAutoapuntado, alturaAutoapuntado, profundidadAutoapuntado), transform.forward,out hitInfo, transform.rotation, distanciaAutoapuntado, LayerMask.GetMask("CameraLens", "BotonPared", "Guardia"), QueryTriggerInteraction.Collide))
             {
-                direccion = hitInfo.collider.transform.position - shootOrigin.position;
+                if (hitInfo.collider.tag == "Guardia")
+                {
+                    Transform eyes = hitInfo.collider.GetComponentInChildren<Eyes>().transform;
+
+                    direccion = eyes.position - shootOrigin.position;
+                }
+                else
+                {
+                    direccion = hitInfo.collider.transform.position - shootOrigin.position;
+                }                
             }
             else
             {
