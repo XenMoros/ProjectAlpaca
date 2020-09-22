@@ -5,14 +5,12 @@ public class LenteScript : Enemy
     bool alpacaHit; // Flag de si has visto la Alpacaa
     public bool alerta; // Flag de si esta la camara alerta
 
-    public GameObject cameraLight; //GameObject de la luz de la camara
+    public Light cameraLight; //GameObject de la luz de la camara
     public Transform generalCamera; // Posicion de la camara
     public Transform player; //Posicion del jugador
     Vector3 objective; // Posicion del objetivo donde mirar
     public WaypointManager waypointManager; // Waypoints de la camara
     public float rotationSpeed = 20f, maxAnglePerSecond = 30; // Velocidades de rotacion maximas y normales
-
-    Color cameraLightColor;
 
     float timer = 0; // Tiempo que lleva la camara viendote
     public float tiempoMuerte = 8f; // Tiempo hasta reiniciar el nivel
@@ -20,7 +18,6 @@ public class LenteScript : Enemy
     private void Start()
     {
         objective = waypointManager.RetornarWaypoint().RetornarPosition(); // Al empezar, el objetivo donde mirar es hacia el primer waypoint
-        cameraLightColor = cameraLight.GetComponent<Light>().color;
     }
 
     // Update is called once per frame
@@ -80,11 +77,11 @@ public class LenteScript : Enemy
         alpacaHit = hit;
         if (hit)
         { // Si te esta viendo la luz es roja
-            cameraLightColor = Color.red;
+            cameraLight.color = Color.red;
         }
         else
         { // Si no te ve la luz es blanca
-            cameraLightColor = Color.white;
+            cameraLight.color = Color.white;
         }
     }
 
@@ -110,6 +107,6 @@ public class LenteScript : Enemy
     public override void SetActivationState(bool activateState)
     { // Setear el estado de activacion
         base.SetActivationState(activateState);
-        cameraLight.SetActive(activateState);
+        cameraLight.gameObject.SetActive(activateState);
     }
 }

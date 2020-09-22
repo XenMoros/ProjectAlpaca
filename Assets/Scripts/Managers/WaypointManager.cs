@@ -79,6 +79,11 @@ public class WaypointManager : MonoBehaviour
         return false;
     }
 
+    public int WaypointNumber()
+    {
+        return waypointActual;
+    }
+
     public WaypointScript RetornarWaypoint()
     {
         return waypointList[waypointActual];

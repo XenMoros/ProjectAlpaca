@@ -41,7 +41,7 @@ public class AlpacaCinematics : MonoBehaviour
     {
         bool done = false;
         float velocity = Vector3.Distance(transform.position, alpacaObjective) / tiempoCarga;
-
+        float time = 0f;
         storyboard.m_Alpha = 1;
         CambiarController(1);
 
@@ -54,6 +54,8 @@ public class AlpacaCinematics : MonoBehaviour
             {
                 transform.position = Vector3.MoveTowards(transform.position, alpacaObjective, velocity * Time.deltaTime);
                 storyboard.m_Alpha = Mathf.Clamp(storyboard.m_Alpha - 2 / tiempoCarga * Time.deltaTime, 0, 1);
+                time += Time.deltaTime;
+                if (time > tiempoCarga) done = true;
             }
             else
             {
@@ -71,7 +73,7 @@ public class AlpacaCinematics : MonoBehaviour
     {
         bool done = false;
         float velocity = Vector3.Distance(transform.position, alpacaObjective) / tiempoCarga;
-
+        float time = 0f;
         storyboard.m_Alpha = 0;
         CambiarController(1);
 
@@ -82,11 +84,14 @@ public class AlpacaCinematics : MonoBehaviour
             {
                 transform.position = Vector3.MoveTowards(transform.position, alpacaObjective, velocity * Time.deltaTime);
                 storyboard.m_Alpha = Mathf.Clamp(storyboard.m_Alpha + 2 / tiempoCarga * Time.deltaTime, 0, 1);
+                time += Time.deltaTime;
+                if (time > tiempoCarga) done = true;
             }
             else
             {
                 done = true;
             }
+
             yield return null;
         }
 

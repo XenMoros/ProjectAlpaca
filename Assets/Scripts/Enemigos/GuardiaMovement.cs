@@ -47,7 +47,7 @@ public class GuardiaMovement : Enemy
 
     internal Estado estado, estadoSiguiente; // Estados del guarda, el actual de la maquina de estados y el siguiente al que ha de transicionar
 
-   /* private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (debug)
         {
@@ -56,7 +56,7 @@ public class GuardiaMovement : Enemy
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.left, distanciaAlerta);
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, distanciaAlerta);
         }
-    }*/
+    }
 
     private void Start()
     { // Al incio
@@ -263,6 +263,14 @@ public class GuardiaMovement : Enemy
         }
     }
 
+    public void CambiarWaypointManager(WaypointManager newManager)
+    {
+        waypointManager = newManager;
+        lastPosition = waypointManager.RetornarWaypoint().RetornarPosition();
+        lastRotation = waypointManager.RetornarWaypoint().transform.rotation;
+        objective = lastPosition;
+    }
+
     public void FinalBuscar()
     {
         CambiarEstado(Estado.Volviendo);
@@ -349,7 +357,7 @@ public class GuardiaMovement : Enemy
     private bool BuscarObjetivo()
     {
         Vector3 playerDirection = (player.position - cabeza.position).normalized; // Direccion a la que esta la Alpaca
-        float angle = Vector3.Dot(transform.forward, playerDirection); // Angulo entre donde mira el Agente y la Alpaca
+        float angle = Vector3.Dot(cabeza.forward, playerDirection); // Angulo entre donde mira el Agente y la Alpaca
 
         // Si la alpaca esta en angulo de vision
         if (angle >= Mathf.Cos(fieldOfView)) 
