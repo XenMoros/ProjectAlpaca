@@ -48,12 +48,10 @@ public class AudioMixerManager : MonoBehaviour
     {
 
         if (StaticManager.pause) {
-            audioMixer.SetFloat("MusicVolume", (StaticManager.musicVolume * 25) - 50);
             audioMixer.SetFloat("EffectsVolume", -50f);
             audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 50) - 50);
         }
         else {
-            audioMixer.SetFloat("MusicVolume", (StaticManager.musicVolume * 50) - 50);
             audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 50) - 50);
             audioMixer.SetFloat("MenuVolume", -50f);
         }

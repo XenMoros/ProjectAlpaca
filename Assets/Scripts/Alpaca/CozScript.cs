@@ -28,6 +28,7 @@ public class CozScript : MonoBehaviour
                 alpacaMovement.alpacaRB.velocity = Vector3.zero;
                 alpacaMovement.direccionMovimiento = Vector3.zero;
                 alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Cozeo;
+                alpacaSound.CozAudio();
             }
         }
     }

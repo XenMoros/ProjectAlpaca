@@ -5,6 +5,7 @@ public class GuardiaMovement : Enemy
 {
     // Elementos precacheados desde inspector
     //public EntradaYSalidaGM gameManager; // Esto será en un futuro un EnemyManager
+    public GuardiaAudioManager guardiaAudioManager; // Audio Manager Guardia
     public Transform player; // Posicion de la Alpaca
     public Transform cabeza; // Posicion de la cabeza
     public IAstarAI agent; // Agente de PathFinding
@@ -311,20 +312,27 @@ public class GuardiaMovement : Enemy
         {
             case Estado.Aturdido: // Activa el trigger de Aturdido
                 guardiaAnimator.SetTrigger("Aturdido");
+                guardiaAudioManager.IdleAudio();
+                guardiaAudioManager.HitAudio();
                 break;
             case Estado.Perseguir: // Activa el trigger de Perseguir
                 guardiaAnimator.SetTrigger("Perseguir");
+                guardiaAudioManager.RunAudio();
                 break;
             case Estado.Patrullando:
             case Estado.Investigar:
             case Estado.Volviendo: // Para estas tres, activa el bool de Caminar
                 guardiaAnimator.SetBool("Caminar",true);
+                guardiaAudioManager.WalkAudio();
                 break;
             case Estado.Buscando: // Activa el bool de Buscando
                 guardiaAnimator.SetBool("Buscando", true);
+                guardiaAudioManager.IdleAudio();
+                guardiaAudioManager.ScareAudio();
                 break;
             case Estado.Idle: // Activa el bool de Idle
                 guardiaAnimator.SetBool("Idle", true);
+                guardiaAudioManager.IdleAudio();
                 break;
         }
 

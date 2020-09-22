@@ -13,7 +13,7 @@ public class Puerta : MonoBehaviour, IActivable
     // En caso de activacion, cambiar el estado de enable del renderizado y el collider de la puerta
     public void SetActivationState(bool activateState)
     {
-        if (activateState)
+        if (activateState && !puertaAnimator.GetBool("puertaAbierta"))
         { // Al activar la puerta se activa la animacion y desactiva los colliders
             puertaAnimator.SetBool("puertaAbierta", true);
             puertaAudioManager.AbrirPuertaAudio();
@@ -22,7 +22,7 @@ public class Puerta : MonoBehaviour, IActivable
             puerta2.enabled = false;
             puerta3.enabled = false;
         }
-        else
+        else if(!activateState && puertaAnimator.GetBool("puertaAbierta"))
         { // Al desactivar la puerta se activa la animacion y activa los colliders
             puertaAnimator.SetBool("puertaAbierta", false);
             puertaAudioManager.CerrarPuertaAudio();
