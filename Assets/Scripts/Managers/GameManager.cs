@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         loadingSceneManager.LoadLoadingAnimation();
         UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
 
-        while(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name || tiempoCarga < 5f)
+        while(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name || tiempoCarga < 3f)
         {
             tiempoCarga += Time.deltaTime;
             yield return null;
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         loadingSceneManager.LoadLoadingAnimation();
         UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
         
-        while (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name || tiempoCarga < 5f)
+        while (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name || tiempoCarga < 0.5f)
         {
             tiempoCarga += Time.deltaTime;
             yield return null;
@@ -149,7 +149,6 @@ public class GameManager : MonoBehaviour
 
     public void CargarSiguienteNivel()
     {
-        interfaceManager.LoadingGroup(true);
         currentLevel++;
         lastLevel = Mathf.Min(Mathf.Max(lastLevel, currentLevel), maxLevel);
         

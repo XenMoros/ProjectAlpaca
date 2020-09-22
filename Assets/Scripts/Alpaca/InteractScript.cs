@@ -153,6 +153,8 @@ public class InteractScript : MonoBehaviour
 
     IEnumerator PosicionarAlpaca(Vector3 posicion, Vector3 forward, Action<Collider> Accion, Collider other)
     {
+        alpacaMovement.alpacaRB.AddForce(-alpacaMovement.alpacaRB.velocity, ForceMode.VelocityChange);
+        alpacaMovement.direccionMovimiento = Vector3.zero;
         while (Vector3.Distance(transform.position, posicion) > 0.1f || Vector3.Dot(transform.forward, forward) < 0.99f)
         {
             transform.forward = Vector3.Slerp(transform.forward, forward, 30f*Time.deltaTime);

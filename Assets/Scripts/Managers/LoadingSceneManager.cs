@@ -21,10 +21,12 @@ public class LoadingSceneManager : MonoBehaviour
         int i = Random.Range((int)0, loadingAnimationsPrefabs.Count);
         if(currentLoadingAnimation != null)
         {
-            UnloadLoadingAnimation();
+            //UnloadLoadingAnimation();
         }
-
-        currentLoadingAnimation = Instantiate(loadingAnimationsPrefabs[i],this.transform);
+        else
+        {
+            currentLoadingAnimation = Instantiate(loadingAnimationsPrefabs[i], this.transform);
+        }
     }
 
     public void UnloadLoadingAnimation()
