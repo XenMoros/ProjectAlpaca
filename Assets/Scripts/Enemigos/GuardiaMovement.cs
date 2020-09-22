@@ -262,6 +262,13 @@ public class GuardiaMovement : Enemy
         }
     }
 
+    public void CambiarWaypointManager(WaypointManager newManager)
+    {
+        waypointManager = newManager;
+        lastPosition = waypointManager.RetornarWaypoint().RetornarPosition();
+        lastRotation = waypointManager.RetornarWaypoint().transform.rotation;
+    }
+
     public void FinalBuscar()
     {
         CambiarEstado(Estado.Volviendo);

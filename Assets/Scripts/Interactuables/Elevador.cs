@@ -29,20 +29,27 @@ public class Elevador : MonoBehaviour, IActivable
 
     public void SetActivationState(bool activateState)
     { // Si se activa con booleano, en caso de ser false retrocede, sino avanza el elevador
-        if (!activada)
+
+        if (activateState && waypointManager.WaypointNumber() == 0)
         {
-            if (activateState)
+            waypointManager.AvanzarWaypoint();
+            if (!activada)
             {
-                SetActivationState();
-            }
-            else
-            {
-                OnLeave?.Invoke();
-                waypointManager.RetrocederWaypoint();
                 activada = true;
+                OnLeave?.Invoke();
+            }
+        }
+        else if (!activateState && waypointManager.WaypointNumber() == 1)
+        {
+            waypointManager.RetrocederWaypoint();
+            if (!activada)
+            {
+                activada = true;
+                OnLeave?.Invoke();
             }
         }
     }
+
 
     public void SetActivationState()
     { // Cuando se activa el elevador, avanza el waypoint i marca como movimiento activada
@@ -85,9 +92,20 @@ public class Elevador : MonoBehaviour, IActivable
         {
             other.gameObject.GetComponent<CajaScript>().SetParent();
         }
-        else if (other.gameObject.CompareTag("Player") && other.transform.parent.parent.Equals(transform))
+        else if (other.gameObject.CompareTag("Player"))
         {
-            other.transform.parent.gameObject.GetComponent<AlpacaMovement>().SetParent();
+            try
+            {
+                if (other.transform.parent.parent.Equals(transform))
+                {
+                    other.transform.parent.gameObject.GetComponent<AlpacaMovement>().SetParent();
+                }
+            }
+            catch
+            {
+
+            }
+            
         }
     }
 }

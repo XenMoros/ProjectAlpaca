@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 7670273
   lenteScript: {fileID: 4046606456643699376}
   generalCamera: {fileID: 749823243485099740}
   player: {fileID: 0}
@@ -255,13 +255,13 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 7957.747
-  m_Range: 22
+  m_Intensity: 795.7747
+  m_Range: 30
   m_SpotAngle: 39.355156
   m_InnerSpotAngle: 28.829681
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -324,12 +324,12 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 100000
+  m_Intensity: 1500
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 75
   m_LightDimmer: 1
-  m_VolumetricDimmer: 0.3
+  m_VolumetricDimmer: 2
   m_LightUnit: 0
   m_FadeDistance: 10000
   m_AffectDiffuse: 1
@@ -382,7 +382,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 1
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.5
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 0
@@ -484,7 +484,7 @@ MonoBehaviour:
   pausa: 1
   active: 1
   enemyManager: {fileID: 0}
-  tipoEnemigo: 0
+  tipoEnemigo: 1
   alerta: 0
   cameraLight: {fileID: 4046606455174111632}
   generalCamera: {fileID: 749823243485099740}
