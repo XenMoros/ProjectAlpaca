@@ -20,7 +20,7 @@ public class DispensaCajas : MonoBehaviour, IActivable
             }
 
             // Instanciar una nueva caja a una altura alturaDeSpawn en vertical del punto de spawn
-            caja = Instantiate(cajaPrefab, transform.position + transform.forward * 5f, Quaternion.identity);
+            caja = Instantiate(cajaPrefab, transform.position + transform.forward * 4f, Quaternion.identity);
         }
     }
 

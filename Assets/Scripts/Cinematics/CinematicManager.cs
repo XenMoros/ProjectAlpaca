@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CinematicManager : MonoBehaviour
+public class CinematicManager : MonoBehaviour, IActivable
 {
     public Animator animator; // Animator del actor a hacer comportamiento cinematico
     public WaypointManager waipoints; // Los puntos de ruta de la cinematica
@@ -29,11 +29,8 @@ public class CinematicManager : MonoBehaviour
         ac = animator.runtimeAnimatorController; // Asigna el runtime animator controler actual
         RellenarArrayAnimaciones(); // Rellena la lista de fases cinematicas
         animNumber = 0; // Set la fase inicial a la 0
-        ReadAnimation(ref animNumber); // Lee la primera fase
-        animator.SetTrigger(arrayAnimaciones[animNumber].animationName); // Activa el trigger de animacion correspondiente
-        animationTimer = 0; // Marca el inicio de la fase actual
-        animacionAcabada = false; // Flag como false el final de la fase actual
-        siguienteCiclo = true;
+        ReadAnimation(animNumber); // Lee la primera fase
+        siguienteCiclo = false;
     }
 
     // Update is called once per frame
@@ -58,29 +55,22 @@ public class CinematicManager : MonoBehaviour
 
     internal virtual void LateUpdate()
     {
-        if (animacionAcabada && siguienteCiclo)
+        if (animacionAcabada && (tipoAnimacion != TipoAnimacion.Dependiente || siguienteCiclo))
         { // Si ha terminado la fase actual
             animationTimer = 0; // Set el inicio de la fase siguiente
-            animNumber += 1; // Avanza el numero de fase
-            ReadAnimation(ref animNumber); // Lee la fase siguiente
-            animator.SetTrigger(arrayAnimaciones[animNumber].animationName); // Activa el trigger de la animacion correspondiente
+            if (++animNumber >= arrayAnimaciones.Length)
+            { // Si el numero sobrepassa la array de fases, vuelve al principio
+                animNumber = 0;
+                if(tipoAnimacion == TipoAnimacion.Dependiente) siguienteCiclo = false;
+            }
 
-            animacionAcabada = false; // Desmarca como que ha acabado la fase
-
+            ReadAnimation(animNumber); // Lee la fase siguiente
         }
     }
 
     // Funcion para leer la fase de animacion que toque. El numero entra por referencia para poderlo modificar dentro del script
-    internal void ReadAnimation(ref int animationNumber)
+    internal void ReadAnimation(int animationNumber)
     {
-        if(animationNumber >= arrayAnimaciones.Length)
-        { // Si el numero sobrepassa la array de fases, vuelve al principio
-            animationNumber = 0;
-        }
-        else if(animationNumber == arrayAnimaciones.Length - 1 && tipoAnimacion == TipoAnimacion.Dependiente)
-        {
-            siguienteCiclo = false;
-        }
 
         if(arrayAnimaciones[animationNumber].animationLength > 0)
         { // Si la fase declara una duracion, conservala como lo que va a durar la fase
@@ -106,31 +96,38 @@ public class CinematicManager : MonoBehaviour
             // (teniendo en cuenta los delays de inicio y fin de movimiento respecto la animacion)
             direction.Normalize(); // Normaliza la direccion
 
-            if(direction != Vector3.zero)
-            { // Si la direccion es diferente de cero, mira si la direccion de mirar ha de ser directa o al reves
-              // y ademas criba la coordenada Y para mirar siempre en el plano XZ
-                //if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = new Vector3(direction.x, 0, direction.z).normalized;
-                //else targetDirection = -new Vector3(direction.x, 0, direction.z).normalized;
-            }
-
             finishMovement = animationTime - arrayAnimaciones[animationNumber].animationFinishMovement; // Marca el tiempo de acabar el movimiento segun entrada
         }
 
         if(waipoints != null)
         {
-            if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = waipoints.RetornarWaypoint().transform.forward;
-            else targetDirection = -waipoints.RetornarWaypoint().transform.forward;
+            if (arrayAnimaciones[animationNumber].animationIsMoving)
+            {
+                if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = direction;
+                else targetDirection = -direction;
+            }
+            else
+            {
+                if (!arrayAnimaciones[animationNumber].animationReverseMovement) targetDirection = waipoints.RetornarWaypoint().transform.forward;
+                else targetDirection = -waipoints.RetornarWaypoint().transform.forward;
+            }
         }
         else
         {
             targetDirection = transform.forward;
         }
+        animator.SetTrigger(arrayAnimaciones[animationNumber].animationName); // Activa el trigger de la animacion correspondiente
+        animationTimer = 0; // Marca el inicio de la fase actual
+        animacionAcabada = false; // Flag como false el final de la fase actual
     }
 
     private void GirarPersonaje()
     {// Gira la direccion donde mira el personaje gradualmente
         // First calculate the look vector as normal
-
+        if(Vector3.Dot(transform.forward,targetDirection) < -0.9f)
+        {
+            transform.Rotate(transform.up, 10f);
+        }
         Vector3 newForward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * rotationSpeed);
 
         // Now check if the new vector is rotating more than allowed
@@ -168,6 +165,27 @@ public class CinematicManager : MonoBehaviour
         {
             siguienteCiclo = true;
         }
+    }
+
+    public void SetActivationState(bool activateState)
+    {
+        if (tipoAnimacion == TipoAnimacion.Dependiente && activateState)
+        {
+            animNumber = 0;
+            waipoints.SetWaypoint(0);
+            animacionAcabada = true;
+            siguienteCiclo = true;
+        }
+    }
+
+    public void SetActivationState()
+    {
+        
+    }
+
+    public void SetActivationState(int activateState)
+    {
+        
     }
 }
 
