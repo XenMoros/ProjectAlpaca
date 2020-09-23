@@ -4,7 +4,7 @@ public static class StaticManager
     public delegate void StaticCanghesEvent();
     public static event StaticCanghesEvent OnCameraChange, OnBrightnessChange, OnPauseChange, OnMasterVolumeChange, OnMusicVolumeChange, OnEffectsVolumeChange, OnMenuVolumeChange;
 
-    public static float brightness = 0;
+    public static float brightness = -6;
     public static float sensibility = 5;
 
     public static float masterVolume = 1;

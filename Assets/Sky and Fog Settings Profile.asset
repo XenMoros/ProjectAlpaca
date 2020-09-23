@@ -128,22 +128,22 @@ MonoBehaviour:
     m_Value: 0
   meteringMode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   luminanceSource:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
     m_Value: -6
   compensation:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 20
   limitMin:
     m_OverrideState: 1
-    m_Value: -1
+    m_Value: 3
   limitMax:
     m_OverrideState: 1
-    m_Value: -4
+    m_Value: -5
   curveMap:
     m_OverrideState: 0
     m_Value:
@@ -172,7 +172,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   adaptationMode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   adaptationSpeedDarkToLight:
     m_OverrideState: 0
     m_Value: 3

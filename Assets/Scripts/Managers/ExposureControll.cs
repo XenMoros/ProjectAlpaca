@@ -1,27 +1,23 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using System.Text.RegularExpressions;
 
 public class ExposureControll : MonoBehaviour
 {
-    Exposure exposicion;
+    public Volume volumeSettings;
+    Exposure exposure;
 
-    void Start()
+    private void Awake()
     {
-        Volume volume = GetComponent<Volume>();
-        if(volume.profile.TryGet<Exposure>(out Exposure exp))
+        for(int i=0; i < volumeSettings.profile.components.Count; i++)
         {
-            exposicion = exp;
+            if(Regex.IsMatch(volumeSettings.profile.components[i].name,"Exposure"))
+            {
+                exposure = (Exposure)volumeSettings.profile.components[i];
+            }
         }
-        
-        if(exposicion == null)
-        {
-        }
-    }
 
-    private void OnEnable()
-    {
         StaticManager.OnBrightnessChange += ExposureChanged;
     }
 
@@ -32,6 +28,6 @@ public class ExposureControll : MonoBehaviour
 
     void ExposureChanged()
     {
-        exposicion.compensation = new FloatParameter(StaticManager.brightness);
+       exposure.fixedExposure.SetValue(new FloatParameter(StaticManager.brightness));
     }
 }

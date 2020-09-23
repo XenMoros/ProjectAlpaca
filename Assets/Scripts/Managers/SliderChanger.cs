@@ -76,24 +76,29 @@ public class SliderChanger : MonoBehaviour, IMoveHandler, IEndDragHandler
 
     public void OnMove(AxisEventData eventData)
     {
-        
-        switch(eventData.moveDir)
+        if (StaticManager.pause)
         {
-            case MoveDirection.Left:
-                slider.value = previousSliderValue - step;
-                break;
-            case MoveDirection.Right:
-                slider.value = previousSliderValue + step;
-                break;
-            default:
-                break;
-        }
+            switch (eventData.moveDir)
+            {
+                case MoveDirection.Left:
+                    slider.value = previousSliderValue - step;
+                    break;
+                case MoveDirection.Right:
+                    slider.value = previousSliderValue + step;
+                    break;
+                default:
+                    break;
+            }
 
-        previousSliderValue = slider.value;
+            previousSliderValue = slider.value;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        previousSliderValue = slider.value;
+        if (StaticManager.pause)
+        {
+            previousSliderValue = slider.value;
+        }
     }
 }
