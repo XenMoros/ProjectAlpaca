@@ -79894,7 +79894,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_VideoClip
       value: 
-      objectReference: {fileID: 32900000, guid: da97f8b5c0cabac488f60a64877ee7e3,
+      objectReference: {fileID: 32900000, guid: 01ac1390392edb249beebe4c6ab2aaf0,
         type: 3}
     - target: {fileID: 2462226208080991299, guid: c335365cd77cc684197c01ae8c4b7500,
         type: 3}
@@ -89400,6 +89400,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1418316239}
     m_Modifications:
+    - target: {fileID: 2764600942496191937, guid: 4e331d250ba901949a49f3e08051bb0b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2994535419431271559, guid: 4e331d250ba901949a49f3e08051bb0b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5889894148811220394, guid: 4e331d250ba901949a49f3e08051bb0b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -89460,7 +89470,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: AujeroEmmisive2 (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8314592539323550896, guid: 4e331d250ba901949a49f3e08051bb0b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8314592539323550896, guid: 4e331d250ba901949a49f3e08051bb0b, type: 3}
+    - {fileID: 2994535419431271559, guid: 4e331d250ba901949a49f3e08051bb0b, type: 3}
+    - {fileID: 2764600942496191937, guid: 4e331d250ba901949a49f3e08051bb0b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4e331d250ba901949a49f3e08051bb0b, type: 3}
 --- !u!1 &1999571276
 GameObject:
@@ -96491,7 +96509,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 5.0799994
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7033857512418101251, guid: 343a60d71ebbf944395f543314695510, type: 3}
+    - {fileID: 3816564266449956911, guid: 343a60d71ebbf944395f543314695510, type: 3}
+    - {fileID: 4976980062583328288, guid: 343a60d71ebbf944395f543314695510, type: 3}
+    - {fileID: 5403582557939472878, guid: 343a60d71ebbf944395f543314695510, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 343a60d71ebbf944395f543314695510, type: 3}
 --- !u!1001 &5894981914785804728
 PrefabInstance:
@@ -96500,6 +96522,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1418316239}
     m_Modifications:
+    - target: {fileID: 2764600942496191937, guid: 4e331d250ba901949a49f3e08051bb0b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2994535419431271559, guid: 4e331d250ba901949a49f3e08051bb0b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5889894148811220394, guid: 4e331d250ba901949a49f3e08051bb0b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -96560,7 +96592,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AujeroEmmisive2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8314592539323550896, guid: 4e331d250ba901949a49f3e08051bb0b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8314592539323550896, guid: 4e331d250ba901949a49f3e08051bb0b, type: 3}
+    - {fileID: 2994535419431271559, guid: 4e331d250ba901949a49f3e08051bb0b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4e331d250ba901949a49f3e08051bb0b, type: 3}
 --- !u!1001 &6999201729607585248
 PrefabInstance:
