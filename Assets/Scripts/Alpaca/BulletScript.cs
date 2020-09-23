@@ -9,6 +9,7 @@ public class BulletScript : MonoBehaviour
 
     // Flags de movimiento
     private bool puedeMoverse; // Booleano de si se puede mover o no 
+    private RaycastHit hitInfo;
     bool recolocarsePetition; // Booleano para pedir que vuelva a racamara
 
     void Start()
@@ -23,7 +24,11 @@ public class BulletScript : MonoBehaviour
     {
         if (puedeMoverse && !StaticManager.pause)
         { // Si el escupitajo puede moverse que lo haga.
-            transform.position += transform.forward * (speed * Time.deltaTime);
+            if(Physics.Raycast(transform.position, transform.forward, out  hitInfo, speed * Time.deltaTime))
+            {
+                transform.position = hitInfo.point;
+            }
+            else transform.position += transform.forward * (speed * Time.deltaTime);
         }
     }
 

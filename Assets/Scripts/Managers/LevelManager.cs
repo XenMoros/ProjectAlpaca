@@ -26,8 +26,7 @@ public class LevelManager : MonoBehaviour
 
     public void SetCarga()
     {
-
-            alpaca.EntradaNivel();
+        alpaca.EntradaNivel();
     }
 
     public Scene LoadLevel(int nivel)
@@ -137,6 +136,8 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator LevelComplete()
     {
+        StaticManager.SetPause(true);
+        gameManager.audioMixer.MuteOnLoad();
         alpaca.SalidaNivel();
 
         while (!levelComplete)

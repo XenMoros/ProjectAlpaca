@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     internal LevelManager levelManager;
     internal CustomInputManager inputManager;
     internal MusicAudioManager audioManager;
-
+    internal AudioMixerManager audioMixer;
     public LoadingSceneManager loadingSceneManager;
 
     public GameObject interfaceManagerPrefab,levelManagerPrefab,audioManagerPrefab;
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         interfaceManager = Instantiate(interfaceManagerPrefab).GetComponent<InterfaceManager>();
         levelManager = Instantiate(levelManagerPrefab).GetComponent<LevelManager>();
         audioManager = Instantiate(audioManagerPrefab).GetComponent<MusicAudioManager>();
+        audioMixer = audioManager.GetComponent<AudioMixerManager>();
         inputManager = GetComponent<CustomInputManager>();
         interfaceManager.Initialize();
         loadingSceneManager.LoadAlpaca();
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
         float tiempoCarga = 0f;
         canPause = false;
         StaticManager.SetPause(true);
+        audioMixer.MuteOnLoad();
 
         loadingSceneManager.LoadLoadingAnimation();
         loadingSceneManager.UnloadAlpaca();
@@ -86,12 +88,51 @@ public class GameManager : MonoBehaviour
 
     }
 
+    IEnumerator CargarCreditos()
+    {
+        audioManager.StopAudio();
+        canPause = false;
+        audioMixer.MuteOnLoad();
+        bool onCrdeits = true;
+
+        interfaceManager.LoadingGroup(true);
+        loadingSceneManager.LoadLoadingAnimation();
+        UnityEngine.SceneManagement.Scene escena = levelManager.UnloadLevel();
+
+        while (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != escena.name)
+        {
+            yield return null;
+        }
+        
+        UnityEngine.SceneManagement.Scene escena2 = levelManager.LoadLevel(maxLevel);
+
+        while (!escena2.isLoaded)
+        {
+            Debug.Log("Miau");
+            yield return null;
+        }
+        
+        interfaceManager.LoadingGroup(false); 
+        loadingSceneManager.UnloadLoadingAnimation();
+        audioManager.GameAudio(maxLevel);
+        
+        while (onCrdeits)
+        {
+            Debug.Log("On credits, press A");
+            if (inputManager.GetButtonDown("Jump")) onCrdeits = false;
+            yield return null;
+        }
+
+        CargarSiguienteNivel();
+    }
+
     IEnumerator DescargarEscenaActiva()
     {
         audioManager.StopAudio();
         float tiempoCarga = 0f;
         canPause = false;
-        StaticManager.SetPause(false);
+        StaticManager.SetPause(true);
+        audioMixer.MuteOnLoad();
         interfaceManager.LoadingGroup(true);
 
         loadingSceneManager.LoadLoadingAnimation();
@@ -104,6 +145,7 @@ public class GameManager : MonoBehaviour
             
         }
 
+        StaticManager.SetPause(false);
         interfaceManager.LoadingGroup(false);
         loadingSceneManager.UnloadLoadingAnimation();
         interfaceManager.StartMainMenu();
@@ -116,7 +158,8 @@ public class GameManager : MonoBehaviour
         audioManager.StopAudio();
         float tiempoCarga = 0f;
         canPause = false;
-        StaticManager.SetPause(false);
+        StaticManager.SetPause(true);
+        audioMixer.MuteOnLoad();
         interfaceManager.LoadingGroup(true);
 
         loadingSceneManager.LoadLoadingAnimation();
@@ -152,14 +195,22 @@ public class GameManager : MonoBehaviour
         currentLevel++;
         lastLevel = Mathf.Min(Mathf.Max(lastLevel, currentLevel), maxLevel);
         
-        if (currentLevel > maxLevel)
+        if (currentLevel < maxLevel)
         {
-            currentLevel = 1;
-            StartCoroutine(DescargarEscenaActiva());
+            Debug.Log("NextLevel");
+            StartCoroutine(CargarOtraEscena(currentLevel));
+            
+        }
+        else if (currentLevel == maxLevel)
+        {
+            Debug.Log("Credits");
+            StartCoroutine(CargarCreditos());
         }
         else
         {
-            StartCoroutine(CargarOtraEscena(currentLevel));
+            Debug.Log("End");
+            currentLevel = 1;
+            StartCoroutine(DescargarEscenaActiva());
         }
     }
 

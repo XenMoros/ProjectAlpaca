@@ -26,34 +26,42 @@ public class AudioMixerManager : MonoBehaviour
 
     void ChangeMaster()
     {
-        audioMixer.SetFloat("MasterVolume", (StaticManager.masterVolume * 50) - 50);
+        if(StaticManager.masterVolume == 0) audioMixer.SetFloat("MasterVolume", -50);
+        else audioMixer.SetFloat("MasterVolume", (StaticManager.masterVolume * 30) - 30);
     }
 
     void CangeMusic()
     {
-        audioMixer.SetFloat("MusicVolume", (StaticManager.musicVolume * 50) - 50);
+        if (StaticManager.musicVolume == 0) audioMixer.SetFloat("MusicVolume", -50);
+        else audioMixer.SetFloat("MusicVolume", (StaticManager.musicVolume * 30) - 30);
     }
 
     void ChangeMenu()
     {
-        audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 50) - 50);
+        if (StaticManager.menuVolume == 0) audioMixer.SetFloat("MenuVolume", -50);
+        else audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 30) - 30);
     }
 
     void ChangeEffects()
     {
-        audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 50) - 50);
+        //audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 50) - 50);
     }
 
     private void MuteOnPause()
     {
 
         if (StaticManager.pause) {
-            audioMixer.SetFloat("EffectsVolume", -50f);
-            audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 50) - 50);
+            audioMixer.SetFloat("EffectsVolume", -50);
+            audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 30) - 30);
         }
         else {
-            audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 50) - 50);
+            audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 30) - 30);
             audioMixer.SetFloat("MenuVolume", -50f);
         }
+    }
+
+    public void MuteOnLoad()
+    {
+        audioMixer.SetFloat("MenuVolume", -50f);
     }
 }
