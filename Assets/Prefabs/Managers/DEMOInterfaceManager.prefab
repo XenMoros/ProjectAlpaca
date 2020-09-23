@@ -3473,6 +3473,11 @@ PrefabInstance:
       propertyPath: sliderType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5517676903197307289, guid: 811223cbc0f6fb34c971794c2748e1ce,
+        type: 3}
+      propertyPath: step
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5819030474336679318, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
       propertyPath: m_fontSize
@@ -3695,7 +3700,7 @@ PrefabInstance:
     - target: {fileID: 8601099593637396768, guid: cba84d7444bd5ec4ebb0e05ce7c1fa1b,
         type: 3}
       propertyPath: m_textInfo.materialCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8601099593637396768, guid: cba84d7444bd5ec4ebb0e05ce7c1fa1b,
         type: 3}
@@ -4164,7 +4169,7 @@ PrefabInstance:
     - target: {fileID: 5517676903197307289, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
       propertyPath: step
-      value: 0.01
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5819030474336679318, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
@@ -4909,6 +4914,11 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 4705915467718171693}
+    - target: {fileID: 8912233891284429990, guid: f85c7df518a163b438185350d0da415b,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8912233891284429991, guid: f85c7df518a163b438185350d0da415b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5592,7 +5602,7 @@ PrefabInstance:
     - target: {fileID: 5517676903197307289, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
       propertyPath: step
-      value: 0.01
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5819030474336679318, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
@@ -6822,6 +6832,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5517676903197307289, guid: 811223cbc0f6fb34c971794c2748e1ce,
+        type: 3}
+      propertyPath: step
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5819030474336679318, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
       propertyPath: m_fontSize
@@ -7152,7 +7167,7 @@ PrefabInstance:
     - target: {fileID: 5517676903197307289, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
       propertyPath: step
-      value: 0.01
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5819030474336679318, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
@@ -7488,7 +7503,7 @@ PrefabInstance:
     - target: {fileID: 5517676903197307289, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}
       propertyPath: step
-      value: 0.01
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5819030474336679318, guid: 811223cbc0f6fb34c971794c2748e1ce,
         type: 3}

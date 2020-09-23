@@ -333,7 +333,7 @@ public class AlpacaMovement : MonoBehaviour
 
     void QuitarControl()
     {
-        StaticManager.SetPause(true);
+        if(!StaticManager.pause) StaticManager.SetPause(true);
         faseMovimiento = FaseMovimiento.Stopped;
         faseMovimientoAnt = FaseMovimiento.Stopped;
         tipoStopped = TipoStopped.Cinematica;
