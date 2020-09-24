@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -24,7 +21,6 @@ public class DinamicLevels : MonoBehaviour
     void Start()
     {
         res = Screen.currentResolution;
-        Debug.Log(res);
         //numNiveles = EditorBuildSettings.scenes.Length - 1;
         numNiveles = 5;
         contentRT = content.GetComponent<RectTransform>();

@@ -1,13 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class WaypointManager : MonoBehaviour
 {
     public List<WaypointScript> waypointList;
+    public int primerWaipoint;
     internal int waypointActual = 0;
     int operacionWaypoint = 1;
     public bool rebote;
+
+    private void Start()
+    {
+        if(primerWaipoint >=0 && primerWaipoint < waypointList.Count)
+        {
+            waypointActual = primerWaipoint;
+        }
+    }
 
     public void AvanzarWaypoint()
     {
@@ -69,6 +77,11 @@ public class WaypointManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public int WaypointNumber()
+    {
+        return waypointActual;
     }
 
     public WaypointScript RetornarWaypoint()

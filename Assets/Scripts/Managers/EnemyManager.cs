@@ -1,22 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
-    LevelManager levelManager;
+    internal LevelManager levelManager;
 
     public List<Enemy> enemies;
 
-
-    internal void LoadEnemies()
+    internal virtual void LoadEnemies()
     {
         Object[] encontrarEnemigos = FindObjectsOfType(typeof(Enemy));
         enemies = new List<Enemy>();
 
-        foreach (Object enemigo in encontrarEnemigos)
+        foreach (Enemy enemigo in encontrarEnemigos)
         {
-            enemies.Add((Enemy)enemigo);
+            enemies.Add(enemigo);
         }
 
         foreach(Enemy enemigo in enemies)
@@ -30,16 +28,29 @@ public class EnemyManager : MonoBehaviour
         this.levelManager = levelManager;
     }
 
+    /*
     public void SetPause()
     {
         foreach(Enemy enemy in enemies)
         {
             enemy.SetPause();
         }
-    }
+    }*/
 
     public void ReloadLevel()
     {
         levelManager.RestartLevel();
+    }
+
+    public void AlertarGuardias(Vector3 position)
+    {
+        foreach (Enemy enemigo in enemies)
+        {
+            if(enemigo.tipoEnemigo  == Enemy.TipoEnemigo.Guardia)
+            {
+                enemigo.AlertarEnemigo(position);
+            }
+            
+        }
     }
 }

@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class DispensaCajas : MonoBehaviour, IActivable
 {
     // Elementos precacheados en inspector
     public GameObject cajaPrefab; // Prefab de la caja a spawnear
 
-    // Variables publicas de control del dispensador
-    public float alturaDeSpawn = 20f;
     // GameObject donde guardaremos la Caja que spawneemos
     private GameObject caja;
 
@@ -23,16 +20,17 @@ public class DispensaCajas : MonoBehaviour, IActivable
             }
 
             // Instanciar una nueva caja a una altura alturaDeSpawn en vertical del punto de spawn
-            caja = Instantiate(cajaPrefab, transform.position + transform.up * alturaDeSpawn, Quaternion.identity);
+            caja = Instantiate(cajaPrefab, transform.position + transform.forward * 4f, Quaternion.identity);
         }
     }
+
     public void SetActivationState()
-    {
+    { // Set el estado de activacion del dispensador
         SetActivationState(true);
     }
 
     public void SetActivationState(int activateState)
-    {
+    { // Set la activacion del dispensador segun un entero
         if (activateState > 0)
         {
             SetActivationState(true);

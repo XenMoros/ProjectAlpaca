@@ -1,44 +1,73 @@
-﻿using UnityEngine;
-using UnityEditor;
-
+﻿
 public static class StaticManager
 {
-    [Range(-5,5)] public static sbyte brightness = 0;
-    [Range(0.1f, 10)] public static float sensibility = 1;
-    public static float lastSensibility = 0;
+    public delegate void StaticCanghesEvent();
+    public static event StaticCanghesEvent OnCameraChange, OnBrightnessChange, OnPauseChange, OnMasterVolumeChange, OnMusicVolumeChange, OnEffectsVolumeChange, OnMenuVolumeChange;
+
+    public static float brightness = -6;
+    public static float sensibility = 5;
+
+    public static float masterVolume = 1;
+    public static float musicVolume = 1;
+    public static float effectsVolume = 1;
+    public static float menuVolume = 1;
+
     public static bool axisV = false, axisH = false;
+
     public static bool pause = true;
-    public static bool cameraOptionsChanged = false;
+
     
     public static void ChangeAxisV()
     {
         axisV = !axisV;
-        cameraOptionsChanged = true;
+        OnCameraChange?.Invoke();
     }
 
     public static void ChangeAxisH()
     {
         axisH = !axisH;
-        cameraOptionsChanged = true;
+        OnCameraChange?.Invoke();
     }
 
     public static void ChangeSensibility(float sens)
     {
-        lastSensibility = sensibility;
         sensibility = sens;
-        cameraOptionsChanged = true;
+        OnCameraChange?.Invoke();
     }
-    public static void ChangeBrightness(int bright)
+
+    internal static void ChangeVolume(float value, SliderChanger.SliderType sliderType)
     {
-        brightness = (sbyte) bright;
+        switch(sliderType){
+            case SliderChanger.SliderType.VolumeMaster:
+                masterVolume = value;
+                OnMasterVolumeChange?.Invoke();
+                break;
+            case SliderChanger.SliderType.VolumeMusic:
+                musicVolume = value;
+                OnMusicVolumeChange?.Invoke();
+                break;
+            case SliderChanger.SliderType.VolumeEffects:
+                effectsVolume = value;
+                OnEffectsVolumeChange?.Invoke();
+                break;
+            case SliderChanger.SliderType.VolumeMenu:
+                menuVolume = value;
+                OnMenuVolumeChange?.Invoke();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void ChangeBrightness(float bright)
+    {
+        brightness = bright;
+        OnBrightnessChange?.Invoke();
     }
 
     public static void SetPause(bool newState)
     {
-        if(newState != pause)
-        {
-            pause = newState;
-        }
-
+        pause = newState;
+        OnPauseChange?.Invoke();
     }
 }

@@ -1,67 +1,91 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Managers;
+using UnityEngine;
 
 [RequireComponent(typeof(AlpacaMovement))]
 public class CozScript : MonoBehaviour
 {
     // Elementos precacheados en Inspector
     public AlpacaMovement alpacaMovement; //El movimiento de la Alaca
-    public CustomInputManager inputManager;
-    public LayerMask collideLayers;
-    RaycastHit hitInfo;
-    // GameObject de la Coz
-    public GameObject coz;
+    public AlpacaAudioManager alpacaSound;
+    public CustomInputManager inputManager; // Input manager (segun prod o debug)
+    public LayerMask collideLayers; // Layers con las que colisionara la coz 
+    RaycastHit hitInfo; // Informacion del hit del raycast
+    public Transform coz; // Posicion desde donde se da la coz
 
     public void Reset()
-    {
+    { // Al attachear este componente busca el AlpacaMovement automaticamente
         alpacaMovement = GetComponent<AlpacaMovement>();
-        coz = GameObject.Find("Coz");
-    }
-
-    void Start()
-    {
-        //Capturar la coz y desactivarla
-        coz = GameObject.FindGameObjectWithTag("Coz");
-        coz.SetActive(false);
     }
 
     void Update()
     {
-        if (!alpacaMovement.pause)
+        if (!alpacaMovement.Pause)
         {
-            Debug.DrawLine(coz.transform.position, coz.transform.position + (-alpacaMovement.transform.forward * 1f));
-            // Mirar las acciones de la coz
             if (inputManager.GetButtonDown("Coz") && !(alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Subida || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Caida
-                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Cozeo || alpacaMovement.arrastrando))
-            {
-                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Cozeo;
+                || alpacaMovement.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped || alpacaMovement.arrastrando))
+            { // Si picas el boton de cozeo y no estas ni en el aire, ni coceando ya ni arrastrando, ponte en fase de cozeo
+                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Stopped;
+                alpacaMovement.alpacaRB.velocity = Vector3.zero;
+                alpacaMovement.direccionMovimiento = Vector3.zero;
+                alpacaMovement.tipoStopped = AlpacaMovement.TipoStopped.Cozeo;
+                alpacaSound.CozAudio();
             }
         }
     }
 
     public void ActivarColliderCoz()
-    {
-        Debug.Log("A cozear");
-        //coz.SetActive(true);
-        if(Physics.BoxCast(coz.transform.position, new Vector3(1,1,0.1f),-alpacaMovement.transform.forward,out hitInfo,alpacaMovement.transform.rotation,1f, collideLayers, QueryTriggerInteraction.Ignore))
+    { // Animation event, lanza un raycast para ver si la coz da con algo
+        if(Physics.BoxCast(coz.position, new Vector3(1,1,0.1f),-alpacaMovement.transform.forward,out hitInfo,alpacaMovement.transform.rotation,1f, collideLayers, QueryTriggerInteraction.Ignore))
         {
-            Debug.Log("Di con algo");
             if (hitInfo.collider.CompareTag("Caja"))
-            {
-                Debug.Log("Di con la caja");
-                Debug.Log(hitInfo.normal);
+            { // Si das con una caja, empujala segun la cara en la que le das
                 hitInfo.collider.GetComponent<CajaScript>().PushCaja(-hitInfo.normal);
+                alpacaSound.CozHitAudio();
             }
         }
     }
 
     public void TerminarCozeo() 
-    {
-        coz.SetActive(false);
-        alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
+    { // Animation event, al acabar el coceo pasa a Idle
+        
+        
+
+        float axisV = Mathf.Floor(+inputManager.GetAxis("MovementVertical") * 1000f) / 1000f;
+        float axisH = Mathf.Floor(+inputManager.GetAxis("MovementHorizontal") * 1000f) / 1000f;
+
+        if (Mathf.Abs(axisV) < 0.05)
+        {
+            axisV = 0;
+        }
+        if (Mathf.Abs(axisH) < 0.05)
+        {
+            axisH = 0;
+        }
+
+
+        if (axisV != 0 || axisH != 0)
+        {
+            Vector2 input = new Vector2(axisH, axisV);
+            if(input.magnitude > 0.35f)
+            {
+                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Correr;
+            }
+            else
+            {
+                alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Andar;
+            }
+        }
+        else
+        {
+            alpacaMovement.faseMovimiento = AlpacaMovement.FaseMovimiento.Idle;
+        }
+
+        alpacaMovement.GestorAnimacion();
+
     }
 
     public void SetInputManager(CustomInputManager manager)
-    {
+    { // Set del input manager segun entrada, para actores externos
         inputManager = manager;
     }
 }

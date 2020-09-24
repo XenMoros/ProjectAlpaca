@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DetectionScript : MonoBehaviour
 {
-    public LenteScript lenteScript;
-    public Transform generalCamera;
-    public Transform player;
+    public LayerMask layers;
+    public LenteScript lenteScript; // El script de la lente
+    public Transform generalCamera; // La posicion de la camara
+    public Transform player; // Pa posicion de la alpaca
 
-    public float distanceView;
-    bool lanzarRayos;
-   // public bool alpacaHit;
-    RaycastHit hit;
-    Vector3 direction;
+    public float distanceView; // La distancia de vision
+    bool lanzarRayos; // Flag de si intentas mirar o no
+
+    RaycastHit hit; // Salida de los RayCast
+    Vector3 direction; // Direccion del RayCast
 
     // Update is called once per frame
     void Update()
@@ -20,44 +19,40 @@ public class DetectionScript : MonoBehaviour
         
         if (lenteScript.active && !lenteScript.pausa && lanzarRayos)
         {
-            hit = new RaycastHit();
-            direction = (player.position - generalCamera.position).normalized;
-            Debug.DrawLine(generalCamera.position, generalCamera.position + direction * distanceView);
-            if (Physics.Raycast(generalCamera.position, direction, out hit, distanceView))
-            {
-                if (hit.collider.name == "Alpaca")
-                {
-                    Debug.Log("Alpaca");
+            hit = new RaycastHit(); // Renueva la estructura de Hit
+            direction = (player.position - generalCamera.position).normalized; // Calcula en que direccion esta la alpaca
+            if (Physics.Raycast(generalCamera.position, direction, out hit, distanceView, layers))
+            { // Si el RayCast choca con algo
+                if (hit.collider.CompareTag("Player"))
+                {// Si es la alpaca, informa que le has dado
                     lenteScript.SetAlpacaHit(true);
                 }
                 else
-                {
-                    Debug.Log("No Alpaca");
+                {// Si no es la alpaca di que la has perdido
                     lenteScript.SetAlpacaHit(false);
                 }
             }
             else
-            {
-                Debug.Log("No Choque");
+            {// Si no choca has perdido a la alpaca
                 lenteScript.SetAlpacaHit(false);
             }
         }
         else if(lenteScript.active && !lenteScript.pausa)
-        {
+        {// Si la camara esta activada pero no puedes lanzar rayos, informa de la perdida de la alpaca
             lenteScript.SetAlpacaHit(false);
         }
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {// Activa el lanzamiento de rayos cuando el jugador entre en su rango
         if (other.gameObject.CompareTag("Player"))
-        {
+        { 
             lanzarRayos = true; 
         }
     }
 
     private void OnTriggerExit(Collider other)
-    {
+    {// Desactiva el lanzamiento de rayos cuando el jugador entre en su rango
         if (other.gameObject.CompareTag("Player"))
         {
             lanzarRayos = false;

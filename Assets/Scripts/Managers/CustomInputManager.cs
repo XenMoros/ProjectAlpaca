@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CustomInputManager : MonoBehaviour
 {
-    KeyCode yell;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("yellKey", "LeftShift"));
-    KeyCode jump;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("jumpKey", "Space"));
-    KeyCode coz;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("cozKey", "Mouse1"));
-    KeyCode spit;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("spitKey", "Mouse0"));
-    KeyCode interact;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("interactKey", "E"));
-    KeyCode start;
-    KeyCode ret;
 
-    KeyCode forward;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("forwardKey", "W"));
-    KeyCode backward;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backwardKey", "S"));
-    KeyCode left;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
-    KeyCode right;// = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
-    KeyCode control;
+    // Lista de acciones posibles y sus botones predefinidos en teclado
+
+    KeyCode yell;// LeftShift
+    KeyCode jump;// Space
+    KeyCode coz;// Mouse1
+    KeyCode spit;// Mouse0
+    KeyCode interact;// E
+    KeyCode start;// T
+    KeyCode ret;// Escape
+
+    KeyCode forward;// W
+    KeyCode backward;// S
+    KeyCode left;// A
+    KeyCode right;// D
+    public KeyCode walk;// LeftControl
 
     private void Awake()
-    {
+    { // Setea las acciones a los botones provistos
         yell = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("yellKey", "LeftShift"));
         jump = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("jumpKey", "Space"));
         coz = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("cozKey", "Mouse1"));
@@ -32,34 +34,24 @@ public class CustomInputManager : MonoBehaviour
         backward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backwardKey", "S"));
         left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
         right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
-        control = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("controlKey", "LeftControl"));
+        walk = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("controlKey", "LeftControl"));
     }
 
     public float GetAxis(string axis)
-    {
-        float valor = 0f;
+    { // Get valor del eje "axis"
+        float valor; // Valor a retornar
         switch (axis)
-        {
+        { // Segun el eje pedido calcula el valor a retornar
             case "MovementHorizontal":
                 valor = Input.GetAxis("LS_h");
                 if (Input.GetKey(right)) valor += 1f;
                 if (Input.GetKey(left)) valor -= 1f;
-                if (Input.GetKey(control)) valor /= 0.5f;
                 break;
             case "MovementVertical":
                 valor = Input.GetAxis("LS_v");
                 if (Input.GetKey(forward)) valor += 1f;
                 if (Input.GetKey(backward)) valor -= 1f;
-                if (Input.GetKey(control)) valor /= 0.5f;
                 break;
-            /*case "CamaraHorizontal":
-                valor = Input.GetAxis("RS_h");
-                valor += Input.GetAxis("Mouse X");
-                break;
-            case "CamaraVertical":
-                valor = Input.GetAxis("RS_v");
-                valor += Input.GetAxis("Mouse Y");
-                break;*/
             case "Escupir":
                 valor = Input.GetAxis("RT");
                 if (Input.GetKey(spit)) valor += 1f;
@@ -69,14 +61,14 @@ public class CustomInputManager : MonoBehaviour
                 break;
         }
 
-        valor = Mathf.Clamp(valor, -1f, 1f);
-        return valor;
+        valor = Mathf.Clamp(valor, -1f, 1f); // Limita el valor entre -1 i 1
+        return valor; // Devuelve el valor
     }
 
     public bool GetButton(string accion)
-    {
+    { // Devuelve si estas pulsando el boton correspondiente a "accion"
         switch(accion)
-        {
+        { // Devuelve el resultado segun la accion de entrada
             case "Jump":
                 if (Input.GetButton("A") || Input.GetKey(jump))
                     return true;
@@ -105,13 +97,13 @@ public class CustomInputManager : MonoBehaviour
                 break;
         }
 
-        return false;
+        return false; // Sino devuelve false
     }
 
     public bool GetButtonDown(string accion)
-    {
+    { // Devuelve si has pulsando el boton correspondiente a "accion"
         switch (accion)
-        {
+        { // Devuelve el resultado segun la accion de entrada
             case "Jump":
                 if (Input.GetButtonDown("A") || Input.GetKeyDown(jump))
                     return true;
@@ -140,13 +132,13 @@ public class CustomInputManager : MonoBehaviour
                 break;
         }
 
-        return false;
+        return false; // Sino devuelve false
     }
 
     public bool GetButtonUp(string accion)
-    {
+    { // Devuelve si has soltado el boton correspondiente a "accion"
         switch (accion)
-        {
+        { // Devuelve el resultado segun la accion de entrada
             case "Jump":
                 if (Input.GetButtonUp("A") || Input.GetKeyUp(jump))
                     return true;
@@ -175,6 +167,6 @@ public class CustomInputManager : MonoBehaviour
                 break;
         }
 
-        return false;
+        return false; // Sino devuelve false
     }
 }

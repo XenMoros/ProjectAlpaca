@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
@@ -14,7 +13,7 @@ public class LevelManager : MonoBehaviour
     private AsyncOperation sceneAsync;
     private Scene escenaMenus,escenaNivel;
 
-
+    bool levelComplete = false;
 
     private void Start()
     {
@@ -22,13 +21,12 @@ public class LevelManager : MonoBehaviour
         enemyManager = Instantiate(enemyManagerPrefab).GetComponent<EnemyManager>();
         escenaMenus = SceneManager.GetActiveScene();
         enemyManager.SetLevelManager(this);
+        Application.backgroundLoadingPriority = ThreadPriority.Low;
     }
 
-    public void SetPause()
+    public void SetCarga()
     {
-
-        alpaca.SetPause();
-        enemyManager.SetPause();
+        alpaca.EntradaNivel();
     }
 
     public Scene LoadLevel(int nivel)
@@ -36,9 +34,10 @@ public class LevelManager : MonoBehaviour
 
         StartCoroutine(LoadScene(nivel));
         escenaNivel = SceneManager.GetSceneByBuildIndex(nivel);
+
+        levelComplete = false;
+
         return (escenaNivel);
-        //alpaca = GameObject.Find("Alpaca").GetComponent<AlpacaMovement>();
-        //enemyManager.LoadEnemies();
     }
 
     public IEnumerator LoadScene(int nivel)
@@ -47,11 +46,11 @@ public class LevelManager : MonoBehaviour
         scene.allowSceneActivation = false;
         sceneAsync = scene;
 
-        while (scene.progress < 0.9f)
+        do
         {
             Debug.Log("Loading scene " + " [][] Progress: " + scene.progress);
             yield return null;
-        }
+        } while (scene.progress < 0.9f);
 
         OnFinishedLoadingAllScene(nivel);
     }
@@ -81,23 +80,33 @@ public class LevelManager : MonoBehaviour
             {
                 if(objeto.name == "Alpaca")
                 {
-                    Debug.Log("Encontre la Alpaca");
                     alpaca = objeto.GetComponent<AlpacaMovement>();
+                    yield return null;
                     alpaca.SetInputManager(gameManager.inputManager);
-                    objeto.GetComponent<AlpacaSound>().SetInputManager(gameManager.inputManager);
-                    objeto.GetComponent<AlpacaSound>().SetAudioManager(gameManager.audioManager);
+                    yield return null;
+                    objeto.GetComponent<AlpacaAudioManager>().SetManagers(gameManager.inputManager, this);
+                    yield return null;
                     objeto.GetComponent<CozScript>().SetInputManager(gameManager.inputManager);
+                    yield return null;
                     objeto.GetComponent<EscupitajoAction>().SetInputManager(gameManager.inputManager);
+                    yield return null;
                     objeto.GetComponent<InteractScript>().SetInputManager(gameManager.inputManager);
+                    yield return null;
                 }
                 
                 if(objeto.name == "Entorno")
                 {
                     objeto.GetComponentInChildren<SalidaNivel>().SetLevelManager(this);
+                    yield return null;
                 }
             }
             enemyManager.LoadEnemies();
         }
+    }
+
+    public void AlertarGuardias(Vector3 position)
+    {
+        enemyManager.AlertarGuardias(position);
     }
 
     public Scene UnloadLevel()
@@ -125,8 +134,19 @@ public class LevelManager : MonoBehaviour
         gameManager.RestartCurrentLevel();
     }
 
-    public void LevelComplete()
+    public IEnumerator LevelComplete()
     {
+        StaticManager.SetPause(true);
+        gameManager.audioMixer.MuteOnLoad();
+        alpaca.SalidaNivel();
+
+        while (!levelComplete)
+        {
+            levelComplete = alpaca.exitReached;
+            yield return null;
+        }
+
         gameManager.CargarSiguienteNivel();
     }
+
 }

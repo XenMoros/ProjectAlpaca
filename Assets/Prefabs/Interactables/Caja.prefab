@@ -43,7 +43,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3447278217043472639}
-  m_Material: {fileID: 13400000, guid: e2debe152c2c10e40b97638d34d9666a, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -58,7 +58,7 @@ Rigidbody:
   m_GameObject: {fileID: 3447278217043472639}
   serializedVersion: 2
   m_Mass: 1000
-  m_Drag: 1
+  m_Drag: 0.2
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -81,9 +81,6 @@ MonoBehaviour:
   interactScript: {fileID: 0}
   speed: 15
   tiempoMovimiento: 0.5
-  layerBoxCast:
-    serializedVersion: 2
-    m_Bits: 0
   activateM: 0
 --- !u!114 &4490072501990482850
 MonoBehaviour:
@@ -98,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  uniqueID: 2971342313584017485
+  uniqueID: 6372038603679841826
   updateError: 1
   checkTime: 0.2
 --- !u!1 &3856319387372273133
@@ -203,7 +200,7 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: faf3e29264bbe5047a80e58e11a05e73, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 92e87946c73c25d4c85ed0f9f469e4e5, type: 2}
+      objectReference: {fileID: 2100000, guid: 5eeecc1ec9202224a954349c3cc71a4e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faf3e29264bbe5047a80e58e11a05e73, type: 3}
 --- !u!4 &8841496101790201054 stripped
