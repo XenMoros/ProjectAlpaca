@@ -10,7 +10,7 @@ Material:
   m_Name: Alpaca
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
   m_ShaderKeywords: N_F_AL_ON N_F_CA_ON N_F_GLO_ON N_F_NM_ON N_F_O_ON N_F_PAL_ON
-    N_F_RELGI_ON N_F_SS_ON _NORMALMAP_TANGENT_SPACE
+    N_F_RELGI_ON N_F_SL_ON N_F_SS_ON _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -234,14 +234,14 @@ Material:
     - _FarDistanceMaxWidth: 10
     - _GIFlatShade: 0
     - _GIShadeThreshold: 0
-    - _GlossColorPower: 0
-    - _GlossIntensity: 0.152
+    - _GlossColorPower: -0
+    - _GlossIntensity: 0.15
     - _GlossSoftness: 0
     - _GlossTextureFollowLight: 0
     - _GlossTextureFollowObjectRotation: 0
     - _GlossTextureRotate: 0
     - _GlossTextureSoftness: 0
-    - _Glossiness: 0.29
+    - _Glossiness: 0.35
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -251,7 +251,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _HighlightColorPower: 1
+    - _HighlightColorPower: 0.6
     - _InvTilingScale: 1
     - _Ior: 1.5
     - _IridescenceMask: 1
@@ -263,7 +263,7 @@ Material:
     - _LightFalloffSoftness: 1
     - _LightIntensity: 1
     - _LinkDetailsWithBase: 1
-    - _MCIALO: 0
+    - _MCIALO: 1
     - _MCapIntensity: 1
     - _MVCOL: 1
     - _MaterialID: 1
@@ -291,7 +291,7 @@ Material:
     - _N_F_R: 0
     - _N_F_RL: 0
     - _N_F_SCT: 0
-    - _N_F_SL: 0
+    - _N_F_SL: 1
     - _N_F_SON: 0
     - _N_F_SS: 1
     - _N_F_ST: 0
@@ -305,7 +305,7 @@ Material:
     - _Opacity: 1
     - _Oper: 0
     - _OutlineExtrudeMethod: 0
-    - _OutlineWidth: 0.2
+    - _OutlineWidth: 0.15
     - _OutlineWidthAffectedByViewDistance: 1
     - _OutlineZPostionInCamera: 0
     - _OverallShadowColorPower: 1
@@ -316,7 +316,7 @@ Material:
     - _PPDPrimitiveWidth: 1
     - _PSGLOTEX: 0
     - _PTexturePower: 1
-    - _PointSpotlightIntensity: 0
+    - _PointSpotlightIntensity: -0.35
     - _RELG: 1
     - _ReceivesSSR: 1
     - _ReduSha: 0
@@ -334,14 +334,14 @@ Material:
     - _SPECMODE: 0
     - _SSRefractionProjectionModel: 0
     - _STIL: 0
-    - _Saturation: 1.485
+    - _Saturation: 1.9
     - _SelfLitHighContrast: 1
-    - _SelfLitIntensity: 0
+    - _SelfLitIntensity: 0.03
     - _SelfLitPower: 2
     - _SelfShadowAffectedByLightShadowStrength: 0
     - _SelfShadowHardness: 1
     - _SelfShadowRealTimeShadowColorPower: 0
-    - _SelfShadowRealtimeShadowIntensity: 1
+    - _SelfShadowRealtimeShadowIntensity: 0.9
     - _SelfShadowShadowTAtViewDirection: 0
     - _SelfShadowThreshold: 0.901
     - _ShadowColorTexturePower: 0
@@ -418,11 +418,11 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
-    - _GlossColor: {r: 1, g: 1, b: 1, a: 1}
-    - _HighlightColor: {r: 0.73051465, g: 0.73051465, b: 0.73051465, a: 1}
+    - _GlossColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+    - _HighlightColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+    - _MainColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineOffset: {r: 0, g: 0, b: 0, a: 1}
     - _OverallShadowColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}

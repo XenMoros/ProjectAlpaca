@@ -67,7 +67,7 @@ public class AlpacaMovement : MonoBehaviour
     bool cambioPausa = false; // Control para cambio de pausa diferido
 
     // Draw gizmos a descomentar para debug purposes
-    void OnDrawGizmos()
+    /*void OnDrawGizmos()
     {
         //Gizmos.color = Color.red;
         //Gizmos.DrawWireCube(transform.position - transform.up * 0.1f, Vector3.one * 0.2f);
@@ -77,7 +77,7 @@ public class AlpacaMovement : MonoBehaviour
         //Gizmos.color = Color.blue;
         //Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center, alpacaBoxCollider.size * 0.8f);
         //Gizmos.DrawWireCube(transform.position + alpacaBoxCollider.center + transform.forward * (alpacaBoxCollider.size.z / 2f + direccionMovimientoAnt.magnitude * Time.deltaTime * movimiento.speedMultiplier), alpacaBoxCollider.size * 0.9f - Vector3.forward * alpacaBoxCollider.size.z * 0.85f);
-    }
+    }*/
 
     private void OnEnable()
     {

@@ -44,7 +44,8 @@ public class MonkeyCinematics : CinematicByText
                                                                 arrayAnimaciones[i].animationLength,
                                                                 arrayAnimaciones[i].animationIsMoving,
                                                                 0.3f,
-                                                                arrayAnimaciones[i].animationFinishMovement);
+                                                                arrayAnimaciones[i].animationFinishMovement,
+                                                                true);
                     break;
                 case "SitDown": // Si encuentra un pull, redefine el delay de inicio y marca como que anda hacia atras
                     arrayAnimaciones[i] = new AnimationGuide(arrayAnimaciones[i].animationName,
