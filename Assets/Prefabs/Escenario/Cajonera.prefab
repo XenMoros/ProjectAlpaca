@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 281261586095043834}
   - component: {fileID: 2595140623706652720}
   - component: {fileID: 2659136479053079577}
+  - component: {fileID: 8954911676353286409}
   m_Layer: 0
   m_Name: Cajonera
   m_TagString: Escenario
@@ -93,3 +94,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.9539797, y: 21.857693, z: 6.1412764}
   m_Center: {x: -1.375346, y: 2.8034558, z: 0.52972156}
+--- !u!205 &8954911676353286409
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4540533142013288933}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.10289987
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1

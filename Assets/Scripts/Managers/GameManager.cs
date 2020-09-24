@@ -149,6 +149,7 @@ public class GameManager : MonoBehaviour
         interfaceManager.LoadingGroup(false);
         loadingSceneManager.UnloadLoadingAnimation();
         interfaceManager.StartMainMenu();
+        audioMixer.MuteOnLoad(false);
         loadingSceneManager.LoadAlpaca();
         audioManager.GameAudio(0);
     }

@@ -26,42 +26,44 @@ public class AudioMixerManager : MonoBehaviour
 
     void ChangeMaster()
     {
-        if(StaticManager.masterVolume == 0) audioMixer.SetFloat("MasterVolume", -50);
-        else audioMixer.SetFloat("MasterVolume", (StaticManager.masterVolume * 30) - 30);
+        if(StaticManager.masterVolume == 0) audioMixer.SetFloat("MasterVolume", -80f);
+        else audioMixer.SetFloat("MasterVolume", (StaticManager.masterVolume * 30f) - 30f);
     }
 
     void CangeMusic()
     {
-        if (StaticManager.musicVolume == 0) audioMixer.SetFloat("MusicVolume", -50);
-        else audioMixer.SetFloat("MusicVolume", (StaticManager.musicVolume * 30) - 30);
+        if (StaticManager.musicVolume == 0) audioMixer.SetFloat("MusicVolume", -80f);
+        else audioMixer.SetFloat("MusicVolume", (StaticManager.musicVolume * 30f) - 30f);
     }
 
     void ChangeMenu()
     {
-        if (StaticManager.menuVolume == 0) audioMixer.SetFloat("MenuVolume", -50);
-        else audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 30) - 30);
+        if (StaticManager.menuVolume == 0) audioMixer.SetFloat("MenuVolume", -80f);
+        else audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 30f) - 30f);
     }
 
     void ChangeEffects()
     {
-        //audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 50) - 50);
+        if (StaticManager.effectsVolume == 0) audioMixer.SetFloat("EffectsVolume", -80f);
+        else audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 30f) - 30f);
     }
 
     private void MuteOnPause()
     {
 
         if (StaticManager.pause) {
-            audioMixer.SetFloat("EffectsVolume", -50);
-            audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 30) - 30);
+            audioMixer.SetFloat("EffectsVolume", -80f);
+            audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 30f) - 30f);
         }
         else {
-            audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 30) - 30);
-            audioMixer.SetFloat("MenuVolume", -50f);
+            audioMixer.SetFloat("EffectsVolume", (StaticManager.effectsVolume * 30f) - 30f);
+            audioMixer.SetFloat("MenuVolume", -80f);
         }
     }
 
-    public void MuteOnLoad()
+    public void MuteOnLoad(bool stop = true)
     {
-        audioMixer.SetFloat("MenuVolume", -50f);
+        if (stop) audioMixer.SetFloat("MenuVolume", -80f);
+        else audioMixer.SetFloat("MenuVolume", (StaticManager.menuVolume * 30f) - 30f);
     }
 }
