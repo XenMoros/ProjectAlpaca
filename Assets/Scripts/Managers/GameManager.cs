@@ -68,8 +68,7 @@ public class GameManager : MonoBehaviour
         float tiempoCarga = 0f;
         canPause = false;
         StaticManager.SetPause(true);
-        audioMixer.MuteOnLoad();
-
+        
         loadingSceneManager.LoadLoadingAnimation();
         loadingSceneManager.UnloadAlpaca();
         UnityEngine.SceneManagement.Scene escena = levelManager.LoadLevel(nivel);
@@ -80,6 +79,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        audioMixer.MuteOnLoad();
         levelManager.SetCarga();
         canPause = true;
         interfaceManager.LoadingGroup(false);

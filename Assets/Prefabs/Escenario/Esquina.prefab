@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4304402899695407799}
   - component: {fileID: 4304402899696406647}
   - component: {fileID: 8283482020216668849}
+  - component: {fileID: 772585074002379384}
+  - component: {fileID: 1166871125496119285}
   m_Layer: 16
   m_Name: Esquina
   m_TagString: Paredes
@@ -89,8 +91,34 @@ MeshCollider:
   m_GameObject: {fileID: 4304402899698601655}
   m_Material: {fileID: 13400000, guid: 1bc5a898e55af104fa3a02b7e65d85d4, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: c61f2cd91857ccf4dbe1d2fc75d78062, type: 3}
+--- !u!65 &772585074002379384
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304402899698601655}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.36174202, y: 4.254207, z: 2.000002}
+  m_Center: {x: 10.686124, y: -2.1271036, z: 1.0319996}
+--- !u!65 &1166871125496119285
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304402899698601655}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.2611904, y: 0.36885568, z: 2.000002}
+  m_Center: {x: 8.736399, y: -0.18442741, z: 1.0319996}

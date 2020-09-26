@@ -665,7 +665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &459252358
 Transform:
   m_ObjectHideFlags: 0
@@ -1849,7 +1849,7 @@ MonoBehaviour:
   m_PointlightHDType: 1
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 27
+  m_Intensity: 25
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -1950,8 +1950,8 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.9411765, a: 1}
-  m_Intensity: 0.030694166
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.028420525
   m_Range: 12
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
