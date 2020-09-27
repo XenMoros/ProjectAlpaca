@@ -11,7 +11,7 @@ public class CustomInputManager : MonoBehaviour
     KeyCode spit;// Mouse0
     KeyCode interact;// E
     KeyCode start;// T
-    KeyCode ret;// Escape
+    public KeyCode ret;// Escape
 
     KeyCode forward;// W
     KeyCode backward;// S
@@ -27,7 +27,7 @@ public class CustomInputManager : MonoBehaviour
         spit = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("spitKey", "Mouse0"));
         interact = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("interactKey", "E"));
         
-        start = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("startKey", "T"));
+        start = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("startKey", "Q"));
         ret = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("retKey", "Escape"));
 
         forward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("forwardKey", "W"));

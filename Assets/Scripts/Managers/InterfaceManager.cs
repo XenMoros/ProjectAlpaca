@@ -49,7 +49,7 @@ public class InterfaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (gameManager.inputManager.GetButtonDown("Return"))
+        if (StaticManager.pause && gameManager.inputManager.GetButtonDown("Return"))
         {
             ReturnButton();
         }

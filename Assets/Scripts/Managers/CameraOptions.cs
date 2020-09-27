@@ -4,7 +4,7 @@ using Cinemachine;
 public class CameraOptions : MonoBehaviour
 {
     public CinemachineFreeLook cmCamara;
-    public float defVelV = 5f, defVelH = 100f;
+    public float defVelV = 100f, defVelH = 200f;
     public bool defInvertV, defInvertH;
     public int pauseActive = 0;
 
@@ -30,8 +30,8 @@ public class CameraOptions : MonoBehaviour
             cmCamara.m_XAxis.m_InvertInput = StaticManager.axisH;
             cmCamara.m_YAxis.m_InvertInput = StaticManager.axisV;
 
-            cmCamara.m_XAxis.m_MaxSpeed = pauseActive * (defVelH / defVelV * StaticManager.sensibility);
-            cmCamara.m_YAxis.m_MaxSpeed = pauseActive * (StaticManager.sensibility);
+            cmCamara.m_XAxis.m_MaxSpeed = pauseActive * (StaticManager.sensibility / defVelH);
+            cmCamara.m_YAxis.m_MaxSpeed = pauseActive * (StaticManager.sensibility / defVelV);
     }
 
     private void CameraPause()
