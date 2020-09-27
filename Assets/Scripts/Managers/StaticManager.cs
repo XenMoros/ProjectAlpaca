@@ -4,13 +4,13 @@ public static class StaticManager
     public delegate void StaticCanghesEvent();
     public static event StaticCanghesEvent OnCameraChange, OnBrightnessChange, OnPauseChange, OnMasterVolumeChange, OnMusicVolumeChange, OnEffectsVolumeChange, OnMenuVolumeChange;
 
-    public static float brightness = -6;
-    public static float sensibility = 5;
+    public static float brightness = -6f;
+    public static float sensibility = 8f;
 
-    public static float masterVolume = 1;
-    public static float musicVolume = 1;
-    public static float effectsVolume = 1;
-    public static float menuVolume = 1;
+    public static float masterVolume = 1f;
+    public static float musicVolume = 1f;
+    public static float effectsVolume = 1f;
+    public static float menuVolume = 1f;
 
     public static bool axisV = false, axisH = false;
 
