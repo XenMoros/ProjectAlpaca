@@ -297,6 +297,8 @@ public class AlpacaMovement : MonoBehaviour
             { // Si entras a la pausa guarda la velocidad que tenias y frena el movimiento
                 lastVelocity = alpacaRB.velocity;
                 alpacaRB.velocity = Vector3.zero;
+                direccionMovimiento = Vector3.zero;
+                velocidadVertical = 0;
                 alpacaRB.useGravity = false;
             }
             else

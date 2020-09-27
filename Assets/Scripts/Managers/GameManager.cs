@@ -39,19 +39,22 @@ public class GameManager : MonoBehaviour
     {
         if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1 && canPause)
         {
-            if (inputManager.GetButtonDown("Start") &&
+            if ((inputManager.GetButtonDown("Start") || (!StaticManager.pause && Input.GetKeyDown(inputManager.ret))) &&
                 !(levelManager.alpaca.faseMovimiento == AlpacaMovement.FaseMovimiento.Stopped &&
                 levelManager.alpaca.tipoStopped == AlpacaMovement.TipoStopped.Cinematica))
             {
-                StaticManager.SetPause(!StaticManager.pause);
+                
                 if (StaticManager.pause)
                 {
-                    interfaceManager.OpenPauseMenu();
+                    interfaceManager.CloseAllGroups();
+                    interfaceManager.LockCursor(true);
                 }
                 else
                 {
-                    interfaceManager.CloseAllGroups();
+                    interfaceManager.OpenPauseMenu();
                 }
+                StaticManager.SetPause(!StaticManager.pause);
+                Input.ResetInputAxes();
             }
         }
     }
@@ -68,8 +71,7 @@ public class GameManager : MonoBehaviour
         float tiempoCarga = 0f;
         canPause = false;
         StaticManager.SetPause(true);
-        audioMixer.MuteOnLoad();
-
+        
         loadingSceneManager.LoadLoadingAnimation();
         loadingSceneManager.UnloadAlpaca();
         UnityEngine.SceneManagement.Scene escena = levelManager.LoadLevel(nivel);
@@ -77,6 +79,7 @@ public class GameManager : MonoBehaviour
         while (!escena.isLoaded || tiempoCarga<5f)
         {
             tiempoCarga += Time.deltaTime;
+            if (tiempoCarga > 0.5f) audioMixer.MuteOnLoad();
             yield return null;
         }
 
@@ -94,6 +97,7 @@ public class GameManager : MonoBehaviour
         canPause = false;
         audioMixer.MuteOnLoad();
         bool onCrdeits = true;
+        StaticManager.SetPause(true);
 
         interfaceManager.LoadingGroup(true);
         loadingSceneManager.LoadLoadingAnimation();
@@ -108,17 +112,16 @@ public class GameManager : MonoBehaviour
 
         while (!escena2.isLoaded)
         {
-            Debug.Log("Miau");
             yield return null;
         }
-        
+
+        StaticManager.SetPause(false);
         interfaceManager.LoadingGroup(false); 
         loadingSceneManager.UnloadLoadingAnimation();
         audioManager.GameAudio(maxLevel);
         
         while (onCrdeits)
-        {
-            Debug.Log("On credits, press A");
+        { 
             if (inputManager.GetButtonDown("Jump")) onCrdeits = false;
             yield return null;
         }
@@ -145,7 +148,6 @@ public class GameManager : MonoBehaviour
             
         }
 
-        StaticManager.SetPause(false);
         interfaceManager.LoadingGroup(false);
         loadingSceneManager.UnloadLoadingAnimation();
         interfaceManager.StartMainMenu();
@@ -198,18 +200,15 @@ public class GameManager : MonoBehaviour
         
         if (currentLevel < maxLevel)
         {
-            Debug.Log("NextLevel");
             StartCoroutine(CargarOtraEscena(currentLevel));
             
         }
         else if (currentLevel == maxLevel)
         {
-            Debug.Log("Credits");
             StartCoroutine(CargarCreditos());
         }
         else
         {
-            Debug.Log("End");
             currentLevel = 1;
             StartCoroutine(DescargarEscenaActiva());
         }
